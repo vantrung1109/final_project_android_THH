@@ -42,11 +42,11 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
         holder.priceTxt.setText("$" + formatter.format(items.get(position).getPrice()));
 
 
-        int drawableResourceId = holder.itemView.getResources().getIdentifier(items.get(position).getPicPath(),
-                "drawable", holder.itemView.getContext().getPackageName());
+//        int drawableResourceId = holder.itemView.getResources().getIdentifier(items.get(position).getPicPath(),
+//                "drawable", holder.itemView.getContext().getPackageName());
 
         Glide.with(holder.itemView.getContext())
-                .load(drawableResourceId)
+                .load(items.get(position).getImageUrl())
                 .into(holder.pic);
 
     }

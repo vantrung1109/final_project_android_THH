@@ -5,14 +5,14 @@ public class CourseDomain {
     private String owner;
     private double price;
     private double star;
-    private String picPath;
+    private String imageUrl;
 
-    public CourseDomain(String title, String owner, double price, double star, String picPath) {
+    public CourseDomain(String title, String owner, double price, double star, String imageUrl) {
         this.title = title;
         this.owner = owner;
         this.price = price;
         this.star = star;
-        this.picPath = picPath;
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {
@@ -47,11 +47,11 @@ public class CourseDomain {
         this.star = star;
     }
 
-    public String getPicPath() {
-        return picPath;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setPicPath(String picPath) {
-        this.picPath = picPath;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
