@@ -3,32 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course Intro"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            />
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/img_course_intro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
         android:src="@drawable/hehe"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_below="@+id/layout_title"
         >
     </ImageView>
 
     <RelativeLayout
+        android:id="@+id/layout_course_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_course_intro"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
         >
         <TextView
             android:id="@+id/tv_course_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
+
             android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_18sdp"
             android:textColor="@color/black"
+            android:textStyle="bold"
             />
 
         <RelativeLayout
@@ -37,11 +66,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_course_name"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
 
             >
-            <TextView
+            <ImageView
                 android:id="@+id/tv_instructor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,12 +76,15 @@
                 android:textSize="@dimen/_18sdp"
                 android:textColor="@color/black"
                 android:layout_centerVertical="true"
+                android:textStyle="bold"
+                android:src="@drawable/graduate_hat_icon"
+                android:layout_marginEnd="@dimen/_15sdp"
                 />
             <TextView
                 android:id="@+id/tv_course_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Văn Trung"
+                android:text="VanTrungIT"
                 android:textSize="@dimen/_15sdp"
                 android:background="@drawable/background_custom_border"
                 android:textColor="@color/white"
@@ -66,29 +96,29 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_add_to_cart"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_below="@+id/layout_author"
+               android:layout_marginTop="@dimen/_10sdp"
+
             >
+
             <TextView
                 android:id="@+id/tv_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description "
-                android:textSize="@dimen/_18sdp"
                 android:textColor="@color/black"
-                android:layout_centerVertical="true"
-                />
+                android:textSize="@dimen/_18sdp"
+
+                android:textStyle="bold" />
             <TextView
-                android:id="@+id/tv_course_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_description"
                 android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
                 />
         </RelativeLayout>
 
@@ -99,14 +129,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/tv_course_name"
-            android:layout_marginEnd="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+
             >
             <ImageView
                 android:id="@+id/img_add_to_add"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:src="@drawable/cart"
                 android:background="@drawable/background_custom_border_green"
                 android:padding="@dimen/_2sdp"
@@ -116,12 +145,24 @@
                 android:layout_height="wrap_content"
                 android:text="Add to cart"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8sdp"
+                android:textSize="@dimen/_10sdp"
                 android:layout_below="@+id/img_add_to_add"
-
+                android:layout_centerHorizontal="true"
                 />
         </RelativeLayout>
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Reviews"
+        android:layout_below="@+id/layout_course_info"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        />
 
 
 
