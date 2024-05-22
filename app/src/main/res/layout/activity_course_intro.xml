@@ -153,6 +153,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_top_reviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Top Reviews"
@@ -164,6 +165,13 @@
         android:layout_centerHorizontal="true"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_top_reviews"
+        android:layout_marginTop="@dimen/_10sdp">
 
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>
