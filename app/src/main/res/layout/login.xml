@@ -28,7 +28,7 @@
         android:textSize="17dp"
         />
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutName"
+        android:id="@+id/layoutEmail"
         android:layout_width="340dp"
         android:layout_height="73dp"
         android:layout_marginStart="32dp"
@@ -48,7 +48,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eTextName"
+            android:id="@+id/eTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text|textWebEmailAddress"
@@ -58,7 +58,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutPhoneNumber"
+        android:id="@+id/layoutPassword"
         android:layout_width="340dp"
         android:layout_height="100dp"
         android:layout_marginStart="32dp"
@@ -80,7 +80,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eTextPhoneNumber"
+            android:id="@+id/eTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
