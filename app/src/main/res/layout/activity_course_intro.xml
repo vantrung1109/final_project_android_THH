@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_course_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/hehe"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        >
+    </ImageView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_course_intro"
+        >
+        <TextView
+            android:id="@+id/tv_course_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
+            android:textSize="@dimen/_20sdp"
+            android:textColor="@color/black"
+            />
+
+        <RelativeLayout
+            android:id="@+id/layout_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_course_name"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+
+            >
+            <TextView
+                android:id="@+id/tv_instructor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Author "
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_course_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Văn Trung"
+                android:textSize="@dimen/_15sdp"
+                android:background="@drawable/background_custom_border"
+                android:textColor="@color/white"
+                android:padding="@dimen/_5sdp"
+                android:layout_toEndOf="@id/tv_instructor"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_add_to_cart"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            >
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description "
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_course_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_description"
+                android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:textColor="@color/black"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_add_to_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_course_name"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            >
+            <ImageView
+                android:id="@+id/img_add_to_add"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+
+                android:src="@drawable/cart"
+                android:background="@drawable/background_custom_border_green"
+                android:padding="@dimen/_2sdp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to cart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_8sdp"
+                android:layout_below="@+id/img_add_to_add"
+
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
