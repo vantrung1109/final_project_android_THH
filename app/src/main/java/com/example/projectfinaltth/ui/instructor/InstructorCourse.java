@@ -1,4 +1,4 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.ui.instructor;
 
 public class InstructorCourse {
     private String title;

@@ -1,4 +1,4 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.ui.instructor;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projectfinaltth.R;
 
 import java.util.List;
 
