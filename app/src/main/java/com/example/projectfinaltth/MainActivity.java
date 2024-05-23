@@ -23,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.instructor_course);
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         instructorCourseList = new ArrayList<>();
-        instructorCourseList.add(new InstructorCourse("HTML and CSS", "Web Development", "50$", " okok", R.drawable.courses));
+        instructorCourseList.add(new InstructorCourse("HTML and CSS", "Web Development", "50$", " okok", R.drawable.avatar));
         instructorCourseAdapter = new InstructorCourseAdapter(instructorCourseList);
         recyclerView.setAdapter(instructorCourseAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 }
