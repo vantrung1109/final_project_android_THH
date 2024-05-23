@@ -32,7 +32,7 @@ public interface ApiService {
             .build();
 
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("https://online-courses-web.onrender.com/")
+            .baseUrl("https://online-courses-web-v2.onrender.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(okHttpClient)

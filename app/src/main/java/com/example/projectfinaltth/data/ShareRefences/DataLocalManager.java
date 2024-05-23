@@ -32,28 +32,4 @@ public class DataLocalManager {
         DataLocalManager.getInstance().mySharedPreferences.putStringValue(PREF_TOKEN, null);
     }
 
-//    public static void setListHistories(List<String> listHistory) {
-//        Gson gson = new Gson();
-//        JsonArray jsonArray = gson.toJsonTree(listHistory).getAsJsonArray();
-//        String strJsonArray = jsonArray.toString();
-//        DataLocalManager.getInstance().mySharedPreferences.putStringValue(PREF_LIST_HISTORY, strJsonArray);
-//    }
-//    public static List<String> getListHistories() {
-//        String strJsonArray = DataLocalManager.getInstance().mySharedPreferences.getStringValue(PREF_LIST_HISTORY);
-//        List<String> listHistories = new ArrayList<>();
-//        try {
-//            if (strJsonArray.isEmpty()) {
-//                return listHistories;
-//            }
-//            JSONArray jsonArray = new JSONArray(strJsonArray);
-//            String string;
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                string = jsonArray.getString(i);
-//                listHistories.add(string);
-//            }
-//        } catch (JSONException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return listHistories;
-//    }
 }

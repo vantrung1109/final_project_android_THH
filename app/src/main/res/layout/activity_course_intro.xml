@@ -136,7 +136,7 @@
                 android:id="@+id/img_add_to_add"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
-                android:src="@drawable/cart"
+                android:src="@drawable/cart_course_detail"
                 android:background="@drawable/background_custom_border_green"
                 android:padding="@dimen/_2sdp"
                 />
