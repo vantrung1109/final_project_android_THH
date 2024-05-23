@@ -1,9 +1,14 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.utils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.projectfinaltth.ui.fragment.AccountFragment;
+import com.example.projectfinaltth.ui.fragment.CartFragment;
+import com.example.projectfinaltth.ui.fragment.CourseFragment;
+import com.example.projectfinaltth.ui.fragment.HomeFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 

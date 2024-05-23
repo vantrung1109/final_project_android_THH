@@ -1,4 +1,4 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,13 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.ui.model_temp.Course;
+
 import java.util.List;
 
 public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.CourseViewHolder> {
     private Context context;
-    private List<com.example.projectfinaltth.Course> courseList;
+    private List<Course> courseList;
 
-    public MyCourseAdapter(Context context, List<com.example.projectfinaltth.Course> courseList) {
+    public MyCourseAdapter(Context context, List<Course> courseList) {
         this.context = context;
         this.courseList = courseList;
     }

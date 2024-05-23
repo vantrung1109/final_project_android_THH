@@ -1,4 +1,4 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.example.projectfinaltth.ui.model_temp.CourseDomain;
+import com.example.projectfinaltth.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

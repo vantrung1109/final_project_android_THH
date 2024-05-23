@@ -1,4 +1,4 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projectfinaltth.ui.model_temp.Course;
+import com.example.projectfinaltth.ui.adapter.MyCourseAdapter;
+import com.example.projectfinaltth.R;
 
 import java.util.ArrayList;
 import java.util.List;

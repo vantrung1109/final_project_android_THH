@@ -1,4 +1,4 @@
-package com.example.projectfinaltth;
+package com.example.projectfinaltth.ui.model_temp;
 
 public class CourseDomain {
     private String title;
