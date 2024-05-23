@@ -1,4 +1,4 @@
-package com.example.projectfinaltth.model.api;
+package com.example.projectfinaltth.data.model.response.courseIntro;
 
 public class Review {
     Long _id;
