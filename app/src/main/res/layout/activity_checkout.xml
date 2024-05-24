@@ -4,14 +4,125 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            />
         <ImageView
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:src=""
+            android:id="@+id/button_back"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
             />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_choose_payment_method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_17sdp"
+        android:text="Chọn phương thức thanh toán"
+        android:layout_below="@+id/layout_title"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:textColor="@color/black"
+        />
+
+
+
+    <RelativeLayout
+        android:id="@+id/rb_group_payment_method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_choose_payment_method"
+        android:layout_marginTop="@dimen/_20sdp"
+        >
+        <RelativeLayout
+            android:id="@+id/layout_momo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <RadioButton
+                android:id="@+id/rb_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:scaleY="1.5"
+                android:scaleX="1.5"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+            <ImageView
+                android:id="@+id/img_momo_logo"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/momo_logo"
+                android:layout_toEndOf="@+id/rb_1"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Momo"
+                android:layout_toEndOf="@+id/img_momo_logo"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_momo"
+            android:layout_marginTop="@dimen/_20sdp"
+            >
+            <RadioButton
+                android:id="@+id/rb_2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:scaleY="1.5"
+                android:scaleX="1.5"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+            <ImageView
+                android:id="@+id/img_paypal_logo"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/paypal_logo"
+                android:layout_toEndOf="@+id/rb_2"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paypal"
+                android:layout_toEndOf="@+id/img_paypal_logo"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
 
 </RelativeLayout>
