@@ -25,23 +25,26 @@ public class SignInActivity extends AppCompatActivity {
         mActivitySignInBinding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(mActivitySignInBinding.getRoot());
 
+        // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
+        // Xử lý sự kiện khi người dùng click vào nút đăng nhập
         mActivitySignInBinding.btnLogin.setOnClickListener(v -> {
             SignInRequest signInRequest = new SignInRequest();
             signInRequest.setEmail(mActivitySignInBinding.editEmail.getText().toString());
             signInRequest.setPassword(mActivitySignInBinding.editPassword.getText().toString());
             DataLocalManager.init(this);
             compositeDisposable.add(
+                    // Thực hiện gọi API đăng nhập
                     ApiService.apiService.signIn(signInRequest)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(signInResponse -> {
                                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-                                Log.e("TAG", "onCreate: " + signInResponse.toString());
+                                // Lưu token vào SharePreferences
                                 DataLocalManager.setToken(signInResponse.getToken());
+                                Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
                             }, throwable -> {
                                 Log.e("TAG", "Error: " + throwable.getMessage());
                             }));
-            Log.e("TAG", "Print: " + DataLocalManager.getToken());
         });
 
     }
