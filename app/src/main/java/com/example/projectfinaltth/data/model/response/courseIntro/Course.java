@@ -1,8 +1,15 @@
 package com.example.projectfinaltth.data.model.response.courseIntro;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Course {
-    Long _id;
-    Long userId;
+    String _id;
+    String userId;
     String cloudinary;
     String title;
     String topic;

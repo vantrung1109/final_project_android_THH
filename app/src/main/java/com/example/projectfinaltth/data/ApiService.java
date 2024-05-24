@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,11 +19,11 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
-
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .readTimeout(30, TimeUnit.SECONDS)
@@ -31,6 +32,7 @@ public interface ApiService {
             .addInterceptor(loggingInterceptor)
             .build();
 
+    // Xử dụng retrofit kết hợp với Rxjava để thực hiện gọi API
     ApiService apiService = new Retrofit.Builder()
             .baseUrl("https://online-courses-web-v2.onrender.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -41,4 +43,7 @@ public interface ApiService {
 
     @POST("api/users/login")
     Observable<SignInResponse> signIn(@Body SignInRequest request);
+
+    @GET("api/courses/get_course/{id}")
+    Observable<CourseIntroResponse> getCourseIntroById(@Path("id") String courseId);
 }
