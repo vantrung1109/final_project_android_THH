@@ -21,6 +21,10 @@
         <activity
             android:name=".ui.courseIntro.CourseIntroActivity"
             android:exported="true"/>
+        <activity
+            android:name=".ui.checkout.CheckoutActivity"
+            android:exported="true"/>
+
         <activity android:name=".ui.sign_in.SignInActivity"
             android:exported="true">
             <intent-filter>

@@ -1,17 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- MSSV: 21110335
+    Họ và tên: Nguyễn Trần Văn Trung
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        
-        <ImageView
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
-            android:src=""
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Checkout"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                />
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_choose_payment_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_17sdp"
+            android:text="Chọn phương thức thanh toán"
+            android:layout_below="@+id/layout_title"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            />
+
+
+
+        <RelativeLayout
+            android:id="@+id/rb_group_payment_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_choose_payment_method"
+            android:layout_marginTop="@dimen/_20sdp"
+            >
+            <RelativeLayout
+                android:id="@+id/layout_momo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <RadioButton
+                    android:id="@+id/rb_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:scaleY="1.5"
+                    android:scaleX="1.5"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+                <ImageView
+                    android:id="@+id/img_momo_logo"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/momo_logo"
+                    android:layout_toEndOf="@+id/rb_1"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Momo"
+                    android:layout_toEndOf="@+id/img_momo_logo"
+                    android:textSize="@dimen/_20sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_paypal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_momo"
+                android:layout_marginTop="@dimen/_20sdp"
+                >
+                <RadioButton
+                    android:id="@+id/rb_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:scaleY="1.5"
+                    android:scaleX="1.5"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+                <ImageView
+                    android:id="@+id/img_paypal_logo"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/paypal_logo"
+                    android:layout_toEndOf="@+id/rb_2"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paypal"
+                    android:layout_toEndOf="@+id/img_paypal_logo"
+                    android:textSize="@dimen/_20sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_list_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_17sdp"
+                android:text="Danh sách đơn hàng"
+                android:layout_below="@+id/layout_paypal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_list_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_list_order"
+                android:layout_marginTop="@dimen/_10sdp"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rb_group_payment_method"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
+            <TextView
+                android:id="@+id/tv_price_course_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Price:"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/tv_price_course_title"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$"
+                android:textColor="#4CAF50"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/tv_total_price"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/btn_custom_enable"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="Check out"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="#FFFFFF"
+            android:clickable="true"
+            android:id="@+id/btn_signin"
+            android:fontFamily="@font/roboto_bold"
+            android:textStyle="bold"
+            android:layout_below="@+id/layout_total_price"
+            android:layout_marginBottom="@dimen/_20sdp"
             />
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

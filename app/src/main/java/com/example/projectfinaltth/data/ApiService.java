@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
+import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -43,6 +46,11 @@ public interface ApiService {
 
     @POST("api/users/login")
     Observable<SignInResponse> signIn(@Body SignInRequest request);
+
+
+    @GET("api/carts/getCart")
+
+    Observable<CartResponse> getCart(@Header("Authorization") String token);
 
     @GET("api/courses/get_course/{id}")
     Observable<CourseIntroResponse> getCourseIntroById(@Path("id") String courseId);
