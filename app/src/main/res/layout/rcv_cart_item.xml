@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_review"
+    android:background="@drawable/background_cart_item"
     android:layout_margin="@dimen/_2sdp"
+    android:padding="@dimen/_5sdp"
     >
 
     <ImageView
@@ -18,7 +19,7 @@
 
     <LinearLayout
         android:id="@+id/layout_info_cart_item"
-        android:layout_width="@dimen/_160sdp"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/img_cart_item"
         android:orientation="vertical"
@@ -44,7 +45,7 @@
                 android:id="@+id/tv_price_course_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price"
+                android:text="Price: "
                 android:textColor="@color/black"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="@dimen/_18sdp"
@@ -58,7 +59,8 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="@dimen/_18sdp"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_toEndOf="@+id/tv_price_course_title"
                 />
             <TextView
@@ -68,7 +70,7 @@
                 android:textColor="#4CAF50"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="@dimen/_18sdp"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_toEndOf="@+id/tv_price_course"
                 />
         </RelativeLayout>
@@ -87,14 +89,26 @@
             />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/btn_remove"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/layout_info_cart_item"
-        android:src="@drawable/remove"
+        android:orientation="vertical"
         android:layout_centerVertical="true"
-        />
+        android:layout_marginStart="@dimen/_10sdp">
+        <ImageView
+            android:id="@+id/btn_remove"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/remove"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove"
+            />
+    </LinearLayout>
+
 
 </RelativeLayout>
