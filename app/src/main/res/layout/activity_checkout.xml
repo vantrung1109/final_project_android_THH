@@ -39,6 +39,7 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_12sdp"
         android:textColor="@color/black"
+        android:fontFamily="@font/roboto_medium"
         />
 
 
@@ -87,6 +88,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/layout_paypal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_momo"
@@ -122,6 +124,28 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_list_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_17sdp"
+            android:text="Danh sách đơn hàng"
+            android:layout_below="@+id/layout_paypal"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_list_order"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
     </RelativeLayout>
 
 
