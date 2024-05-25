@@ -11,8 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
-import com.example.projectfinaltth.ui.model_temp.Course;
+import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 
 import java.util.List;
 
@@ -36,8 +37,14 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         Course course = courseList.get(position);
         holder.titleTxt.setText(course.getTitle());
-        holder.authorTxt.setText(course.getAuthor());
-        holder.pic.setImageResource(course.getImageResId());
+        holder.authorTxt.setText(course.getInstructorName());
+
+        // Sử dụng Glide để tải ảnh từ URL
+        Glide.with(context)
+                .load(course.getPicture())
+//                .placeholder(R.drawable.placeholder) // Bạn có thể đặt một hình ảnh placeholder trong khi chờ tải ảnh
+//                .error(R.drawable.error) // Bạn có thể đặt một hình ảnh hiển thị khi có lỗi tải ảnh
+                .into(holder.pic);
     }
 
     @Override
