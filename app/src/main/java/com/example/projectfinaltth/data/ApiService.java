@@ -6,7 +6,10 @@ import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +56,10 @@ public interface ApiService {
     @GET("api/courses/get_course/{id}")
     Observable<CourseIntroResponse> getCourseIntroById(@Path("id") String courseId);
 
+    @GET("api/courses/all")
+    Observable<CoursehomeResponse> getAllCourses();
 
+    @GET("api/invoices/my_course")
+    Observable<MyCoursesResponse> getMyCourses(@Header("Authorization") String token);
 
 }
