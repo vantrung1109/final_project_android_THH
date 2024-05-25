@@ -16,9 +16,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/pic1"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/RoundedCorners"/>
+            app:shapeAppearanceOverlay="@style/RoundedCorners"
+            app:srcCompat="@drawable/pic1" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -70,26 +70,26 @@
                 android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_border"
                 android:backgroundTint="#3F51B5"
                 android:text="View Intro"
                 android:textColor="@color/white"
-                app:cornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/buttonAddToCart"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@id/priceTxt" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonAddToCart"
                 android:layout_width="70dp"
                 android:layout_height="50dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="4dp"
-                android:backgroundTint="#FFC107"
-                android:drawableEnd="@drawable/cart_24"
-                android:textColor="@color/black"
-                app:cornerRadius="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/button_border"
+
+                android:scaleType="center"
+                android:src="@drawable/cart_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
