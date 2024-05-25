@@ -1,5 +1,6 @@
 package com.example.projectfinaltth.ui.sign_in;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.databinding.ActivitySignInBinding;
+import com.example.projectfinaltth.ui.main.MainActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -32,18 +34,26 @@ public class SignInActivity extends AppCompatActivity {
             signInRequest.setEmail(mActivitySignInBinding.editEmail.getText().toString());
             signInRequest.setPassword(mActivitySignInBinding.editPassword.getText().toString());
             DataLocalManager.init(this);
+
             compositeDisposable.add(
                     // Thực hiện gọi API đăng nhập
                     ApiService.apiService.signIn(signInRequest)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(signInResponse -> {
+
                                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
                                 // Lưu token vào SharePreferences
                                 DataLocalManager.setToken(signInResponse.getToken());
+
+                                Intent intent = new Intent(this, MainActivity.class);
+                                startActivity(intent);
+
                                 Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
+
                             }, throwable -> {
                                 Log.e("TAG", "Error: " + throwable.getMessage());
+                                Toast.makeText(this, "Bạn nhập sai emai hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                             }));
         });
 

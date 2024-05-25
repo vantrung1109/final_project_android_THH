@@ -47,11 +47,12 @@ public interface ApiService {
     @POST("api/users/login")
     Observable<SignInResponse> signIn(@Body SignInRequest request);
 
-
     @GET("api/carts/getCart")
-
     Observable<CartResponse> getCart(@Header("Authorization") String token);
 
     @GET("api/courses/get_course/{id}")
     Observable<CourseIntroResponse> getCourseIntroById(@Path("id") String courseId);
+
+
+
 }

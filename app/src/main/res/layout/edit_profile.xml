@@ -44,13 +44,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:tint="@color/white"
-            app:backgroundTint="#FFFFFF"
+            app:backgroundTint="#BCB7B7"
             android:clickable="true"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:srcCompat="@drawable/baseline_photo_camera_24"
             android:contentDescription="TODO"
-            android:focusable="true" />
+            android:focusable="true"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout

@@ -66,10 +66,13 @@ public class CheckoutActivity extends AppCompatActivity {
                             // Thực hiện set dữ liệu lên view
                             cart.setValue(response);
                             Log.e("cart", response.toString());
+
                         }, throwable -> {
                             Toast.makeText(this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         })
         );
+
+
 
         cart.observe(this, cartResponse -> {
             List<CourseOrder> list = new ArrayList<>();

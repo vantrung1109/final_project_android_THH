@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        setContentView(R.layout.create_lesson);
        
     }
 }
