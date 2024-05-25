@@ -7,6 +7,7 @@ import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -52,6 +53,9 @@ public interface ApiService {
 
     @GET("api/courses/get_course/{id}")
     Observable<CourseIntroResponse> getCourseIntroById(@Path("id") String courseId);
+
+    @GET("api/courses/all")
+    Observable<CoursehomeResponse> getAllCourses();
 
 
 

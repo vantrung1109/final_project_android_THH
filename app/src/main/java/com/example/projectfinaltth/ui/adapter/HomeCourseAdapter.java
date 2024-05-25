@@ -10,21 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import com.bumptech.glide.Glide;
-import com.example.projectfinaltth.ui.model_temp.CourseDomain;
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.ViewHolder> {
-    ArrayList<CourseDomain> items;
-    DecimalFormat formatter;
-    Context context;
+    private List<Course> items;
+    private DecimalFormat formatter;
+    private Context context;
 
-    public HomeCourseAdapter(ArrayList<CourseDomain> items) {
+    public HomeCourseAdapter(List<Course> items) {
         this.items = items;
         formatter = new DecimalFormat("###,###,###,###.##");
     }
@@ -40,17 +38,12 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.titleTxt.setText(items.get(position).getTitle());
-        holder.ownerTxt.setText(items.get(position).getOwner());
+        holder.ownerTxt.setText(items.get(position).getInstructorName());
         holder.priceTxt.setText("$" + formatter.format(items.get(position).getPrice()));
 
-
-//        int drawableResourceId = holder.itemView.getResources().getIdentifier(items.get(position).getPicPath(),
-//                "drawable", holder.itemView.getContext().getPackageName());
-
         Glide.with(holder.itemView.getContext())
-                .load(items.get(position).getImageUrl())
+                .load(items.get(position).getPicture())
                 .into(holder.pic);
-
     }
 
     @Override
