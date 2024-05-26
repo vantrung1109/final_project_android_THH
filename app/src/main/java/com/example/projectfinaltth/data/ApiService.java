@@ -2,6 +2,7 @@ package com.example.projectfinaltth.data;
 
 import android.app.Application;
 
+import com.example.projectfinaltth.data.model.request.AddToCartRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
@@ -83,6 +84,9 @@ public interface ApiService {
 
     @DELETE("api/carts/removeFromCart/{cartId}/{courseId}")
     Completable removeFromCart(@Header("Authorization") String token, @Path("cartId") String cartId, @Path("courseId") String courseId);
+
+    @POST("api/carts/addToCart")
+    Observable<CartItemResponse> addToCart(@Header("Authorization") String token, @Body AddToCartRequest request);
 
 
 }

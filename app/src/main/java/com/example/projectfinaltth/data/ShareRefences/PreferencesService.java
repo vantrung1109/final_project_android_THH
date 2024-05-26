@@ -17,11 +17,9 @@ public class PreferencesService {
         editor.putString(key, value);
         editor.apply();
     }
+
     public String getStringValue(String key){
         SharedPreferences sharedPreferences = context.getSharedPreferences(MY_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, "");
     }
-
-
-
 }
