@@ -2,6 +2,7 @@ package com.example.projectfinaltth.ui.review;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,20 +27,26 @@ public class ReviewActivity extends AppCompatActivity {
         String token = "Bearer " +
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
 
-        String courseId = "6640fd03aea886b32ee438c3";
-        ReviewRequest reviewRequest = new ReviewRequest();
-        reviewRequest.setCourseId(courseId);
-        reviewRequest.setReviewData(new ReviewData(5.0, "haha"));
+        String courseId = "66410534aea886b32ee443ba";
+
+
         // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
         // Xử lý sự kiện khi người dùng click vào nút gửi đánh giá
         mActivityReviewBinding.btnSend.setOnClickListener(v -> {
+            ReviewRequest reviewRequest = new ReviewRequest();
+            reviewRequest.setCourseId(courseId);
+            reviewRequest.setReviewData(new ReviewData(
+                    (double) mActivityReviewBinding.ratingBar.getRating(),
+                    mActivityReviewBinding.editReview.getText().toString()));
+
             // Gửi đánh giá lên server
             compositeDisposable.add(ApiService.apiService.sendReview(token, courseId, reviewRequest)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
                         // Xử lý kết quả trả về
-                        Log.d("ReviewActivity", "onCreate: " + response.getMessage());
+
+                        Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
                     }, throwable -> {
                         // Xử lý lỗi
                     }));
