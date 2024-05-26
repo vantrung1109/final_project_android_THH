@@ -1,5 +1,6 @@
 package com.example.projectfinaltth.data;
-
+import android.app.Application;
+import com.example.projectfinaltth.data.model.request.AddToCartRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
@@ -82,6 +83,11 @@ public interface ApiService {
 
     @GET("api/users")
     Observable<UserResponse> getUserDetails(@Header("Authorization") String token);
+
+    @POST("api/carts/addToCart")
+    Observable<CartItemResponse> addToCart(@Header("Authorization") String token, @Body AddToCartRequest request);
+
+
 }
 
 

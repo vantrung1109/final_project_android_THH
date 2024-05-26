@@ -44,8 +44,9 @@ public class SignInActivity extends AppCompatActivity {
                             .subscribe(signInResponse -> {
 
                                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-                                // Lưu token vào SharePreferences
+                                // Lưu token và cartId vào SharePreferences
                                 DataLocalManager.setToken(signInResponse.getToken());
+                                DataLocalManager.setCartId(signInResponse.getCartId());
 
                                 Intent intent = new Intent(this, ProfileActivity.class);
                                 startActivity(intent);
@@ -60,5 +61,9 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 }
