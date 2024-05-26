@@ -1,5 +1,6 @@
 package com.example.projectfinaltth.ui.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,33 +10,47 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.projectfinaltth.ui.model_temp.CartItem;
+import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.data.model.response.cart.CartItem;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
+    private Context context;
     private List<CartItem> cartItemList;
+    private OnItemRemoveListener onItemRemoveListener;
 
-    public CartAdapter(List<CartItem> cartItemList) {
+    public CartAdapter(Context context, List<CartItem> cartItemList, OnItemRemoveListener onItemRemoveListener) {
+        this.context = context;
         this.cartItemList = cartItemList;
+        this.onItemRemoveListener = onItemRemoveListener;
     }
 
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_cart, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_cart, parent, false);
         return new CartViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
-        holder.pic.setImageResource(cartItem.getImageResource());
-        holder.titleTxt.setText(cartItem.getTitle());
-        holder.authorTxt.setText(cartItem.getAuthor()); // Set giá trị cho authorTxt
-        holder.feeEachItem.setText(cartItem.getFee());
+
+        if (cartItem.getCourse() != null) {
+            holder.titleTxt.setText(cartItem.getCourse().getTitle());
+            holder.authorTxt.setText(cartItem.getCourse().getInstructorName());
+            holder.feeEachItem.setText("$" + cartItem.getCourse().getPrice().toString());
+
+            // Sử dụng Glide để tải ảnh từ URL
+            Glide.with(context)
+                    .load(cartItem.getCourse().getPicture())
+                    .into(holder.pic);
+        }
+
+        holder.trashBtn.setOnClickListener(v -> onItemRemoveListener.onRemove(holder.getAdapterPosition(), cartItem));
     }
 
     @Override
@@ -46,27 +61,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView pic;
         TextView titleTxt, feeEachItem, authorTxt;
+        View trashBtn;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             pic = itemView.findViewById(R.id.pic);
             titleTxt = itemView.findViewById(R.id.titleTxt);
-            authorTxt = itemView.findViewById(R.id.authorTxt); // Khởi tạo authorTxt
+            authorTxt = itemView.findViewById(R.id.authorTxt);
             feeEachItem = itemView.findViewById(R.id.feeEachItem);
-
-            // Thêm kiểm tra null để tránh lỗi NullPointerException
-            if (pic == null) {
-                throw new NullPointerException("ImageView 'pic' not found in itemView");
-            }
-            if (titleTxt == null) {
-                throw new NullPointerException("TextView 'titleTxt' not found in itemView");
-            }
-            if (authorTxt == null) {
-                throw new NullPointerException("TextView 'authorTxt' not found in itemView");
-            }
-            if (feeEachItem == null) {
-                throw new NullPointerException("TextView 'feeEachItem' not found in itemView");
-            }
+            trashBtn = itemView.findViewById(R.id.trashBtn);
         }
+    }
+
+    public interface OnItemRemoveListener {
+        void onRemove(int position, CartItem cartItem);
     }
 }

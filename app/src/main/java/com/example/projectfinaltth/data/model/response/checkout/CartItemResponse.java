@@ -1,5 +1,9 @@
 package com.example.projectfinaltth.data.model.response.checkout;
 
+import com.example.projectfinaltth.data.model.response.cart.CartItem;
+
+import java.util.Collection;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +18,6 @@ public class CartItemResponse {
     String createdAt;
     String updatedAt;
     int __v;
+
+
 }
