@@ -38,13 +38,78 @@
                 />
         </RelativeLayout>
 
+
+
+        <TextView
+            android:id="@+id/tv_list_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_17sdp"
+            android:text="Danh sách đơn hàng"
+            android:layout_below="@+id/layout_title"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_list_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_list_order"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <RelativeLayout
+            android:id="@+id/layout_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rcv_list_order"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
+            <TextView
+                android:id="@+id/tv_price_course_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Price:"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                />
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/tv_price_course_title"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$"
+                android:textColor="#4CAF50"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/tv_total_price"
+                />
+        </RelativeLayout>
+
+
         <TextView
             android:id="@+id/tv_choose_payment_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_17sdp"
             android:text="Chọn phương thức thanh toán"
-            android:layout_below="@+id/layout_title"
+            android:layout_below="@+id/layout_total_price"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_12sdp"
             android:textColor="@color/black"
@@ -134,68 +199,6 @@
                     />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_list_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/_17sdp"
-                android:text="Danh sách đơn hàng"
-                android:layout_below="@+id/layout_paypal"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/roboto_medium"
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_list_order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_list_order"
-                android:layout_marginTop="@dimen/_10sdp"
-                >
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_total_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rb_group_payment_method"
-            android:layout_marginTop="@dimen/_10sdp"
-            >
-            <TextView
-                android:id="@+id/tv_price_course_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Price:"
-                android:textColor="@color/black"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="@dimen/_18sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                />
-            <TextView
-                android:id="@+id/tv_total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/black"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="@dimen/_18sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/tv_price_course_title"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$"
-                android:textColor="#4CAF50"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="@dimen/_18sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_toEndOf="@+id/tv_total_price"
-                />
         </RelativeLayout>
 
         <TextView
@@ -210,10 +213,10 @@
             android:textSize="@dimen/_15sdp"
             android:textColor="#FFFFFF"
             android:clickable="true"
-            android:id="@+id/btn_signin"
+            android:id="@+id/btn_checkout"
             android:fontFamily="@font/roboto_bold"
             android:textStyle="bold"
-            android:layout_below="@+id/layout_total_price"
+            android:layout_below="@+id/rb_group_payment_method"
             android:layout_marginBottom="@dimen/_20sdp"
             />
     </RelativeLayout>

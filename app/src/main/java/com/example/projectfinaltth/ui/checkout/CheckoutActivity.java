@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
+import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CourseOrder;
@@ -105,5 +106,24 @@ public class CheckoutActivity extends AppCompatActivity {
             flexibleAdapterCourses.updateDataSet(courseOrders);
         });
 
+        String paymentMethod = "";
+        if (isPaypal) {
+            paymentMethod = "PAYPAL";
+        } else {
+            paymentMethod = "MOMO";
+        }
+        CheckoutRequest checkoutRequest = new CheckoutRequest(paymentMethod);
+        mActivityCheckoutBinding.btnCheckout.setOnClickListener(v -> {
+            compositeDisposable.add(
+                    ApiService.apiService.checkout(token,checkoutRequest)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(response -> {
+                                Toast.makeText(this, "Checkout success", Toast.LENGTH_SHORT).show();
+                            }, throwable -> {
+                                Toast.makeText(this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            ));
+        });
     }
 }

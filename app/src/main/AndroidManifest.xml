@@ -24,6 +24,9 @@
         <activity
             android:name=".ui.checkout.CheckoutActivity"
             android:exported="true"/>
+        <activity
+            android:name=".ui.review.ReviewActivity"
+            android:exported="true"/>
 
         <activity android:name=".ui.sign_in.SignInActivity"
             android:exported="true">

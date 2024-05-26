@@ -87,7 +87,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/button_border"
-
                 android:scaleType="center"
                 android:src="@drawable/cart_24"
                 app:layout_constraintBottom_toBottomOf="parent"

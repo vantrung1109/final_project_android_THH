@@ -3,14 +3,18 @@ package com.example.projectfinaltth.data;
 import android.app.Application;
 
 import com.example.projectfinaltth.data.model.request.SignInRequest;
+import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
+import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
+import com.example.projectfinaltth.data.model.response.checkout.CheckoutResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
+import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +71,12 @@ public interface ApiService {
 
     @GET("api/carts/getCart")
     Observable<CartListItemResponse> getCartItem(@Header("Authorization") String token);
+
+    @POST("api/invoices/checkout")
+    Observable<CheckoutResponse> checkout(@Header("Authorization") String token, @Body CheckoutRequest request);
+
+    @POST("/api/reviews/create_review/{id}")
+    Observable<ReviewResponse> sendReview(@Header("Authorization") String token, @Path("id") String courseId, @Body ReviewRequest request);
 
     @DELETE("api/carts/clearCart")
     Completable clearCart(@Header("Authorization") String token);

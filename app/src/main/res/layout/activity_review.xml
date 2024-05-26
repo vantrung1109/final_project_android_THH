@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Review course"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                />
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_choose_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_17sdp"
+            android:text="Đánh giá của bạn"
+            android:layout_below="@+id/layout_title"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:layout_below="@+id/tv_choose_rating"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_centerHorizontal="true"
+            android:progressTint="#FDDA23"
+            android:rating="5"
+            android:isIndicator="true"
+            android:stepSize="0.5"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            />
+
+
+        <EditText
+            android:id="@+id/edit_review"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:hint="Thêm đánh giá của bạn ở đây"
+            android:layout_below="@+id/rating_bar"
+            android:background="@drawable/background_brown"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:maxLines="10"
+            android:gravity="top"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/btn_custom_enable"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="Gửi"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="#FFFFFF"
+            android:clickable="true"
+            android:id="@+id/btn_send"
+            android:fontFamily="@font/roboto_bold"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_20sdp"
+            />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
