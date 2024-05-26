@@ -27,7 +27,9 @@
         <activity
             android:name=".ui.review.ReviewActivity"
             android:exported="true"/>
-
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="true"/>
         <activity android:name=".ui.sign_in.SignInActivity"
             android:exported="true">
             <intent-filter>

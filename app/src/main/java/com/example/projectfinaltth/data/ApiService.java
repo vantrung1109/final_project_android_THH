@@ -1,23 +1,20 @@
 package com.example.projectfinaltth.data;
-
 import android.app.Application;
-
 import com.example.projectfinaltth.data.model.request.AddToCartRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse;
-import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CheckoutResponse;
-import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
+import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
@@ -31,7 +28,6 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -84,6 +80,9 @@ public interface ApiService {
 
     @DELETE("api/carts/removeFromCart/{cartId}/{courseId}")
     Completable removeFromCart(@Header("Authorization") String token, @Path("cartId") String cartId, @Path("courseId") String courseId);
+
+    @GET("api/users")
+    Observable<UserResponse> getUserDetails(@Header("Authorization") String token);
 
     @POST("api/carts/addToCart")
     Observable<CartItemResponse> addToCart(@Header("Authorization") String token, @Body AddToCartRequest request);
