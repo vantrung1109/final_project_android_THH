@@ -1,9 +1,10 @@
 package com.example.projectfinaltth.ui.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,37 +14,41 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
+import com.example.projectfinaltth.ui.fragment.HomeFragment;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.ViewHolder> {
-    private List<Course> items;
-    private DecimalFormat formatter;
-    private Context context;
 
-    public HomeCourseAdapter(List<Course> items) {
+    private List<Course> items;
+    private HomeFragment homeFragment;
+
+    public HomeCourseAdapter(List<Course> items, HomeFragment homeFragment) {
         this.items = items;
-        formatter = new DecimalFormat("###,###,###,###.##");
+        this.homeFragment = homeFragment;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_course, parent, false);
-        context = parent.getContext();
         return new ViewHolder(inflate);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.titleTxt.setText(items.get(position).getTitle());
-        holder.ownerTxt.setText(items.get(position).getInstructorName());
-        holder.priceTxt.setText("$" + formatter.format(items.get(position).getPrice()));
+        Course course = items.get(position);
+        holder.titleTxt.setText(course.getTitle());
+        holder.ownerTxt.setText(course.getInstructorName());
+        holder.priceTxt.setText("$" + course.getPrice());
 
         Glide.with(holder.itemView.getContext())
-                .load(items.get(position).getPicture())
+                .load(course.getPicture())
                 .into(holder.pic);
+
+        holder.addToCartButton.setOnClickListener(v -> {
+            homeFragment.addToCart(course.get_id());
+        });
     }
 
     @Override
@@ -54,6 +59,7 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTxt, ownerTxt, priceTxt;
         ImageView pic;
+        ImageButton addToCartButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +67,7 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
             ownerTxt = itemView.findViewById(R.id.ownerTxt);
             priceTxt = itemView.findViewById(R.id.priceTxt);
             pic = itemView.findViewById(R.id.pic);
+            addToCartButton = itemView.findViewById(R.id.buttonAddToCart);
         }
     }
 }

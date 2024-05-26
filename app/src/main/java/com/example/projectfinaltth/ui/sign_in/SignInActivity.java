@@ -13,6 +13,7 @@ import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.databinding.ActivitySignInBinding;
 import com.example.projectfinaltth.ui.main.MainActivity;
+import com.example.projectfinaltth.ui.profile.ProfileActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -43,10 +44,11 @@ public class SignInActivity extends AppCompatActivity {
                             .subscribe(signInResponse -> {
 
                                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-                                // Lưu token vào SharePreferences
+                                // Lưu token và cartId vào SharePreferences
                                 DataLocalManager.setToken(signInResponse.getToken());
+                                DataLocalManager.setCartId(signInResponse.getCartId());
 
-                                Intent intent = new Intent(this, MainActivity.class);
+                                Intent intent = new Intent(this, ProfileActivity.class);
                                 startActivity(intent);
 
                                 Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
@@ -59,5 +61,9 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 }
