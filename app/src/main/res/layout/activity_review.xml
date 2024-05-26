@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/layout_title"
             android:layout_width="match_parent"
@@ -55,7 +55,6 @@
             android:layout_centerHorizontal="true"
             android:progressTint="#FDDA23"
             android:rating="5"
-            android:isIndicator="true"
             android:stepSize="0.5"
             android:scaleX="1.2"
             android:scaleY="1.2"
@@ -95,7 +94,7 @@
             android:id="@+id/btn_send"
             android:fontFamily="@font/roboto_bold"
             android:textStyle="bold"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/edit_review"
             android:layout_marginBottom="@dimen/_20sdp"
             />
 
@@ -103,4 +102,4 @@
     </RelativeLayout>
 
 
-</RelativeLayout>
+</ScrollView>
