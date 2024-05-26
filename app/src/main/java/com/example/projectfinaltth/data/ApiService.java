@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
@@ -15,12 +16,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -62,4 +65,19 @@ public interface ApiService {
     @GET("api/invoices/my_course")
     Observable<MyCoursesResponse> getMyCourses(@Header("Authorization") String token);
 
+    @GET("api/carts/getCart")
+    Observable<CartListItemResponse> getCartItem(@Header("Authorization") String token);
+
+    @DELETE("api/carts/clearCart")
+    Completable clearCart(@Header("Authorization") String token);
+
+    @DELETE("api/carts/removeFromCart/{cartId}/{courseId}")
+    Completable removeFromCart(@Header("Authorization") String token, @Path("cartId") String cartId, @Path("courseId") String courseId);
+
+
 }
+
+
+
+    
+
