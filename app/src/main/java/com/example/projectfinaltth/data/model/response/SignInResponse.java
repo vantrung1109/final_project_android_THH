@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SignInResponse {
     String email;
+    String name;
     String token;
     String role;
     String cartId;

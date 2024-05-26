@@ -13,6 +13,7 @@ import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.databinding.ActivitySignInBinding;
 import com.example.projectfinaltth.ui.main.MainActivity;
+import com.example.projectfinaltth.ui.profile.ProfileActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -46,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
                                 // Lưu token vào SharePreferences
                                 DataLocalManager.setToken(signInResponse.getToken());
 
-                                Intent intent = new Intent(this, MainActivity.class);
+                                Intent intent = new Intent(this, ProfileActivity.class);
                                 startActivity(intent);
 
                                 Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
