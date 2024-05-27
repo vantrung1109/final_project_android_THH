@@ -38,7 +38,7 @@ public class CourseIntroActivity extends AppCompatActivity {
     FlexibleAdapter flexibleAdapterReviews;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     MutableLiveData<MyCoursesResponse> listMyCourses = new MutableLiveData<>();
-
+    CourseIntroResponse courseIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,24 +46,7 @@ public class CourseIntroActivity extends AppCompatActivity {
         mActivityCourseIntroBinding = ActivityCourseIntroBinding.inflate(getLayoutInflater());
         setContentView(mActivityCourseIntroBinding.getRoot());
 
-        CourseIntroResponse course;
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            course = (CourseIntroResponse) bundle.getSerializable("course");
-        } else {
-            course = null;
-        }
-
-        // Thực hiện set dữ liệu lên view sau khi lấy được dữ liệu từ intent
-        mActivityCourseIntroBinding.tvCourseName.setText(course.getCourse().getTitle());
-        mActivityCourseIntroBinding.tvCourseAuthor.setText(course.getCourse().getInstructorName());
-        mActivityCourseIntroBinding.tvDescriptionContent.setText(course.getCourse().getDescription());
-        mActivityCourseIntroBinding.tvCoursePrice.setText(String.valueOf(course.getCourse().getPrice()));
-        mActivityCourseIntroBinding.ratingBar.setRating(course.getAverageStars().floatValue());
-        Glide.with(this).load(course.getCourse().getPicture()).into(mActivityCourseIntroBinding.imgCourseIntro);
-        flexibleAdapterReviews = new FlexibleAdapter(course.getReviews());
-        mActivityCourseIntroBinding.rcvReviews.setAdapter(flexibleAdapterReviews);
-        mActivityCourseIntroBinding.rcvReviews.setLayoutManager(new LinearLayoutManager(this));
+        String courseId = "6640fea3aea886b32ee43995";
 
         String token = "Bearer " +
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
@@ -88,7 +71,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                 for (Course course_temp : myCoursesResponse.getCourses()) {
                     listCourseId.add(course_temp.get_id());
                 }
-                if (listCourseId.contains(course.getCourse().get_id())) {
+                if (listCourseId.contains(courseId)) {
                     mActivityCourseIntroBinding.imgAddToCart.setImageResource(R.drawable.eye);
                     mActivityCourseIntroBinding.imgAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
                     mActivityCourseIntroBinding.tvAddToCart.setText("Detail");
@@ -97,37 +80,38 @@ public class CourseIntroActivity extends AppCompatActivity {
             }
         });
 
-//        compositeDisposable.add(
-//                // Thực hiện gọi API lấy course by id
-//                ApiService.apiService.getCourseIntroById(courseId)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(response -> {
-//
-//                            // Thực hiện set dữ liệu lên view
-//                            mActivityCourseIntroBinding.tvCourseName.setText(response.getCourse().getTitle());
-//                            mActivityCourseIntroBinding.tvCourseAuthor.setText(response.getCourse().getInstructorName());
-//                            mActivityCourseIntroBinding.tvDescriptionContent.setText(response.getCourse().getDescription());
-//                            mActivityCourseIntroBinding.tvCoursePrice.setText(String.valueOf(response.getCourse().getPrice()));
-//                            mActivityCourseIntroBinding.ratingBar.setRating(response.getAverageStars().floatValue());
-//                            Glide.with(this).load(response.getCourse().getPicture()).into(mActivityCourseIntroBinding.imgCourseIntro);
-//
-//                            flexibleAdapterReviews = new FlexibleAdapter(response.getReviews());
-//                            mActivityCourseIntroBinding.rcvReviews.setAdapter(flexibleAdapterReviews);
-//                            mActivityCourseIntroBinding.rcvReviews.setLayoutManager(new LinearLayoutManager(this));
-//
-//                            }, throwable -> {
-//                                Log.e("TAG", "Error: " + throwable.getMessage());
-//                            }
-//                        )
-//        );
+        compositeDisposable.add(
+                // Thực hiện gọi API lấy course by id
+                ApiService.apiService.getCourseIntroById(courseId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(response -> {
+
+                            // Thực hiện set dữ liệu lên view
+                            mActivityCourseIntroBinding.tvCourseName.setText(response.getCourse().getTitle());
+                            mActivityCourseIntroBinding.tvCourseAuthor.setText(response.getCourse().getInstructorName());
+                            mActivityCourseIntroBinding.tvDescriptionContent.setText(response.getCourse().getDescription());
+                            mActivityCourseIntroBinding.tvCoursePrice.setText(String.valueOf(response.getCourse().getPrice()));
+                            mActivityCourseIntroBinding.ratingBar.setRating(response.getAverageStars().floatValue());
+                            Glide.with(this).load(response.getCourse().getPicture()).into(mActivityCourseIntroBinding.imgCourseIntro);
+                            courseIntent = response;
+
+                            flexibleAdapterReviews = new FlexibleAdapter(response.getReviews());
+                            mActivityCourseIntroBinding.rcvReviews.setAdapter(flexibleAdapterReviews);
+                            mActivityCourseIntroBinding.rcvReviews.setLayoutManager(new LinearLayoutManager(this));
+
+                            }, throwable -> {
+                                Log.e("TAG", "Error: " + throwable.getMessage());
+                            }
+                        )
+        );
 
         mActivityCourseIntroBinding.imgAddToCart.setOnClickListener(v -> {
             if (mActivityCourseIntroBinding.tvAddToCart.getText().equals("Detail")) {
                 Intent intent = new Intent(this, CourseDetailActivity.class);
-                Bundle bundle2 = new Bundle();
-                bundle.putSerializable("course", course);
-                intent.putExtras(bundle2);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("courseIntro", courseIntent);
+                intent.putExtras(bundle);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Add to cart", Toast.LENGTH_SHORT).show();

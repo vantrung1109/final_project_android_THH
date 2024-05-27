@@ -1,5 +1,10 @@
 package com.example.projectfinaltth.data.model.response.courseIntro;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,4 +19,6 @@ public class CourseIntroResponse implements Serializable {
     private Course course;
     private List<Review> reviews;
     private Double averageStars;
+
+
 }

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review extends AbstractFlexibleItem<Review.ReviewViewHolder> {
+public class Review extends AbstractFlexibleItem<Review.ReviewViewHolder> implements Serializable {
     String _id;
     String userId;
     String courseId;
