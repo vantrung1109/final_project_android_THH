@@ -1,4 +1,3 @@
-
 package com.example.projectfinaltth.ui.fragment;
 
 import android.os.Bundle;
@@ -31,6 +30,7 @@ public class HomeFragment extends Fragment {
     private HomeCourseAdapter homeCourseAdapter;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<String> myCourses = new ArrayList<>(); // Danh sách các courseId trong "My Courses"
+    private List<Course> allCourses = new ArrayList<>(); // Danh sách tất cả các khóa học
 
     public HomeFragment() {
         // Required empty public constructor
@@ -44,20 +44,30 @@ public class HomeFragment extends Fragment {
 
         popularView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        fetchCourses();
+        fetchCoursesWithSearch(1); // Bắt đầu từ trang 1
         fetchMyCourses();
 
         return view;
     }
 
-    private void fetchCourses() {
+    private void fetchCoursesWithSearch(int currentPage) {
+        com.example.projectfinaltth.data.model.request.RequestBody requestBody =
+                new com.example.projectfinaltth.data.model.request.RequestBody("", "ALL", currentPage, "newest");
+
         compositeDisposable.add(
-                ApiService.apiService.getAllCourses()
+                ApiService.apiService.searchCourses(requestBody)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(coursehomeResponse -> {
-                            homeCourseAdapter = new HomeCourseAdapter(new ArrayList<>(coursehomeResponse.getCourses()), HomeFragment.this);
-                            popularView.setAdapter(homeCourseAdapter);
+                        .subscribe(courseResponse -> {
+                            allCourses.addAll(courseResponse.getCourses());
+                            if (courseResponse.getCourses().size() > 0) {
+                                // Nếu còn dữ liệu, tiếp tục lấy trang tiếp theo
+                                fetchCoursesWithSearch(currentPage + 1);
+                            } else {
+                                // Khi đã lấy hết tất cả các trang, cập nhật adapter
+                                homeCourseAdapter = new HomeCourseAdapter(allCourses, HomeFragment.this);
+                                popularView.setAdapter(homeCourseAdapter);
+                            }
                         }, throwable -> {
                             throwable.printStackTrace();
                         })
