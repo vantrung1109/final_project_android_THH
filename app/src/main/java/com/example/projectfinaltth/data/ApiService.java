@@ -3,9 +3,11 @@ import android.app.Application;
 import com.example.projectfinaltth.data.model.request.AddToCartRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
+import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
+import com.example.projectfinaltth.data.model.response.lesson.LessonByCourseResponse;
 import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
@@ -93,7 +95,8 @@ public interface ApiService {
     @POST("api/courses/search-courses")
     Observable<CourseResponse> searchCourses(@Body com.example.projectfinaltth.data.model.request.RequestBody requestBody);
 
-
+    @POST("api/lessons/get-course-lessons")
+    Observable<LessonByCourseResponse> getLessonsByCourse(@Body CourseDetailRequest requestBody);
 
 }
 

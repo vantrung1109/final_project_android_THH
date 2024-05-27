@@ -1,5 +1,7 @@
 package com.example.projectfinaltth.data.model.response.courseIntro;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course {
+public class Course implements Serializable {
     String _id;
     String userId;
     String cloudinary;
