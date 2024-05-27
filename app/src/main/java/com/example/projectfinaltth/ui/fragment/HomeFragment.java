@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,11 +16,14 @@ import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.AddToCartRequest;
+import com.example.projectfinaltth.data.model.request.RequestBody;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.ui.adapter.HomeCourseAdapter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -31,6 +36,9 @@ public class HomeFragment extends Fragment {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private List<String> myCourses = new ArrayList<>(); // Danh sách các courseId trong "My Courses"
     private List<Course> allCourses = new ArrayList<>(); // Danh sách tất cả các khóa học
+    private Set<String> topics = new HashSet<>(); // Tập hợp các chủ đề duy nhất
+
+    private TextView textView71, textView72, textView73, textView7, textView81, textView82, textView83, textView8;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -44,35 +52,82 @@ public class HomeFragment extends Fragment {
 
         popularView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        fetchCoursesWithSearch(1); // Bắt đầu từ trang 1
+        textView71 = view.findViewById(R.id.textView71);
+        textView72 = view.findViewById(R.id.textView72);
+        textView73 = view.findViewById(R.id.textView73);
+        textView7 = view.findViewById(R.id.textView7);
+        textView81 = view.findViewById(R.id.textView81);
+        textView82 = view.findViewById(R.id.textView82);
+        textView83 = view.findViewById(R.id.textView83);
+        textView8 = view.findViewById(R.id.textView8);
+
+        ImageView imageView61 = view.findViewById(R.id.imageView61);
+        ImageView imageView62 = view.findViewById(R.id.imageView62);
+        ImageView imageView63 = view.findViewById(R.id.imageView63);
+        ImageView imageView6 = view.findViewById(R.id.imageView6);
+        ImageView imageView71 = view.findViewById(R.id.imageView71);
+        ImageView imageView72 = view.findViewById(R.id.imageView72);
+        ImageView imageView73 = view.findViewById(R.id.imageView73);
+        ImageView imageView8 = view.findViewById(R.id.imageView8);
+
+        textView71.setOnClickListener(v -> fetchCoursesWithSearch(1, textView71.getText().toString()));
+        textView72.setOnClickListener(v -> fetchCoursesWithSearch(1, textView72.getText().toString()));
+        textView73.setOnClickListener(v -> fetchCoursesWithSearch(1, textView73.getText().toString()));
+        textView7.setOnClickListener(v -> fetchCoursesWithSearch(1, textView7.getText().toString()));
+        textView81.setOnClickListener(v -> fetchCoursesWithSearch(1, textView81.getText().toString()));
+        textView82.setOnClickListener(v -> fetchCoursesWithSearch(1, textView82.getText().toString()));
+        textView83.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
+        textView8.setOnClickListener(v -> fetchCoursesWithSearch(1, textView8.getText().toString()));
+
+        imageView61.setOnClickListener(v -> fetchCoursesWithSearch(1, textView71.getText().toString()));
+        imageView62.setOnClickListener(v -> fetchCoursesWithSearch(1, textView72.getText().toString()));
+        imageView63.setOnClickListener(v -> fetchCoursesWithSearch(1, textView73.getText().toString()));
+        imageView6.setOnClickListener(v -> fetchCoursesWithSearch(1, textView7.getText().toString()));
+        imageView71.setOnClickListener(v -> fetchCoursesWithSearch(1, textView81.getText().toString()));
+        imageView72.setOnClickListener(v -> fetchCoursesWithSearch(1, textView82.getText().toString()));
+        imageView73.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
+        imageView8.setOnClickListener(v -> fetchCoursesWithSearch(1, textView8.getText().toString()));
+
+        fetchCoursesWithSearch(1, "ALL"); // Bắt đầu từ trang 1 và tất cả các khóa học
         fetchMyCourses();
 
         return view;
     }
 
-    private void fetchCoursesWithSearch(int currentPage) {
-        com.example.projectfinaltth.data.model.request.RequestBody requestBody =
-                new com.example.projectfinaltth.data.model.request.RequestBody("", "ALL", currentPage, "newest");
+
+
+    private void fetchCoursesWithSearch(int currentPage, String topic) {
+        RequestBody requestBody = new RequestBody("", topic, currentPage, "newest");
 
         compositeDisposable.add(
                 ApiService.apiService.searchCourses(requestBody)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseResponse -> {
+                            if (currentPage == 1) {
+                                allCourses.clear(); // Xóa danh sách khóa học nếu là trang đầu tiên
+                            }
                             allCourses.addAll(courseResponse.getCourses());
+                            for (Course course : courseResponse.getCourses()) {
+                                topics.add(course.getTopic());
+                            }
+
                             if (courseResponse.getCourses().size() > 0) {
                                 // Nếu còn dữ liệu, tiếp tục lấy trang tiếp theo
-                                fetchCoursesWithSearch(currentPage + 1);
+                                fetchCoursesWithSearch(currentPage + 1, topic);
                             } else {
                                 // Khi đã lấy hết tất cả các trang, cập nhật adapter
                                 homeCourseAdapter = new HomeCourseAdapter(allCourses, HomeFragment.this);
                                 popularView.setAdapter(homeCourseAdapter);
+                                displayTopics();
                             }
                         }, throwable -> {
                             throwable.printStackTrace();
                         })
         );
     }
+
+
 
     private void fetchMyCourses() {
         String token = DataLocalManager.getToken();
@@ -88,6 +143,18 @@ public class HomeFragment extends Fragment {
                             throwable.printStackTrace();
                         })
         );
+    }
+
+    private void displayTopics() {
+        List<String> topicList = new ArrayList<>(topics);
+        if (topicList.size() > 0) textView71.setText(topicList.get(0));
+        if (topicList.size() > 1) textView72.setText(topicList.get(1));
+        if (topicList.size() > 2) textView73.setText(topicList.get(2));
+        if (topicList.size() > 3) textView7.setText(topicList.get(3));
+        if (topicList.size() > 4) textView81.setText(topicList.get(4));
+        if (topicList.size() > 5) textView82.setText(topicList.get(5));
+        if (topicList.size() > 6) textView83.setText(topicList.get(6));
+        if (topicList.size() > 7) textView8.setText(topicList.get(7));
     }
 
     public void addToCart(String courseId) {
@@ -114,10 +181,17 @@ public class HomeFragment extends Fragment {
                         .subscribe(cartItemResponse -> {
                             Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
                         }, throwable -> {
-                            Toast.makeText(getContext(), "Failed to add to cart: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Kiểm tra lỗi và hiển thị thông báo phù hợp
+                            String errorMessage = throwable.getMessage();
+                            if (errorMessage != null && errorMessage.contains("already in your cart")) {
+                                Toast.makeText(getContext(), "This course is already in your cart.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Failed to add to cart: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
                         })
         );
     }
+
 
     @Override
     public void onDestroy() {
