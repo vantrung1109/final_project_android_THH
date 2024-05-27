@@ -139,12 +139,12 @@
                     android:textSize="19sp"
                     android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textView61"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="See All"-->
-<!--                    android:textColor="@color/red" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/textView61"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="See All"-->
+                <!--                    android:textColor="@color/red" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -462,4 +462,3 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
