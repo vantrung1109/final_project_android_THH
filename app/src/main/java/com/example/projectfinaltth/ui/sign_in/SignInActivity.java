@@ -12,6 +12,9 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.databinding.ActivitySignInBinding;
+import com.example.projectfinaltth.ui.fragment.CartFragment;
+import com.example.projectfinaltth.ui.instructor.InstructorLessonActivity;
+import com.example.projectfinaltth.ui.instructor.MyInstructorCourseActivity;
 import com.example.projectfinaltth.ui.main.MainActivity;
 import com.example.projectfinaltth.ui.profile.ProfileActivity;
 
@@ -48,7 +51,7 @@ public class SignInActivity extends AppCompatActivity {
                                 DataLocalManager.setToken(signInResponse.getToken());
                                 DataLocalManager.setCartId(signInResponse.getCartId());
 
-                                Intent intent = new Intent(this, ProfileActivity.class);
+                                Intent intent = new Intent(this, MyInstructorCourseActivity.class);
                                 startActivity(intent);
 
                                 Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());

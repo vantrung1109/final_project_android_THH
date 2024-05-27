@@ -33,6 +33,12 @@
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:exported="true"/>
+        <activity
+            android:name=".ui.instructor.MyInstructorCourseActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.instructor.InstructorLessonActivity"
+            android:exported="true"/>
         <activity android:name=".ui.sign_in.SignInActivity"
             android:exported="true">
             <intent-filter>
