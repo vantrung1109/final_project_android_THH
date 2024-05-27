@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="20dp"
     android:id="@+id/cardView"
@@ -19,11 +19,11 @@
             android:layout_marginLeft="10dp"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/courses"
+            android:src="@drawable/book"
             />
         <LinearLayout
             android:layout_marginLeft="15dp"
-            android:layout_width="195dp"
+            android:layout_width="200dp"
             android:layout_height="80dp"
             android:orientation="vertical"
             android:gravity="center_vertical"
@@ -38,25 +38,12 @@
                 android:textColor="#000000"
                 />
             <TextView
-                android:id="@+id/typeTextView"
+                android:id="@+id/descriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="normal"
                 android:textColor="#5C5C5C"
-                android:text="Type: Web Development"/>
-            <TextView
-                android:id="@+id/priceTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textStyle="normal"
-                android:text="Price: 50$"/>
-<!--            <TextView-->
-<!--                android:id="@+id/descriptionTextView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="#5C5C5C"-->
-<!--                android:textStyle="normal"-->
-<!--                android:text="Description: okok"/>-->
+                android:text="Description: okok"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -71,7 +58,7 @@
                 android:layout_height="35dp"
                 android:background="@drawable/baseline_edit_24"
                 android:scaleType="fitCenter"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="20dp"
                 />
             <ImageButton
                 android:id="@+id/deleteButton"

@@ -1,17 +1,19 @@
 package com.example.projectfinaltth.data;
-import android.app.Application;
 import com.example.projectfinaltth.data.model.request.AddToCartRequest;
+import com.example.projectfinaltth.data.model.request.CourseIdRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
-import com.example.projectfinaltth.data.model.response.profile.User;
+import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CheckoutResponse;
+import com.example.projectfinaltth.data.model.response.course.CourseListResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
+import com.example.projectfinaltth.data.model.response.lesson.LessonListResponse;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
 
@@ -54,6 +56,7 @@ public interface ApiService {
     @POST("api/users/login")
     Observable<SignInResponse> signIn(@Body SignInRequest request);
 
+
     @GET("api/carts/getCart")
     Observable<CartResponse> getCart(@Header("Authorization") String token);
 
@@ -86,8 +89,14 @@ public interface ApiService {
 
     @POST("api/carts/addToCart")
     Observable<CartItemResponse> addToCart(@Header("Authorization") String token, @Body AddToCartRequest request);
-
-
+    @POST("api/lessons/get-course-lessons")
+    Observable<LessonListResponse> getInstructorLessons(@Body CourseIdRequest courseId);
+    @DELETE("api/courses/delete-course/{id}")
+    Completable deleteCourse( @Header("Authorization") String token, @Path("id") String courseId);
+    @GET("api/courses/get-courses-by-instructor/{id}")
+    Observable<CourseListResponse> getInstructorCourses(@Header("Authorization") String token, @Path("id") String instructorId);
+    @DELETE("api/lessons/delete-lesson/{id}")
+    Completable deleteLesson( @Header("Authorization") String token, @Path("id") String lessonId);
 }
 
 
