@@ -139,12 +139,12 @@
                     android:textSize="19sp"
                     android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textView61"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="See All"-->
-<!--                    android:textColor="@color/red" />-->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/textView61"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="See All"-->
+                <!--                    android:textColor="@color/red" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -161,7 +161,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:orientation = "vertical">
-                    "vertical">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="70dp"
@@ -378,7 +377,7 @@
                     android:orientation="vertical">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="70dp"
+                        android:layout_width="71dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center"
                         android:background="@drawable/cat_background">
@@ -400,6 +399,39 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Lifestyle"
+                        android:textAlignment="center"
+                        android:textColor="@color/purple"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/cat_background">
+
+                        <ImageView
+                            android:id="@+id/imageView8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/cat4"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Gaming"
                         android:textAlignment="center"
                         android:textColor="@color/purple"
                         android:textSize="17sp" />
@@ -430,4 +462,3 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-

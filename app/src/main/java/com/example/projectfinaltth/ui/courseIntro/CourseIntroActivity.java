@@ -1,11 +1,14 @@
 package com.example.projectfinaltth.ui.courseIntro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +16,14 @@ import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
+import com.example.projectfinaltth.data.model.response.courseIntro.Course;
+import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
 import com.example.projectfinaltth.databinding.ActivityCourseIntroBinding;
+import com.example.projectfinaltth.ui.courseDetail.CourseDetailActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -27,18 +37,48 @@ public class CourseIntroActivity extends AppCompatActivity {
     ActivityCourseIntroBinding mActivityCourseIntroBinding;
     FlexibleAdapter flexibleAdapterReviews;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+    MutableLiveData<MyCoursesResponse> listMyCourses = new MutableLiveData<>();
+    CourseIntroResponse courseIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
         mActivityCourseIntroBinding = ActivityCourseIntroBinding.inflate(getLayoutInflater());
-
         setContentView(mActivityCourseIntroBinding.getRoot());
 
-        String courseId = "6640fd03aea886b32ee438c3";
+        String courseId = "6640fea3aea886b32ee43995";
 
-        //MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
-        // Xử lý sự kiện khi người dùng click vào nút đăng nhập
+        String token = "Bearer " +
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
+
+
+        mActivityCourseIntroBinding.progressBar.setVisibility(ProgressBar.VISIBLE);
+        compositeDisposable.add(
+                ApiService.apiService.getMyCourses(token)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(response -> {
+                            listMyCourses.setValue(response);
+                        }, throwable -> {
+                            Log.e("TAG", "Error: " + throwable.getMessage());
+                        }
+                        )
+        );
+
+        listMyCourses.observe(this, myCoursesResponse -> {
+            if (myCoursesResponse != null) {
+                List<String> listCourseId = new ArrayList<>();
+                for (Course course_temp : myCoursesResponse.getCourses()) {
+                    listCourseId.add(course_temp.get_id());
+                }
+                if (listCourseId.contains(courseId)) {
+                    mActivityCourseIntroBinding.imgAddToCart.setImageResource(R.drawable.eye);
+                    mActivityCourseIntroBinding.imgAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
+                    mActivityCourseIntroBinding.tvAddToCart.setText("Detail");
+                    mActivityCourseIntroBinding.progressBar.setVisibility(ProgressBar.GONE);
+                }
+            }
+        });
 
         compositeDisposable.add(
                 // Thực hiện gọi API lấy course by id
@@ -54,6 +94,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                             mActivityCourseIntroBinding.tvCoursePrice.setText(String.valueOf(response.getCourse().getPrice()));
                             mActivityCourseIntroBinding.ratingBar.setRating(response.getAverageStars().floatValue());
                             Glide.with(this).load(response.getCourse().getPicture()).into(mActivityCourseIntroBinding.imgCourseIntro);
+                            courseIntent = response;
 
                             flexibleAdapterReviews = new FlexibleAdapter(response.getReviews());
                             mActivityCourseIntroBinding.rcvReviews.setAdapter(flexibleAdapterReviews);
@@ -65,7 +106,17 @@ public class CourseIntroActivity extends AppCompatActivity {
                         )
         );
 
-
+        mActivityCourseIntroBinding.imgAddToCart.setOnClickListener(v -> {
+            if (mActivityCourseIntroBinding.tvAddToCart.getText().equals("Detail")) {
+                Intent intent = new Intent(this, CourseDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("courseIntro", courseIntent);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Add to cart", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
