@@ -11,6 +11,7 @@ import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CheckoutResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
+import com.example.projectfinaltth.data.model.response.courseIntro.CourseResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
@@ -22,6 +23,7 @@ import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -87,6 +89,10 @@ public interface ApiService {
 
     @POST("api/carts/addToCart")
     Observable<CartItemResponse> addToCart(@Header("Authorization") String token, @Body AddToCartRequest request);
+
+    @POST("api/courses/search-courses")
+    Observable<CourseResponse> searchCourses(@Body com.example.projectfinaltth.data.model.request.RequestBody requestBody);
+
 
 
 }
