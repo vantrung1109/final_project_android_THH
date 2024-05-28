@@ -72,6 +72,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                     listCourseId.add(course_temp.get_id());
                 }
                 if (listCourseId.contains(courseId)) {
+
                     mActivityCourseIntroBinding.btnAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
                     mActivityCourseIntroBinding.btnAddToCart.setText("View Detail");
                     mActivityCourseIntroBinding.progressBar.setVisibility(ProgressBar.GONE);
