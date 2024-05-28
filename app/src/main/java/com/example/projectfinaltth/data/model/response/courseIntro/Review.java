@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.utils.DateConvertUtils;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -53,22 +54,19 @@ public class Review extends AbstractFlexibleItem<Review.ReviewViewHolder> implem
         holder.tvNameInstructor.setText(userName);
         holder.tvReviewContent.setText(content);
 
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = null;
-        try {
-            date = inputFormat.parse(createdAt);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        String formattedDate = outputFormat.format(date);
-        holder.tvDateCreated.setText(formattedDate);
+
+        holder.tvDateCreated.setText(DateConvertUtils.convertDateTimeToDate(createdAt));
         Glide.with(holder.itemView.getContext()).load(userPicture).into(holder.imgReview);
+
+        if (position == adapter.getItemCount() - 1) {
+            holder.viewDivider.setVisibility(View.GONE);
+        }
     }
 
     public class ReviewViewHolder extends FlexibleViewHolder {
         ImageView imgReview;
         TextView tvNameInstructor, tvReviewContent, tvDateCreated;
+        View viewDivider;
         public ReviewViewHolder(View view, FlexibleAdapter adapter) {
             super(view, adapter);
 
@@ -76,6 +74,7 @@ public class Review extends AbstractFlexibleItem<Review.ReviewViewHolder> implem
             tvNameInstructor = view.findViewById(R.id.tv_name_instructor);
             tvReviewContent = view.findViewById(R.id.tv_review_content);
             tvDateCreated = view.findViewById(R.id.tv_date_created);
+            viewDivider = view.findViewById(R.id.divider_review);
         }
     }
 }

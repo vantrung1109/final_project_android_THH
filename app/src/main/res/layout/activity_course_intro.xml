@@ -37,27 +37,35 @@
                 android:src="@drawable/back"
                 />
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/img_course_intro"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_180sdp"
+            app:cardCornerRadius="@dimen/_15sdp"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:layout_below="@+id/layout_title"
-            android:scaleType="fitXY"
-            android:padding="@dimen/_1sdp"
-            android:background="@drawable/background_image_course"
             android:layout_marginTop="@dimen/_15sdp"
-
             >
-        </ImageView>
+            <ImageView
+                android:id="@+id/img_course_intro"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:scaleType="fitXY"
+                android:padding="@dimen/_1sdp"
+
+
+                >
+            </ImageView>
+        </androidx.cardview.widget.CardView>
+
+
 
         <RelativeLayout
             android:id="@+id/layout_course_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img_course_intro"
+            android:layout_below="@+id/card_view"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             >
@@ -177,37 +185,28 @@
                     app:readMoreMaxLine="4"
                     app:readMoreText="…đọc thêm"
                     />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:background="@drawable/btn_add_to_cart"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:text="Add to cart"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="#FFFFFF"
+                    android:clickable="true"
+                    android:id="@+id/btn_add_to_cart"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textStyle="bold"
+                    android:layout_below="@id/tv_description_content"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout_add_to_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/tv_course_price"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                >
-                <ImageView
-                    android:id="@+id/img_add_to_cart"
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:src="@drawable/cart"
-                    android:background="@drawable/background_custom_border_green"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_centerHorizontal="true"
-                    />
-                <TextView
-                    android:id="@+id/tv_add_to_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add to cart"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10sdp"
-                    android:layout_below="@+id/img_add_to_cart"
-                    android:layout_centerHorizontal="true"
-                    />
-            </RelativeLayout>
+
+
+
+
         </RelativeLayout>
 
         <TextView
