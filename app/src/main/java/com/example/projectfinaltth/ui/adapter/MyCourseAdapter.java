@@ -1,6 +1,7 @@
 package com.example.projectfinaltth.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
+import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
+import com.example.projectfinaltth.ui.courseDetail.CourseDetailActivity;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.CourseViewHolder> {
     private Context context;
     private List<Course> courseList;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MyCourseAdapter(Context context, List<Course> courseList) {
         this.context = context;
@@ -42,9 +51,21 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
         // Sử dụng Glide để tải ảnh từ URL
         Glide.with(context)
                 .load(course.getPicture())
-//                .placeholder(R.drawable.placeholder) // Bạn có thể đặt một hình ảnh placeholder trong khi chờ tải ảnh
-//                .error(R.drawable.error) // Bạn có thể đặt một hình ảnh hiển thị khi có lỗi tải ảnh
                 .into(holder.pic);
+
+        // Thêm sự kiện click cho nút "View Detail"
+        holder.viewDetailBtn.setOnClickListener(v -> {
+            ApiService.apiService.getCourseIntroById(course.get_id())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                        Intent intent = new Intent(context, CourseDetailActivity.class);
+                        intent.putExtra("courseIntro", response);
+                        context.startActivity(intent);
+                    }, throwable -> {
+                        // Xử lý lỗi nếu cần
+                    });
+        });
     }
 
     @Override

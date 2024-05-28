@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.cart.CartItem;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
+import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.ui.adapter.InstructorCourseAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,6 +31,7 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
     private InstructorCourseAdapter instructorCourseAdapter;
     private List<CourseItem> courseItemList;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private MutableLiveData<User> userCurrent = new MutableLiveData<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,8 +55,22 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
         // Nhận instructorId từ Intent hoặc bất kỳ nguồn nào khác
         String instructorId = "6640fa54aea886b32ee43883";
 
+        compositeDisposable.add(
+                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(user -> {
+                            userCurrent.setValue(user.getUser());
+                        }, throwable -> {
+                            Log.e("MyInstructorCourse", "Error loading user: " + throwable.getMessage());
+                        })
+        );
+
         if (instructorId != null && !instructorId.isEmpty()) {
-            loadInstructorCourses(instructorId);
+            userCurrent.observe(this, user -> {
+                loadInstructorCourses(userCurrent.getValue().getId());
+            });
+
         } else {
             Log.e("MyInstructorCourse", "Instructor ID is null or empty");
         }
