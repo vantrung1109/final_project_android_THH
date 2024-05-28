@@ -72,9 +72,9 @@ public class CourseIntroActivity extends AppCompatActivity {
                     listCourseId.add(course_temp.get_id());
                 }
                 if (listCourseId.contains(courseId)) {
-                    mActivityCourseIntroBinding.imgAddToCart.setImageResource(R.drawable.eye);
-                    mActivityCourseIntroBinding.imgAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
-                    mActivityCourseIntroBinding.tvAddToCart.setText("Detail");
+
+                    mActivityCourseIntroBinding.btnAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
+                    mActivityCourseIntroBinding.btnAddToCart.setText("View Detail");
                     mActivityCourseIntroBinding.progressBar.setVisibility(ProgressBar.GONE);
                 }
             }
@@ -105,8 +105,8 @@ public class CourseIntroActivity extends AppCompatActivity {
         );
 
         // Xử lý sự kiện bấm nút "Add to Cart" hoặc "Detail"
-        mActivityCourseIntroBinding.imgAddToCart.setOnClickListener(v -> {
-            if (mActivityCourseIntroBinding.tvAddToCart.getText().equals("Detail")) {
+        mActivityCourseIntroBinding.btnAddToCart.setOnClickListener(v -> {
+            if (mActivityCourseIntroBinding.btnAddToCart.getText().equals("View Detail")) {
                 Intent intent = new Intent(this, CourseDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("courseIntro", courseIntent);
