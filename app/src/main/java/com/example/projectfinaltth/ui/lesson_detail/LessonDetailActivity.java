@@ -2,6 +2,7 @@ package com.example.projectfinaltth.ui.lesson_detail;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectfinaltth.data.ApiService;
+import com.example.projectfinaltth.data.model.request.comment.CommentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.response.lesson.Lesson;
 import com.example.projectfinaltth.databinding.ActivityCourseDetailBinding;
 import com.example.projectfinaltth.databinding.ActivityLessonDetailBinding;
-import com.example.projectfinaltth.databinding.ActivityTestVideoBinding;
+
 import com.example.projectfinaltth.utils.DateConvertUtils;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -31,8 +33,6 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
     FlexibleAdapter mFlexibleAdapterDocuments, mFlexibleAdapterComments;
 
 
-    ActivityTestVideoBinding mActivityTestVideoBinding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,22 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
             lesson = (Lesson) bundle.getSerializable("lesson");
         else
             return;
+
+        // Set dữ liệu vào view của rcv Comments
+        compositeDisposable.add(
+                ApiService.apiService.getLessonComments(new CommentRequest(lesson.get_id()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(response -> {
+                                    Log.e("LessonDetailActivity", "onCreate: " + response.getComments());
+                                    mFlexibleAdapterComments = new FlexibleAdapter(response.getComments(), this);
+
+                                    mActivityLessonDetailBinding.rcvComments.setAdapter(mFlexibleAdapterComments);
+                                    mActivityLessonDetailBinding.rcvComments.setLayoutManager(new LinearLayoutManager(this));
+                                }, throwable -> {
+                                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                                }
+                        ));
 
         // Set dữ liệu vào view của rcv Documents
         compositeDisposable.add(
@@ -62,6 +78,9 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
                         }
         ));
 
+        mActivityLessonDetailBinding.buttonBack.setOnClickListener(v -> {
+            this.finish();
+        });
 
 
     }

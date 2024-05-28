@@ -1,6 +1,7 @@
 package com.example.projectfinaltth.data.model.response.document;
 
 import android.net.Uri;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
 
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.utils.DateConvertUtils;
 
 import java.util.List;
 
@@ -66,7 +68,7 @@ public class Document extends AbstractFlexibleItem<Document.DocumentViewHolder> 
 
         holder.tvTitle.setText(title);
         holder.tvDescription.setText(description);
-        holder.tvDate.setText(createdAt);
+        holder.tvDate.setText(DateConvertUtils.convertDateTimeToDate(createdAt));
     }
 
     public static class DocumentViewHolder extends FlexibleViewHolder implements Player.Listener{

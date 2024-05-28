@@ -67,6 +67,9 @@ public class CourseDetailActivity extends AppCompatActivity{
                         )
         );
 
+        mActivityCourseDetailBinding.buttonBack.setOnClickListener(v -> {
+            this.finish();
+        });
 
     }
 

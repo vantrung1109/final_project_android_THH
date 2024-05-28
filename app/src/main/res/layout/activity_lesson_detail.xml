@@ -30,45 +30,44 @@
             />
     </RelativeLayout>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_documents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_below="@+id/layout_title"
-        android:orientation="vertical"
+
         >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_documents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            >
+    </androidx.recyclerview.widget.RecyclerView>
 
-        </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/tv_top_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Top Comments"
-            android:layout_below="@+id/rating_bar"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_comments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            >
 
-        </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/tv_top_reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Comments"
+        android:layout_below="@+id/rcv_documents"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textSize="@dimen/_20sdp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        />
 
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@+id/tv_top_reviews"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 
 
 
