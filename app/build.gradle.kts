@@ -60,8 +60,15 @@ dependencies {
     implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
 
-//    //Read more textview
+    //Read more textview
     implementation ("kr.co.prnd:readmore-textview:1.0.0")
+
+    //Media3 for video
+
+    implementation ("androidx.media3:media3-exoplayer:1.3.1")
+    implementation ("androidx.media3:media3-ui:1.3.1")
+    // Optional dependency for HLS streaming
+    implementation ("androidx.media3:media3-exoplayer-hls:1.3.1")
 
     implementation ("io.reactivex.rxjava3:rxjava:3.1.5")
     implementation(libs.appcompat)

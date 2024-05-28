@@ -1,10 +1,15 @@
 package com.example.projectfinaltth.data.model.response.lesson;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.ui.lesson_detail.LessonDetailActivity;
+import com.example.projectfinaltth.utils.DateConvertUtils;
 
+import java.io.Serializable;
 import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -15,10 +20,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Lesson extends AbstractFlexibleItem<Lesson.LessonViewHolder> {
+public class Lesson extends AbstractFlexibleItem<Lesson.LessonViewHolder> implements Serializable {
     String _id;
     String courseId;
     String title;
@@ -42,12 +48,21 @@ public class Lesson extends AbstractFlexibleItem<Lesson.LessonViewHolder> {
     public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, LessonViewHolder holder, int position, List<Object> payloads) {
         holder.tvTitle.setText(title);
         holder.tvDescription.setText(description);
-        holder.tvDate.setText(createdAt);
+        holder.tvDate.setText(DateConvertUtils.convertDateTimeToDate(createdAt));
+        holder.btnLessonDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), LessonDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("lesson", this);
+            intent.putExtras(bundle);
+            v.getContext().startActivity(intent);
+        });
+
     }
 
     public static class LessonViewHolder extends FlexibleViewHolder {
         TextView tvTitle, tvDescription, tvDate;
         TextView btnLessonDetail;
+
 
         public LessonViewHolder(View view, FlexibleAdapter adapter) {
             super(view, adapter);

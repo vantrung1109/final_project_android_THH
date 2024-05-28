@@ -1,6 +1,7 @@
 package com.example.projectfinaltth.ui.courseDetail;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -12,15 +13,17 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
+import com.example.projectfinaltth.data.model.response.lesson.Lesson;
 import com.example.projectfinaltth.databinding.ActivityCourseDetailBinding;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
+import eu.davidea.flexibleadapter.items.IFlexible;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
-public class CourseDetailActivity extends AppCompatActivity {
+public class CourseDetailActivity extends AppCompatActivity{
     ActivityCourseDetailBinding mActivityCourseDetailBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     FlexibleAdapter mFlexibleAdapter;
@@ -30,7 +33,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         mActivityCourseDetailBinding = ActivityCourseDetailBinding.inflate(getLayoutInflater());
         setContentView(mActivityCourseDetailBinding.getRoot());
 
-        // Lấy dữ liệu từ intent chuyển từ Course Intro
+        // Lấy dữ liệu CoursenIntroResponse từ intent chuyển từ Course Intro
         Bundle bundle = getIntent().getExtras();
         CourseIntroResponse courseFromIntent;
         if (bundle != null) {
@@ -66,4 +69,6 @@ public class CourseDetailActivity extends AppCompatActivity {
 
 
     }
+
+
 }
