@@ -1,5 +1,6 @@
 package com.example.projectfinaltth.ui.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
+import com.example.projectfinaltth.ui.courseIntro.CourseIntroActivity;
 import com.example.projectfinaltth.ui.fragment.HomeFragment;
 
 import java.util.List;
@@ -49,7 +51,14 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
         holder.addToCartButton.setOnClickListener(v -> {
             homeFragment.addToCart(course.get_id());
         });
+
+        holder.viewIntroButton.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), CourseIntroActivity.class);
+            intent.putExtra("course_id", course.get_id());
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -60,6 +69,7 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
         TextView titleTxt, ownerTxt, priceTxt;
         ImageView pic;
         ImageButton addToCartButton;
+        Button viewIntroButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +78,8 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
             priceTxt = itemView.findViewById(R.id.priceTxt);
             pic = itemView.findViewById(R.id.pic);
             addToCartButton = itemView.findViewById(R.id.buttonAddToCart);
+            viewIntroButton = itemView.findViewById(R.id.buttonViewIntro);
         }
     }
+
 }

@@ -3,7 +3,6 @@ package com.example.projectfinaltth.ui.courseIntro;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -15,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
-import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
@@ -30,7 +28,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-
 // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 // Xử lý khi người dùng nhấn vào view intro của 1 khóa học
 public class CourseIntroActivity extends AppCompatActivity {
@@ -39,20 +36,24 @@ public class CourseIntroActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     MutableLiveData<MyCoursesResponse> listMyCourses = new MutableLiveData<>();
     CourseIntroResponse courseIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
+        // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
         mActivityCourseIntroBinding = ActivityCourseIntroBinding.inflate(getLayoutInflater());
         setContentView(mActivityCourseIntroBinding.getRoot());
 
-        String courseId = "6640fea3aea886b32ee43995";
+        // Lấy courseId từ Intent
+        String courseId = getIntent().getStringExtra("course_id");
 
-        String token = "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
+        // Lấy token từ DataLocalManager
+        String token = "Bearer " + DataLocalManager.getToken();
 
-
+        // Hiển thị ProgressBar khi tải dữ liệu
         mActivityCourseIntroBinding.progressBar.setVisibility(ProgressBar.VISIBLE);
+
+        // Lấy danh sách khóa học của người dùng
         compositeDisposable.add(
                 ApiService.apiService.getMyCourses(token)
                         .subscribeOn(Schedulers.io())
@@ -61,8 +62,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                             listMyCourses.setValue(response);
                         }, throwable -> {
                             Log.e("TAG", "Error: " + throwable.getMessage());
-                        }
-                        )
+                        })
         );
 
         listMyCourses.observe(this, myCoursesResponse -> {
@@ -72,21 +72,21 @@ public class CourseIntroActivity extends AppCompatActivity {
                     listCourseId.add(course_temp.get_id());
                 }
                 if (listCourseId.contains(courseId)) {
-                    mActivityCourseIntroBinding.btnAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
-                    mActivityCourseIntroBinding.btnAddToCart.setText("View Detail");
+                    mActivityCourseIntroBinding.imgAddToCart.setImageResource(R.drawable.eye);
+                    mActivityCourseIntroBinding.imgAddToCart.setBackground(getResources().getDrawable(R.drawable.background_custom_border_blue, null));
+                    mActivityCourseIntroBinding.tvAddToCart.setText("Detail");
                     mActivityCourseIntroBinding.progressBar.setVisibility(ProgressBar.GONE);
                 }
             }
         });
 
+        // Gọi API lấy thông tin khóa học
         compositeDisposable.add(
-                // Thực hiện gọi API lấy course by id
                 ApiService.apiService.getCourseIntroById(courseId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(response -> {
-
-                            // Thực hiện set dữ liệu lên view
+                            // Set dữ liệu lên view
                             mActivityCourseIntroBinding.tvCourseName.setText(response.getCourse().getTitle());
                             mActivityCourseIntroBinding.tvCourseAuthor.setText(response.getCourse().getInstructorName());
                             mActivityCourseIntroBinding.tvDescriptionContent.setText(response.getCourse().getDescription());
@@ -99,16 +99,14 @@ public class CourseIntroActivity extends AppCompatActivity {
                             mActivityCourseIntroBinding.rcvReviews.setAdapter(flexibleAdapterReviews);
                             mActivityCourseIntroBinding.rcvReviews.setLayoutManager(new LinearLayoutManager(this));
 
-                            }, throwable -> {
-                                Log.e("CouresIntroActivity", "Error: " + throwable.getMessage());
-                            }
-                        )
+                        }, throwable -> {
+                            Log.e("TAG", "Error: " + throwable.getMessage());
+                        })
         );
 
-        // Xử lý khi người dùng nhấn vào nút View Detail hoặc Add to cart
-        mActivityCourseIntroBinding.btnAddToCart.setOnClickListener(v -> {
-            // Nếu người dùng nhấn vào View Detail thì chuyển sang màn hình Course Detail cùng chuyển đi đối tượng CourseIntroResponse
-            if (mActivityCourseIntroBinding.btnAddToCart.getText().equals("View Detail")) {
+        // Xử lý sự kiện bấm nút "Add to Cart" hoặc "Detail"
+        mActivityCourseIntroBinding.imgAddToCart.setOnClickListener(v -> {
+            if (mActivityCourseIntroBinding.tvAddToCart.getText().equals("Detail")) {
                 Intent intent = new Intent(this, CourseDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("courseIntro", courseIntent);
@@ -118,6 +116,5 @@ public class CourseIntroActivity extends AppCompatActivity {
                 Toast.makeText(this, "Add to cart", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }
