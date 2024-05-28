@@ -25,6 +25,12 @@
             android:name=".ui.courseDetail.CourseDetailActivity"
             android:exported="true"/>
         <activity
+            android:name=".ui.lesson_detail.LessonDetailActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.lesson_detail.VideoTestActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.checkout.CheckoutActivity"
             android:exported="true"/>
         <activity

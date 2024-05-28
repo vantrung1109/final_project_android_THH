@@ -1,4 +1,4 @@
-package com.example.projectfinaltth.data.model.response.document;
+package com.example.projectfinaltth.data.model.response.comment;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocumentResponse {
+public class CommentResponse {
+    List<Comment> comments;
     String lessonId;
-    List<Document> documents;
 }
