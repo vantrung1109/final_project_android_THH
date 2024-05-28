@@ -1,6 +1,7 @@
 package com.example.projectfinaltth.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.model.response.lesson.LessonItem;
+import com.example.projectfinaltth.ui.instructor.UpdateLessonActivity;
 
 import java.util.List;
 
@@ -39,7 +41,14 @@ public class InstructorLessonAdapter extends RecyclerView.Adapter<InstructorLess
     @Override
     public void onBindViewHolder(@NonNull InstructorLessonViewHolder holder, int position) {
         LessonItem lessonItem = lessonItemList.get(position);
-
+        holder.editButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, UpdateLessonActivity.class);
+            intent.putExtra("lessonId", lessonItem.getId());
+            intent.putExtra("courseId", lessonItem.getCourseId());
+            intent.putExtra("lessonTitle", lessonItem.getTitle());
+            intent.putExtra("lessonDescription", lessonItem.getDescription());
+            context.startActivity(intent);
+        });
         holder.titleTextView.setText("Title: " + lessonItem.getTitle());
         holder.descriptionTextView.setText("Description: " + lessonItem.getDescription());
         holder.imageView.setImageResource(R.drawable.book);
@@ -63,6 +72,7 @@ public class InstructorLessonAdapter extends RecyclerView.Adapter<InstructorLess
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+
         }
     }
 

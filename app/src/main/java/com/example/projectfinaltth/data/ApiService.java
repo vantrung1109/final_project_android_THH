@@ -1,6 +1,7 @@
 package com.example.projectfinaltth.data;
 import com.example.projectfinaltth.data.model.request.AddToCartRequest;
 import com.example.projectfinaltth.data.model.request.CourseIdRequest;
+import com.example.projectfinaltth.data.model.request.LessonRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.comment.CommentRequest;
@@ -13,6 +14,7 @@ import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
 import com.example.projectfinaltth.data.model.response.document.DocumentResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonByCourseResponse;
+import com.example.projectfinaltth.data.model.response.lesson.LessonItem;
 import com.example.projectfinaltth.data.model.response.profile.User;
 
 import com.example.projectfinaltth.data.model.response.cart.CartListItemResponse;
@@ -42,6 +44,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -121,7 +124,10 @@ public interface ApiService {
 
     @POST("api/lessons/get-course-lessons")
     Observable<LessonByCourseResponse> getLessonsByCourse(@Body CourseDetailRequest requestBody);
-
+    @POST("api/lessons/create-lesson")
+    Observable<LessonItem> createLesson(@Header("Authorization") String token,@Body LessonRequest lessonRequest);
+    @PUT("api/lessons/update-lesson/{id}")
+    Observable<LessonItem> updateLesson(@Header("Authorization") String token, @Path("id") String lessonId,@Body LessonRequest lessonRequest);
 
 }
 
