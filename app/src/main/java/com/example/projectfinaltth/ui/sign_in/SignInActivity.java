@@ -51,7 +51,7 @@ public class SignInActivity extends AppCompatActivity {
                                 DataLocalManager.setToken(signInResponse.getToken());
                                 DataLocalManager.setCartId(signInResponse.getCartId());
 
-                                Intent intent = new Intent(this, MyInstructorCourseActivity.class);
+                                Intent intent = new Intent(this, MainActivity.class);
                                 startActivity(intent);
 
                                 Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
