@@ -4,6 +4,7 @@ import com.example.projectfinaltth.data.model.request.CourseIdRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
+import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
@@ -106,6 +107,8 @@ public interface ApiService {
     @DELETE("api/lessons/delete-lesson/{id}")
     Completable deleteLesson( @Header("Authorization") String token, @Path("id") String lessonId);
 
+    @POST("api/documents/get-lesson-documents")
+    Observable<LessonListResponse> getLessonDocuments(@Body DocumentRequest request);
 
     @POST("api/courses/search-courses")
     Observable<CourseResponse> searchCourses(@Body com.example.projectfinaltth.data.model.request.RequestBody requestBody);

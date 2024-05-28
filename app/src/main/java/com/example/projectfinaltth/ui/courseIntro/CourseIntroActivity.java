@@ -101,7 +101,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                             mActivityCourseIntroBinding.rcvReviews.setLayoutManager(new LinearLayoutManager(this));
 
                             }, throwable -> {
-                                Log.e("TAG", "Error: " + throwable.getMessage());
+                                Log.e("CouresIntroActivity", "Error: " + throwable.getMessage());
                             }
                         )
         );
