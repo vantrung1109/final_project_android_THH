@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.model.response.lesson.LessonItem;
+import com.example.projectfinaltth.ui.instructor.InstructorDocumentActivity;
+import com.example.projectfinaltth.ui.instructor.InstructorLessonActivity;
 import com.example.projectfinaltth.ui.instructor.UpdateLessonActivity;
 
 import java.util.List;
@@ -47,6 +49,12 @@ public class InstructorLessonAdapter extends RecyclerView.Adapter<InstructorLess
             intent.putExtra("courseId", lessonItem.getCourseId());
             intent.putExtra("lessonTitle", lessonItem.getTitle());
             intent.putExtra("lessonDescription", lessonItem.getDescription());
+            context.startActivity(intent);
+        });
+        holder.itemView.setOnClickListener(v -> {
+            // Gửi dữ liệu cần thiết sang activity mới
+            Intent intent = new Intent(context, InstructorDocumentActivity.class);
+            intent.putExtra("lessonId",  lessonItem.getId()); // Chuyển ID của khóa học
             context.startActivity(intent);
         });
         holder.titleTextView.setText("Title: " + lessonItem.getTitle());
