@@ -5,30 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
+    tools:context=".ui.instructor.CreateLessonActivity"
     android:orientation="vertical"
 >
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:title="Create lesson"
-            android:backgroundTint="#3D815C"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary">
-            <TextView
-                android:id="@+id/btn_create_class_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                android:textSize="18dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="20dp"
-                android:textColor="@color/white"/>
-        </com.google.android.material.appbar.MaterialToolbar>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +39,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/eTextTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="73dp"
                 android:inputType="none"
                 android:textColorLink="#616161"
                 android:background="@drawable/border"
@@ -101,7 +80,7 @@
             android:gravity="center"
             >
             <Button
-                android:id="@+id/btn_createClass"
+                android:id="@+id/btn_createLesson"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="20dp"

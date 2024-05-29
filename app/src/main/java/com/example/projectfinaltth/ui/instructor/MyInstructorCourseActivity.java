@@ -53,7 +53,9 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
         instructorCoursesRecyclerView.setAdapter(instructorCourseAdapter);
 
         // Nhận instructorId từ Intent hoặc bất kỳ nguồn nào khác
-        String instructorId = "1";
+
+        String instructorId = "a";
+
 
         compositeDisposable.add(
                 ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())

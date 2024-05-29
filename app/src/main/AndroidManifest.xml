@@ -42,10 +42,22 @@
             android:name=".ui.review.ReviewActivity"
             android:exported="true"/>
         <activity
+            android:name=".ui.instructor.CreateLessonActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.profile.ProfileActivity"
             android:exported="true"/>
         <activity
             android:name=".ui.instructor.MyInstructorCourseActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.instructor.UpdateLessonActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.instructor.InstructorDocumentActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.instructor.CreateDocumentActivity"
             android:exported="true"/>
         <activity
             android:name=".ui.instructor.InstructorLessonActivity"
