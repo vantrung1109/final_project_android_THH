@@ -12,6 +12,7 @@ import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
+import com.example.projectfinaltth.data.model.response.document.Document;
 import com.example.projectfinaltth.data.model.response.document.DocumentResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonByCourseResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonItem;
@@ -112,6 +113,8 @@ public interface ApiService {
     Observable<CourseListResponse> getInstructorCourses(@Header("Authorization") String token, @Path("id") String instructorId);
     @DELETE("api/lessons/delete-lesson/{id}")
     Completable deleteLesson( @Header("Authorization") String token, @Path("id") String lessonId);
+    @DELETE("api/documents/delete-document/{id}")
+    Completable deleteDocument( @Header("Authorization") String token, @Path("id") String documentId);
 
     @POST("api/documents/get-lesson-documents")
     Observable<DocumentResponse> getLessonDocuments(@Body DocumentRequest request);
@@ -128,7 +131,8 @@ public interface ApiService {
     Observable<LessonItem> createLesson(@Header("Authorization") String token,@Body LessonRequest lessonRequest);
     @PUT("api/lessons/update-lesson/{id}")
     Observable<LessonItem> updateLesson(@Header("Authorization") String token, @Path("id") String lessonId,@Body LessonRequest lessonRequest);
-
+    @POST("api/documents/get-lesson-documents")
+    Observable<DocumentResponse> getDocumentByLesson(@Body DocumentRequest documentRequest);
 }
 
 

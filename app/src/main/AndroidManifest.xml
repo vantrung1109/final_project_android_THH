@@ -49,6 +49,9 @@
             android:name=".ui.instructor.UpdateLessonActivity"
             android:exported="true"/>
         <activity
+            android:name=".ui.instructor.InstructorDocumentActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.instructor.InstructorLessonActivity"
             android:exported="true"/>
         <activity android:name=".ui.sign_in.SignInActivity"
