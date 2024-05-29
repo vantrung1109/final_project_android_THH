@@ -1,10 +1,14 @@
-package com.example.projectfinaltth.ui.instructor;
+package com.example.projectfinaltth.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
-import com.example.projectfinaltth.data.model.response.cart.CartItem;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.ui.adapter.InstructorCourseAdapter;
@@ -25,7 +28,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MyInstructorCourseActivity extends AppCompatActivity {
+public class HomeInstructorFragment extends Fragment {
 
     private RecyclerView instructorCoursesRecyclerView;
     private InstructorCourseAdapter instructorCourseAdapter;
@@ -33,21 +36,37 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MutableLiveData<User> userCurrent = new MutableLiveData<>();
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_instructor_course);
+    public HomeInstructorFragment() {
+        // Required empty public constructor
+    }
 
-        instructorCoursesRecyclerView = findViewById(R.id.recyclerView);
-        instructorCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.e("course", "Account");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("course", "Reload Account");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_instructor_course, container, false);
+
+        instructorCoursesRecyclerView = view.findViewById(R.id.recyclerView);
+        instructorCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         courseItemList = new ArrayList<>();
-        instructorCourseAdapter = new InstructorCourseAdapter(this, courseItemList, new InstructorCourseAdapter.OnItemInteractionListener() {
-
+        instructorCourseAdapter = new InstructorCourseAdapter(getContext(), courseItemList, new InstructorCourseAdapter.OnItemInteractionListener() {
             @Override
             public void onDeleteCourse(int position, CourseItem courseItem) {
-                deleteCourseItem(position,courseItem);
-                }
+                deleteCourseItem(position, courseItem);
+            }
         });
 
         instructorCoursesRecyclerView.setAdapter(instructorCourseAdapter);
@@ -67,13 +86,14 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
         );
 
         if (instructorId != null && !instructorId.isEmpty()) {
-            userCurrent.observe(this, user -> {
+            userCurrent.observe(getViewLifecycleOwner(), user -> {
                 loadInstructorCourses(userCurrent.getValue().getId());
             });
-
         } else {
             Log.e("MyInstructorCourse", "Instructor ID is null or empty");
         }
+
+        return view;
     }
 
     private void loadInstructorCourses(String instructorId) {
@@ -108,6 +128,7 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
             Log.e("MyInstructorCourse", "Token is null");
         }
     }
+
     private void deleteCourseItem(int position, CourseItem courseItem) {
         String token = DataLocalManager.getToken(); // Lấy token từ local storage
         // Xóa mục khỏi giao diện ngay lập tức
@@ -137,7 +158,7 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
     }
