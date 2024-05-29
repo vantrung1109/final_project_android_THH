@@ -6,6 +6,7 @@ import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.comment.CommentRequest;
 import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
+import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
@@ -35,17 +36,22 @@ import java.util.concurrent.TimeUnit;
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -133,6 +139,15 @@ public interface ApiService {
     Observable<LessonItem> updateLesson(@Header("Authorization") String token, @Path("id") String lessonId,@Body LessonRequest lessonRequest);
     @POST("api/documents/get-lesson-documents")
     Observable<DocumentResponse> getDocumentByLesson(@Body DocumentRequest documentRequest);
+    @Multipart
+    @POST("api/documents/create-document")
+    Single<DocumentResponse> createDocument(
+            @Header("Authorization") String token,
+            @Part("lessonId") RequestBody lessonId,
+            @Part("title") RequestBody title,
+            @Part("description") RequestBody description,
+            @Part MultipartBody.Part file
+    );
 }
 
 
