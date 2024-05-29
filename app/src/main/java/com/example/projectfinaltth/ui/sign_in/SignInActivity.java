@@ -11,14 +11,10 @@ import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
+import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.databinding.ActivitySignInBinding;
-import com.example.projectfinaltth.ui.fragment.CartFragment;
-import com.example.projectfinaltth.ui.instructor.CreateDocumentActivity;
-import com.example.projectfinaltth.ui.instructor.CreateLessonActivity;
-import com.example.projectfinaltth.ui.instructor.InstructorLessonActivity;
-import com.example.projectfinaltth.ui.instructor.MyInstructorCourseActivity;
 import com.example.projectfinaltth.ui.main.MainActivity;
-import com.example.projectfinaltth.ui.profile.ProfileActivity;
+import com.example.projectfinaltth.ui.main.MainInstructorActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -27,6 +23,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class SignInActivity extends AppCompatActivity {
     ActivitySignInBinding mActivitySignInBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,23 +44,32 @@ public class SignInActivity extends AppCompatActivity {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(signInResponse -> {
-
-                                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-                                // Lưu token và cartId vào SharePreferences
-                                DataLocalManager.setToken(signInResponse.getToken());
-                                DataLocalManager.setCartId(signInResponse.getCartId());
-
-                                Intent intent = new Intent(this, CreateDocumentActivity.class);
-                                startActivity(intent);
-
-                                Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
-
+                                handleSignInResponse(signInResponse);
                             }, throwable -> {
                                 Log.e("TAG", "Error: " + throwable.getMessage());
-                                Toast.makeText(this, "Bạn nhập sai emai hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Bạn nhập sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                             }));
         });
+    }
 
+    private void handleSignInResponse(SignInResponse signInResponse) {
+        Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
+        // Lưu token và cartId vào SharePreferences
+        DataLocalManager.setToken(signInResponse.getToken());
+        DataLocalManager.setCartId(signInResponse.getCartId());
+
+        // Kiểm tra vai trò người dùng và điều hướng
+        String userRole = signInResponse.getRole();
+        Intent intent;
+        if ("INSTRUCTOR".equalsIgnoreCase(userRole)) {
+            intent = new Intent(this, MainInstructorActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
+        startActivity(intent);
+        finish(); // Kết thúc SignInActivity để người dùng không quay lại sau khi đăng nhập
+
+        Log.e("TAG", "===============> Login Success: " + signInResponse.getToken());
     }
 
     @Override

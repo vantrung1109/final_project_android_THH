@@ -133,6 +133,7 @@ public interface ApiService {
 
     @POST("api/lessons/get-course-lessons")
     Observable<LessonByCourseResponse> getLessonsByCourse(@Body CourseDetailRequest requestBody);
+
     @POST("api/lessons/create-lesson")
     Observable<LessonItem> createLesson(@Header("Authorization") String token,@Body LessonRequest lessonRequest);
     @PUT("api/lessons/update-lesson/{id}")
@@ -148,6 +149,7 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );
+
 }
 
 
