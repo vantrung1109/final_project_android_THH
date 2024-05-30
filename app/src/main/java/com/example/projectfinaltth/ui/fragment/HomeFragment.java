@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         imageView73.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
 
 
-        fetchCoursesWithSearch(1, "ALL"); 
+        fetchCoursesWithSearch(1, "ALL"); // Bắt đầu từ trang 1 và tất cả các khóa học
         fetchMyCourses();
 
         // Thêm sự kiện cho EditText để tìm kiếm
@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseResponse -> {
                             if (currentPage == 1) {
-                                allCourses.clear();
+                                allCourses.clear(); // Xóa danh sách khóa học nếu là trang đầu tiên
                             }
                             allCourses.addAll(courseResponse.getCourses());
                             for (Course course : courseResponse.getCourses()) {
@@ -143,6 +143,7 @@ public class HomeFragment extends Fragment {
                             }
 
                             if (courseResponse.getCourses().size() > 0) {
+                                // Nếu còn dữ liệu, tiếp tục lấy trang tiếp theo
                                 fetchCoursesWithSearch(currentPage + 1, topic);
                             } else {
                                 // Khi đã lấy hết tất cả các trang, cập nhật adapter
@@ -192,7 +193,7 @@ public class HomeFragment extends Fragment {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseResponse -> {
-                            Log.d("HomeFragment", "API Response: " + courseResponse);
+                            Log.d("HomeFragment", "API Response: " + courseResponse); // Ghi nhật ký phản hồi API
 
                             if (courseResponse != null && courseResponse.getCourses() != null && !courseResponse.getCourses().isEmpty()) {
                                 List<Course> filteredCourses = new ArrayList<>();
@@ -202,7 +203,7 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
 
-                                Log.d("HomeFragment", "Filtered Courses: " + filteredCourses);
+                                Log.d("HomeFragment", "Filtered Courses: " + filteredCourses); // Ghi nhật ký khóa học đã lọc
 
                                 if (filteredCourses.isEmpty()) {
                                     Toast.makeText(getContext(), "No courses found", Toast.LENGTH_SHORT).show();
