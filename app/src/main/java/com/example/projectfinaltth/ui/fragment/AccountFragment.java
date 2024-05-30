@@ -83,11 +83,6 @@ public class AccountFragment extends Fragment {
 
         mFragmentAccountBinding = FragmentAccountBinding.inflate(inflater, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_account, container, false);
-        tvName = view.findViewById(R.id.tv_name);
-        tvEmail = view.findViewById(R.id.tv_email);
-        imgProfile = view.findViewById(R.id.img_profile);
-
         mFragmentAccountBinding.layoutLogOut.setOnClickListener(v -> {
             logout();
         });
@@ -120,8 +115,8 @@ public class AccountFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         userResponse -> {
-                            tvName.setText(userResponse.getUser().getName());
-                            tvEmail.setText(userResponse.getUser().getEmail());
+                            mFragmentAccountBinding.tvName.setText(userResponse.getUser().getName());
+                            mFragmentAccountBinding.tvEmail.setText(userResponse.getUser().getEmail());
 
                             // Load profile image using Glide
                             Glide.with(this.getActivity())

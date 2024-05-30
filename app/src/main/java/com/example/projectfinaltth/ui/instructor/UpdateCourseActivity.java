@@ -11,11 +11,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
+import com.example.projectfinaltth.data.model.response.profile.User;
+import com.example.projectfinaltth.model.api.Course;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,6 +48,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
     private boolean initialImageSet = false;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    MutableLiveData<User> user = new MutableLiveData<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +82,26 @@ public class UpdateCourseActivity extends AppCompatActivity {
         priceEditText.setText(price);
 
         chooseImageButton.setOnClickListener(v -> chooseImage());
-        createButton.setOnClickListener(v -> updateCourse("6640fa54aea886b32ee43883"));
+
+        compositeDisposable.add(
+                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(userResponse -> {
+                                    user.setValue(userResponse.getUser());
+
+                        }, throwable -> {
+                            Log.e("UpdateCourse", "Error loading user details: " + throwable.getMessage());
+                            Toast.makeText(this, "Failed to load user details", Toast.LENGTH_SHORT).show();
+                        }
+                        )
+        );
+
+        user.observe(this, user -> {
+            createButton.setOnClickListener(v -> updateCourse(user.getId()));
+        });
+
+
     }
 
     private void chooseImage() {
