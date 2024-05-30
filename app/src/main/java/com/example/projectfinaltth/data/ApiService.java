@@ -8,8 +8,10 @@ import com.example.projectfinaltth.data.model.request.comment.CommentRequest;
 import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
 import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
+import com.example.projectfinaltth.data.model.request.password.ChangePasswordRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.changepassword.ChangePasswordResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
@@ -149,8 +151,11 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );
-
+    @PUT("/api/users/change-password-app-user")
+    Completable changePassword(@Header("Authorization") String token, @Body ChangePasswordRequest request);
 }
+
+
 
 
 

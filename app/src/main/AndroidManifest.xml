@@ -16,12 +16,10 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">
-
         </activity>
         <activity
             android:name=".ui.main.MainInstructorActivity"
             android:exported="true">
-
         </activity>
         <activity
             android:name=".ui.courseIntro.CourseIntroActivity"
@@ -62,15 +60,15 @@
         <activity
             android:name=".ui.instructor.InstructorLessonActivity"
             android:exported="true"/>
+        <activity
+            android:name=".ui.changepassword.ChangePasswordActivity"
+            android:exported="true"/>
         <activity android:name=".ui.sign_in.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
-
 </manifest>
