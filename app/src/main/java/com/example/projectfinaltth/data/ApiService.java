@@ -13,6 +13,7 @@ import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
+import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.data.model.response.document.Document;
 import com.example.projectfinaltth.data.model.response.document.DocumentResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonByCourseResponse;
@@ -148,6 +149,17 @@ public interface ApiService {
             @Part("title") RequestBody title,
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
+    );
+    @Multipart
+    @POST("api/courses/create-course")
+    Single<CourseItem> createCourse(
+            @Header("Authorization") String token,
+            @Part("title") RequestBody title,
+            @Part("price") RequestBody price,
+            @Part("topic") RequestBody topic,
+            @Part("description") RequestBody description,
+            @Part("userId") RequestBody userId,
+            @Part MultipartBody.Part picture
     );
 
 }

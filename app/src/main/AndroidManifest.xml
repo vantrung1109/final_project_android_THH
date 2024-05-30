@@ -57,6 +57,9 @@
             android:name=".ui.instructor.InstructorDocumentActivity"
             android:exported="true"/>
         <activity
+            android:name=".ui.fragment.CreateInstructorFragment"
+            android:exported="true"/>
+        <activity
             android:name=".ui.instructor.CreateDocumentActivity"
             android:exported="true"/>
         <activity
