@@ -1,5 +1,6 @@
 package com.example.projectfinaltth.ui.checkout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CourseOrder;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.databinding.ActivityCheckoutBinding;
+import com.example.projectfinaltth.ui.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class CheckoutActivity extends AppCompatActivity {
         mActivityCheckoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(mActivityCheckoutBinding.getRoot());
 
-        String token = DataLocalManager.getToken();
+        String token = "Bearer " + DataLocalManager.getToken();
         // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
         // Xử lý sự kiện khi người dùng click vào nút thanh toán momo, paypal
         mActivityCheckoutBinding.rb1.setOnClickListener(v -> {
@@ -94,6 +96,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        // Hiển thị danh sách các khóa học trong giỏ hàng
         flexibleAdapterCourses = new FlexibleAdapter(new ArrayList<>());
         mActivityCheckoutBinding.rcvListOrder.setAdapter(flexibleAdapterCourses);
         mActivityCheckoutBinding.rcvListOrder.setLayoutManager(new LinearLayoutManager(this));
@@ -114,15 +117,23 @@ public class CheckoutActivity extends AppCompatActivity {
         CheckoutRequest checkoutRequest = new CheckoutRequest(paymentMethod);
         mActivityCheckoutBinding.btnCheckout.setOnClickListener(v -> {
             compositeDisposable.add(
+                    // Thực hiện gọi API checkout
                     ApiService.apiService.checkout(token,checkoutRequest)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(response -> {
                                 Toast.makeText(this, "Checkout success", Toast.LENGTH_SHORT).show();
+                                // Chuyển sang màn hình main sau khi checkout thành công
+                                Intent intent = new Intent(this, MainActivity.class);
+                                startActivity(intent);
                             }, throwable -> {
                                 Toast.makeText(this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                             ));
+        });
+
+        mActivityCheckoutBinding.buttonBack.setOnClickListener(v -> {
+            finish();
         });
     }
 }

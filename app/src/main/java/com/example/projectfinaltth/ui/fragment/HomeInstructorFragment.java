@@ -113,7 +113,6 @@ public class HomeInstructorFragment extends Fragment {
                                         if (course.isStatus())
                                             filteredCourses.add(course);
                                     }
-                                    Log.e("MyInstructorCourse", filteredCourses.toString());
                                     courseItemList.clear();
                                     courseItemList.addAll(filteredCourses);
                                     instructorCourseAdapter.notifyDataSetChanged();
