@@ -61,8 +61,6 @@ public class AccountFragment extends Fragment {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 
-
-
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -89,7 +87,7 @@ public class AccountFragment extends Fragment {
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
         imgProfile = view.findViewById(R.id.img_profile);
-        
+
         mFragmentAccountBinding.layoutLogOut.setOnClickListener(v -> {
             logout();
         });

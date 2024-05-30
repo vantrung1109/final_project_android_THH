@@ -115,6 +115,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                 addToCart(courseId);
             }
         });
+        mActivityCourseIntroBinding.buttonBack.setOnClickListener(v -> finish());
     }
 
     private void addToCart(String courseId) {
