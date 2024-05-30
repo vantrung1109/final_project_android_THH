@@ -168,8 +168,12 @@ public interface ApiService {
 
     @PUT("/api/users/update-profile")
     Completable changeName(@Header("Authorization") String token, @Body ChangeNameRequest request);
+    @Multipart
     @PUT("/api/users/update-profile-picture")
-    Completable changePicture(@Header("Authorization") String token, @Body ChangePictureRequest request);
+    Completable changePicture(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part picture
+    );
     @Multipart
     @POST("api/courses/create-course")
     Single<CourseItem> createCourse(
