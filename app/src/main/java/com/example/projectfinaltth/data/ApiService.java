@@ -9,8 +9,6 @@ import com.example.projectfinaltth.data.model.request.course_detail.CourseDetail
 import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.request.password.ChangePasswordRequest;
-import com.example.projectfinaltth.data.model.request.profile.ChangeNameRequest;
-import com.example.projectfinaltth.data.model.request.profile.ChangePictureRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.request.signup.OtpRequest;
 import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
@@ -35,7 +33,6 @@ import com.example.projectfinaltth.data.model.response.courseIntro.CourseRespons
 import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonListResponse;
-import com.example.projectfinaltth.data.model.response.profile.UserPictureResponse;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
 import com.example.projectfinaltth.data.model.response.signup.OtpResponse;
@@ -91,10 +88,6 @@ public interface ApiService {
     @POST("api/users/otp-authentication")
     Observable<OtpResponse> verifyOtp(@Body OtpRequest request);
 
-    @Multipart
-    @PUT("api/users/update-profile-picture")
-    Observable<UserPictureResponse> updateProfilePicture(@Header("Authorization") String token,
-                                                         @Part MultipartBody.Part picture);
 
     @GET("api/carts/getCart")
     Observable<CartResponse> getCart(@Header("Authorization") String token);
@@ -171,14 +164,6 @@ public interface ApiService {
     @PUT("/api/users/change-password-app-user")
     Completable changePassword(@Header("Authorization") String token, @Body ChangePasswordRequest request);
 
-    @PUT("/api/users/update-profile")
-    Completable changeName(@Header("Authorization") String token, @Body ChangeNameRequest request);
-    @Multipart
-    @PUT("/api/users/update-profile-picture")
-    Completable changePicture(
-            @Header("Authorization") String token,
-            @Part MultipartBody.Part picture
-    );
     @Multipart
     @POST("api/courses/create-course")
     Single<CourseItem> createCourse(

@@ -1,5 +1,6 @@
 package com.example.projectfinaltth.ui.review;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectfinaltth.data.ApiService;
+import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.review.ReviewData;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.databinding.ActivityReviewBinding;
@@ -25,9 +27,10 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(mActivityReviewBinding.getRoot());
 
         String token = "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
+                DataLocalManager.getToken();
 
-        String courseId = "66410534aea886b32ee443ba";
+        Intent intent = getIntent();
+        String courseId = intent.getStringExtra("course_id");
 
 
         // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
