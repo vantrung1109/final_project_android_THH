@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
@@ -24,6 +26,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class AccountFragment extends Fragment {
 
     private TextView tvName, tvEmail;
+    private ImageView imgProfile;
     private RelativeLayout layoutLogout;
 
     public AccountFragment() {
@@ -49,10 +52,10 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
+        imgProfile = view.findViewById(R.id.img_profile); // Add this line to initialize imgProfile
         layoutLogout = view.findViewById(R.id.layout_log_out);
 
         layoutLogout.setOnClickListener(v -> {
-
             logout();
         });
 
@@ -69,6 +72,11 @@ public class AccountFragment extends Fragment {
                             // Update UI with user data
                             tvName.setText(userResponse.getUser().getName());
                             tvEmail.setText(userResponse.getUser().getEmail());
+                            // Load profile image using Glide
+                            Glide.with(this)
+                                    .load(userResponse.getUser().getPicture())
+//                                    .placeholder(R.drawable.placeholder) // Add a placeholder image
+                                    .into(imgProfile);
                         },
                         throwable -> {
                             // Handle error
@@ -76,8 +84,8 @@ public class AccountFragment extends Fragment {
                         }
                 );
     }
-    private void logout() {
 
+    private void logout() {
         Intent intent = new Intent(getActivity(), SignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
