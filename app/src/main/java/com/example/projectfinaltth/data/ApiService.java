@@ -175,6 +175,18 @@ public interface ApiService {
             @Part("userId") RequestBody userId,
             @Part MultipartBody.Part picture
     );
+    @Multipart
+    @PUT("api/courses/update-course-intro/{id}")
+    Single<CourseItem> updateCourse(
+            @Header("Authorization") String token,
+            @Path("id") String courseId,
+            @Part("title") RequestBody title,
+            @Part("price") RequestBody price,
+            @Part("topic") RequestBody topic,
+            @Part("description") RequestBody description,
+            @Part("userId") RequestBody userId,
+            @Part MultipartBody.Part picture
+    );
 
 }
 
