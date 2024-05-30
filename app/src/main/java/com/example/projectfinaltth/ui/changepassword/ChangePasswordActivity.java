@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText eTextCurrentPassword, eTextNewPassword, eTextReNewPassword;
-    private Button btnChangePassword;
+    private Button btnChangePassword, btnChangePasswordBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +31,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
         eTextNewPassword = findViewById(R.id.eTextNewPassword);
         eTextReNewPassword = findViewById(R.id.eTextReNewPassword);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangePasswordBack = findViewById(R.id.btnChangePasswordBack);
 
         btnChangePassword.setOnClickListener(v -> handleChangePassword());
+        btnChangePasswordBack.setOnClickListener(v -> finish()); // Handle Back button
     }
 
     private void handleChangePassword() {
