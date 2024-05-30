@@ -1,6 +1,7 @@
 package com.example.projectfinaltth.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,13 +13,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.cart.CartItem;
+import com.example.projectfinaltth.databinding.FragmentCartBinding;
 import com.example.projectfinaltth.ui.adapter.CartAdapter;
+import com.example.projectfinaltth.ui.checkout.CheckoutActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -37,6 +41,8 @@ public class CartFragment extends Fragment {
     private List<CartItem> cartItemList;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private TextView totalTxt;
+
+    FragmentCartBinding mFragmentCartBinding;
 
     public CartFragment() {
         // Required empty public constructor
@@ -60,12 +66,20 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        mFragmentCartBinding = FragmentCartBinding.inflate(inflater, container, false);
 
         cartRecyclerView = view.findViewById(R.id.cartView);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         cartItemList = new ArrayList<>();
         cartAdapter = new CartAdapter(getContext(), cartItemList, this::deleteCartItem);
         cartRecyclerView.setAdapter(cartAdapter);
+
+        Button btnCheckout = view.findViewById(R.id.btn_checkout);
+
+        btnCheckout.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CheckoutActivity.class);
+            startActivity(intent);
+        });
 
         // Khởi tạo totalTxt
         totalTxt = view.findViewById(R.id.totalTxt);

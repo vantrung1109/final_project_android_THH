@@ -110,9 +110,8 @@ public class HomeInstructorFragment extends Fragment {
                                 if (courseListResponse != null && courseListResponse.getCourses() != null) {
                                     List<CourseItem> filteredCourses = new ArrayList<>();
                                     for (CourseItem course : courseListResponse.getCourses()) {
-                                        if (course.isVisibility() && course.isStatus()) {
+                                        if (course.isStatus())
                                             filteredCourses.add(course);
-                                        }
                                     }
                                     Log.e("MyInstructorCourse", filteredCourses.toString());
                                     courseItemList.clear();

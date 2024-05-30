@@ -53,7 +53,7 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
             intent.putExtra("courseId", courseItem.getId());
             intent.putExtra("title", courseItem.getTitle());
             intent.putExtra("description", courseItem.getDescription());
-            intent.putExtra("price", courseItem.getPrice());
+            intent.putExtra("price", String.valueOf(courseItem.getPrice()));
             intent.putExtra("topic", courseItem.getTopic());
             intent.putExtra("picture", courseItem.getPicture());
             context.startActivity(intent);
