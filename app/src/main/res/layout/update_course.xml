@@ -6,7 +6,7 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/edit_text_titleupdate"
+        android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Title"
@@ -34,12 +34,7 @@
         android:inputType="textMultiLine"
         android:minLines="3" />
 
-    <EditText
-        android:id="@+id/edit_text_user_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="User ID"
-        android:inputType="text" />
+
 
     <Button
         android:id="@+id/button_choose_image"
@@ -56,9 +51,9 @@
         android:background="#E0E0E0" />
 
     <Button
-        android:id="@+id/button_create"
+        android:id="@+id/button_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Course"
+        android:text="Update Course"
         android:layout_marginTop="16dp" />
 </LinearLayout>

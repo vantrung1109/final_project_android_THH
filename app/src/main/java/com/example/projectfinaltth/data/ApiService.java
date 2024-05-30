@@ -8,10 +8,14 @@ import com.example.projectfinaltth.data.model.request.comment.CommentRequest;
 import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
 import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
+import com.example.projectfinaltth.data.model.request.password.ChangePasswordRequest;
+import com.example.projectfinaltth.data.model.request.profile.ChangeNameRequest;
+import com.example.projectfinaltth.data.model.request.profile.ChangePictureRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.request.signup.OtpRequest;
 import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.changepassword.ChangePasswordResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
@@ -163,6 +167,18 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );
+
+    @PUT("/api/users/change-password-app-user")
+    Completable changePassword(@Header("Authorization") String token, @Body ChangePasswordRequest request);
+
+    @PUT("/api/users/update-profile")
+    Completable changeName(@Header("Authorization") String token, @Body ChangeNameRequest request);
+    @Multipart
+    @PUT("/api/users/update-profile-picture")
+    Completable changePicture(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part picture
+    );
     @Multipart
     @POST("api/courses/create-course")
     Single<CourseItem> createCourse(
@@ -174,8 +190,22 @@ public interface ApiService {
             @Part("userId") RequestBody userId,
             @Part MultipartBody.Part picture
     );
+    @Multipart
+    @PUT("api/courses/update-course-intro/{id}")
+    Single<CourseItem> updateCourse(
+            @Header("Authorization") String token,
+            @Path("id") String courseId,
+            @Part("title") RequestBody title,
+            @Part("price") RequestBody price,
+            @Part("topic") RequestBody topic,
+            @Part("description") RequestBody description,
+            @Part("userId") RequestBody userId,
+            @Part MultipartBody.Part picture
+    );
 
 }
+
+
 
 
 

@@ -25,8 +25,12 @@ import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
+
 import com.example.projectfinaltth.databinding.FragmentAccountBinding;
 import com.example.projectfinaltth.ui.profile.ProfileActivity;
+import com.example.projectfinaltth.ui.changepassword.ChangePasswordActivity;
+import com.example.projectfinaltth.ui.profile.EditProfileActivity;
+
 import com.example.projectfinaltth.ui.sign_in.SignInActivity;
 import com.example.projectfinaltth.utils.RealPathUtil;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -51,9 +55,13 @@ public class AccountFragment extends Fragment {
 
     private TextView tvName, tvEmail;
     private ImageView imgProfile;
+
     private RelativeLayout layoutLogout;
     FragmentAccountBinding mFragmentAccountBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private RelativeLayout layoutLogout, layoutChangePassword, layoutChangeName;
+
 
     public AccountFragment() {
         // Required empty public constructor
@@ -80,12 +88,15 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
-        imgProfile = view.findViewById(R.id.img_profile); // Add this line to initialize imgProfile
+        imgProfile = view.findViewById(R.id.img_profile);
         layoutLogout = view.findViewById(R.id.layout_log_out);
+        layoutChangePassword = view.findViewById(R.id.layout_change_password);
+        layoutChangeName = view.findViewById(R.id.layout_change_name); // Add this line
 
         layoutLogout.setOnClickListener(v -> {
             logout();
         });
+
 
         mFragmentAccountBinding.buttonChangeAvatar.setOnClickListener(v -> {
             ImagePicker.Companion.with(AccountFragment.this).crop().compress(512).maxResultSize(200, 200).start();
@@ -94,6 +105,19 @@ public class AccountFragment extends Fragment {
 
 
         return mFragmentAccountBinding.getRoot();
+
+        layoutChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            startActivity(intent);
+        });
+
+        layoutChangeName.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+            startActivity(intent);
+        });
+
+        return view;
+
     }
 
     private void fetchUserData() {
@@ -104,16 +128,15 @@ public class AccountFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         userResponse -> {
-                            // Update UI with user data
                             tvName.setText(userResponse.getUser().getName());
                             tvEmail.setText(userResponse.getUser().getEmail());
+
                             // Load profile image using Glide
                             Glide.with(this.getActivity())
                                     .load(userResponse.getUser().getPicture())
                                     .into(mFragmentAccountBinding.imgProfile);
                         },
                         throwable -> {
-                            // Handle error
                             Log.e("AccountFragment", "Error fetching user data", throwable);
                         }
                 ));
