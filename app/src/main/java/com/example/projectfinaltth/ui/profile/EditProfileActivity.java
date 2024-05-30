@@ -40,6 +40,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextInputEditText eTextName;
     private ImageView imageView;
     private FloatingActionButton floatingActionButton;
+    private Uri selectedImageUri; // Add this line to store the selected image URI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class EditProfileActivity extends AppCompatActivity {
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnBack = findViewById(R.id.btnBack);
 
-        btnUpdate.setOnClickListener(v -> updateName());
+        btnUpdate.setOnClickListener(v -> updateProfile());
         btnBack.setOnClickListener(v -> finish());
         floatingActionButton.setOnClickListener(v -> openImagePicker());
 
@@ -69,9 +70,16 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
-                Uri selectedImageUri = data.getData();
-                updateProfilePicture(selectedImageUri);
+                selectedImageUri = data.getData(); // Store the selected image URI
+                Glide.with(this).load(selectedImageUri).into(imageView); // Show the selected image in the ImageView
             }
+        }
+    }
+
+    private void updateProfile() {
+        updateName(); // Update the name first
+        if (selectedImageUri != null) {
+            updateProfilePicture(selectedImageUri); // Update the profile picture if a new one was selected
         }
     }
 
@@ -90,7 +98,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             () -> {
-                                Glide.with(this).load(selectedImageUri).into(imageView);
                                 Toast.makeText(EditProfileActivity.this, "Profile picture updated successfully", Toast.LENGTH_SHORT).show();
                             },
                             throwable -> {
