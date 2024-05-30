@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
+import com.example.projectfinaltth.ui.main.MainActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -115,8 +116,7 @@ public class CreateDocumentActivity extends AppCompatActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(CreateDocumentRequest -> {
                             Toast.makeText(this, "Document created successfully", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }, throwable -> {
+                       }, throwable -> {
                             Log.e("CreateDocument", "Error creating document: " + throwable.getMessage());
                             Toast.makeText(this, "Error creating document: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         })
