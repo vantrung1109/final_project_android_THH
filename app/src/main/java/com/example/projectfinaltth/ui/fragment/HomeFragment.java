@@ -1,14 +1,18 @@
 package com.example.projectfinaltth.ui.fragment;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -39,6 +44,7 @@ public class HomeFragment extends Fragment {
     private Set<String> topics = new HashSet<>(); // Tập hợp các chủ đề duy nhất
 
     private TextView textView71, textView72, textView73, textView7, textView81, textView82, textView83, textView8;
+    private EditText editTextText;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -60,6 +66,9 @@ public class HomeFragment extends Fragment {
         textView82 = view.findViewById(R.id.textView82);
         textView83 = view.findViewById(R.id.textView83);
         textView8 = view.findViewById(R.id.textView8);
+
+        editTextText = view.findViewById(R.id.editTextText);
+        Button searchButton = view.findViewById(R.id.searchButton);
 
         ImageView imageView61 = view.findViewById(R.id.imageView61);
         ImageView imageView62 = view.findViewById(R.id.imageView62);
@@ -91,9 +100,28 @@ public class HomeFragment extends Fragment {
         fetchCoursesWithSearch(1, "ALL"); // Bắt đầu từ trang 1 và tất cả các khóa học
         fetchMyCourses();
 
+        // Thêm sự kiện cho EditText để tìm kiếm
+        editTextText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String query = editTextText.getText().toString().trim();
+                if (!query.isEmpty()) {
+                    searchCoursesByName(query);
+                }
+                return true;
+            }
+            return false;
+        });
+
+        // Thêm sự kiện cho searchButton để tìm kiếm
+        searchButton.setOnClickListener(v -> {
+            String query = editTextText.getText().toString().trim();
+            if (!query.isEmpty()) {
+                searchCoursesByName(query);
+            }
+        });
+
         return view;
     }
-
 
 
     private void fetchCoursesWithSearch(int currentPage, String topic) {
@@ -127,8 +155,6 @@ public class HomeFragment extends Fragment {
         );
     }
 
-
-
     private void fetchMyCourses() {
         String token = DataLocalManager.getToken();
         compositeDisposable.add(
@@ -156,6 +182,50 @@ public class HomeFragment extends Fragment {
         if (topicList.size() > 6) textView83.setText(topicList.get(6));
         if (topicList.size() > 7) textView8.setText(topicList.get(7));
     }
+
+    private void searchCoursesByName(String query) {
+        compositeDisposable.add(
+                ApiService.apiService.findCourse(query)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(courseResponse -> {
+                            Log.d("HomeFragment", "API Response: " + courseResponse); // Ghi nhật ký phản hồi API
+
+                            if (courseResponse != null && courseResponse.getCourse() != null && !courseResponse.getCourse().isEmpty()) {
+                                List<Course> filteredCourses = new ArrayList<>();
+                                for (Course course : courseResponse.getCourse()) {
+                                    if (course.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                                        filteredCourses.add(course);
+                                    }
+                                }
+
+                                Log.d("HomeFragment", "Filtered Courses: " + filteredCourses); // Ghi nhật ký khóa học đã lọc
+
+                                if (filteredCourses.isEmpty()) {
+                                    Toast.makeText(getContext(), "No courses found", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    allCourses.clear(); 
+                                    allCourses.addAll(filteredCourses);
+
+                                    if (homeCourseAdapter == null) {
+                                        homeCourseAdapter = new HomeCourseAdapter(allCourses, HomeFragment.this);
+                                        popularView.setAdapter(homeCourseAdapter);
+                                    } else {
+                                        homeCourseAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(getContext(), "No courses found", Toast.LENGTH_SHORT).show();
+                            }
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                            Toast.makeText(getContext(), "Failed to fetch courses", Toast.LENGTH_SHORT).show();
+                        })
+        );
+    }
+
+
+
 
     public void addToCart(String courseId) {
         if (myCourses.contains(courseId)) {
@@ -191,7 +261,6 @@ public class HomeFragment extends Fragment {
                         })
         );
     }
-
 
     @Override
     public void onDestroy() {

@@ -15,65 +15,35 @@
             android:orientation="vertical">
 
             <!-- Phần nội dung trên cùng -->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="horizontal">
+                android:layout_marginEnd="16dp">
 
                 <EditText
                     android:id="@+id/editTextText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="1"
                     android:background="@drawable/edittext_background"
-                    android:drawableStart="@drawable/search_icon"
-                    android:drawablePadding="8dp"
                     android:ems="10"
                     android:hint="Searching"
                     android:inputType="text"
                     android:padding="8dp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toStartOf="@+id/searchButton" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bell"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/red_circle"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1"
-                        android:textColor="@color/white"
-                        android:textSize="11sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-                        app:layout_constraintStart_toStartOf="@+id/imageView4"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+                <Button
+                    android:id="@+id/searchButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/search_icon" />
+            </RelativeLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

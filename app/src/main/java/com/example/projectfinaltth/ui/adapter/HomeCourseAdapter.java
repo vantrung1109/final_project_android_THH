@@ -59,7 +59,6 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
         });
     }
 
-
     @Override
     public int getItemCount() {
         return items.size();
@@ -81,5 +80,4 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
             viewIntroButton = itemView.findViewById(R.id.buttonViewIntro);
         }
     }
-
 }
