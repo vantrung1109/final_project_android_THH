@@ -1,12 +1,16 @@
-package com.example.projectfinaltth.ui.instructor;
 
 import android.content.Intent;
 import android.net.Uri;
+
+package com.example.projectfinaltth.ui.fragment;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+t
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -140,4 +144,5 @@ public class CreateInstructorFragment extends Fragment {
         super.onDestroy();
         compositeDisposable.clear();
     }
+
 }
