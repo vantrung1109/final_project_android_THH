@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -86,7 +85,10 @@ public class HomeFragment extends Fragment {
         textView81.setOnClickListener(v -> fetchCoursesWithSearch(1, textView81.getText().toString()));
         textView82.setOnClickListener(v -> fetchCoursesWithSearch(1, textView82.getText().toString()));
         textView83.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
-        textView8.setOnClickListener(v -> fetchCoursesWithSearch(1, textView8.getText().toString()));
+
+        imageView8.setOnClickListener(v -> fetchCoursesWithSearch(1, "ALL"));
+//        textView8.setOnClickListener(v -> fetchCoursesWithSearch(1, "ALL"));
+
 
         imageView61.setOnClickListener(v -> fetchCoursesWithSearch(1, textView71.getText().toString()));
         imageView62.setOnClickListener(v -> fetchCoursesWithSearch(1, textView72.getText().toString()));
@@ -95,9 +97,9 @@ public class HomeFragment extends Fragment {
         imageView71.setOnClickListener(v -> fetchCoursesWithSearch(1, textView81.getText().toString()));
         imageView72.setOnClickListener(v -> fetchCoursesWithSearch(1, textView82.getText().toString()));
         imageView73.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
-        imageView8.setOnClickListener(v -> fetchCoursesWithSearch(1, textView8.getText().toString()));
 
-        fetchCoursesWithSearch(1, "ALL"); // Bắt đầu từ trang 1 và tất cả các khóa học
+
+        fetchCoursesWithSearch(1, "ALL"); 
         fetchMyCourses();
 
         // Thêm sự kiện cho EditText để tìm kiếm
@@ -133,7 +135,7 @@ public class HomeFragment extends Fragment {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseResponse -> {
                             if (currentPage == 1) {
-                                allCourses.clear(); // Xóa danh sách khóa học nếu là trang đầu tiên
+                                allCourses.clear();
                             }
                             allCourses.addAll(courseResponse.getCourses());
                             for (Course course : courseResponse.getCourses()) {
@@ -141,7 +143,6 @@ public class HomeFragment extends Fragment {
                             }
 
                             if (courseResponse.getCourses().size() > 0) {
-                                // Nếu còn dữ liệu, tiếp tục lấy trang tiếp theo
                                 fetchCoursesWithSearch(currentPage + 1, topic);
                             } else {
                                 // Khi đã lấy hết tất cả các trang, cập nhật adapter
@@ -184,27 +185,29 @@ public class HomeFragment extends Fragment {
     }
 
     private void searchCoursesByName(String query) {
+        RequestBody requestBody = new RequestBody(query, "ALL", 1, "newest");
+
         compositeDisposable.add(
-                ApiService.apiService.findCourse(query)
+                ApiService.apiService.searchCourses(requestBody)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseResponse -> {
-                            Log.d("HomeFragment", "API Response: " + courseResponse); // Ghi nhật ký phản hồi API
+                            Log.d("HomeFragment", "API Response: " + courseResponse);
 
-                            if (courseResponse != null && courseResponse.getCourse() != null && !courseResponse.getCourse().isEmpty()) {
+                            if (courseResponse != null && courseResponse.getCourses() != null && !courseResponse.getCourses().isEmpty()) {
                                 List<Course> filteredCourses = new ArrayList<>();
-                                for (Course course : courseResponse.getCourse()) {
+                                for (Course course : courseResponse.getCourses()) {
                                     if (course.getTitle().toLowerCase().contains(query.toLowerCase())) {
                                         filteredCourses.add(course);
                                     }
                                 }
 
-                                Log.d("HomeFragment", "Filtered Courses: " + filteredCourses); // Ghi nhật ký khóa học đã lọc
+                                Log.d("HomeFragment", "Filtered Courses: " + filteredCourses);
 
                                 if (filteredCourses.isEmpty()) {
                                     Toast.makeText(getContext(), "No courses found", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    allCourses.clear(); 
+                                    allCourses.clear();
                                     allCourses.addAll(filteredCourses);
 
                                     if (homeCourseAdapter == null) {
@@ -223,9 +226,6 @@ public class HomeFragment extends Fragment {
                         })
         );
     }
-
-
-
 
     public void addToCart(String courseId) {
         if (myCourses.contains(courseId)) {
