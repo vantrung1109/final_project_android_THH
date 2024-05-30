@@ -67,6 +67,7 @@ public class HomeInstructorFragment extends Fragment {
             public void onDeleteCourse(int position, CourseItem courseItem) {
                 deleteCourseItem(position, courseItem);
             }
+
         });
 
         instructorCoursesRecyclerView.setAdapter(instructorCourseAdapter);

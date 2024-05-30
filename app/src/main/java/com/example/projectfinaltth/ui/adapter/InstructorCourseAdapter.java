@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.ui.instructor.InstructorLessonActivity;
+import com.example.projectfinaltth.ui.instructor.UpdateCourseActivity;
+import com.example.projectfinaltth.ui.instructor.UpdateLessonActivity;
 
 import java.util.List;
 
@@ -46,6 +48,16 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
         holder.typeTextView.setText(courseItem.getTopic());
         holder.priceTextView.setText("$" + courseItem.getPrice());
         //holder.descriptionTextView.setText(courseItem.getDescription());
+        holder.editButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, UpdateCourseActivity.class);
+            intent.putExtra("courseId", courseItem.getId());
+            intent.putExtra("title", courseItem.getTitle());
+            intent.putExtra("description", courseItem.getDescription());
+            intent.putExtra("price", courseItem.getPrice());
+            intent.putExtra("topic", courseItem.getTopic());
+            intent.putExtra("picture", courseItem.getPicture());
+            context.startActivity(intent);
+        });
         holder.itemView.setOnClickListener(v -> {
             // Gửi dữ liệu cần thiết sang activity mới
             Intent intent = new Intent(context, InstructorLessonActivity.class);
@@ -81,10 +93,12 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
             //descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+
         }
     }
 
     public interface OnItemInteractionListener {
         void onDeleteCourse(int position, CourseItem courseItem);
+
     }
 }
