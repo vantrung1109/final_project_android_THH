@@ -9,6 +9,8 @@ import com.example.projectfinaltth.data.model.request.course_detail.CourseDetail
 import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
+import com.example.projectfinaltth.data.model.request.signup.OtpRequest;
+import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
@@ -30,6 +32,8 @@ import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResp
 import com.example.projectfinaltth.data.model.response.lesson.LessonListResponse;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
+import com.example.projectfinaltth.data.model.response.signup.OtpResponse;
+import com.example.projectfinaltth.data.model.response.signup.SignUpResponse;
 
 import java.util.concurrent.TimeUnit;
 
@@ -76,6 +80,10 @@ public interface ApiService {
 
     @POST("api/users/login")
     Observable<SignInResponse> signIn(@Body SignInRequest request);
+    @POST("api/users/register")
+    Observable<SignUpResponse> signUp(@Body SignUpRequest request);
+    @POST("api/users/otp-authentication")
+    Observable<OtpResponse> verifyOtp(@Body OtpRequest request);
 
 
     @GET("api/carts/getCart")

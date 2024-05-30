@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verify Account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            />
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_notion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_title"
+        >
+        <TextView
+            android:id="@+id/tv_notion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/black"
+
+            android:text="Please check your email "
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="#2196F3"
+            android:textStyle="bold"
+            android:text="vantrunglast@gmail.com"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textAlignment="center"
+            android:layout_toEndOf="@id/tv_notion"
+            />
+
+        <TextView
+            android:id="@+id/tv_pls_fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:text="For the verification code. Fill up the code below."
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_below="@id/tv_notion"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_otp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_notion"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_centerHorizontal="true"
+        >
+        <EditText
+            android:id="@+id/edt_otp1"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/background_white"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            />
+
+        <EditText
+            android:id="@+id/edt_otp2"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@drawable/background_white"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            />
+        <EditText
+            android:id="@+id/edt_otp3"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@drawable/background_white"
+            android:inputType="number"
+            android:maxLength="1"
+
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            />
+        <EditText
+            android:id="@+id/edt_otp4"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@drawable/background_white"
+            android:inputType="number"
+            android:maxLength="1"
+
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            />
+        <EditText
+            android:id="@+id/edt_otp5"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@drawable/background_white"
+            android:inputType="number"
+            android:maxLength="1"
+
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            />
+        <EditText
+            android:id="@+id/edt_otp6"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@drawable/background_white"
+            android:inputType="number"
+            android:maxLength="1"
+
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18sdp"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_38sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:background="@drawable/btn_custom_enable"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:text="Verify"
+        android:gravity="center"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="#FFFFFF"
+        android:clickable="true"
+        android:id="@+id/btn_verify"
+        android:fontFamily="@font/roboto_bold"
+        android:textStyle="bold"
+        android:layout_below="@+id/layout_otp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        />
+
+
+</RelativeLayout>
