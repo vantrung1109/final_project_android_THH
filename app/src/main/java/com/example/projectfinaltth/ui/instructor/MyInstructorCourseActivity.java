@@ -91,7 +91,7 @@ public class MyInstructorCourseActivity extends AppCompatActivity {
                                 if (courseListResponse != null && courseListResponse.getCourses() != null) {
                                     List<CourseItem> filteredCourses = new ArrayList<>();
                                     for (CourseItem course : courseListResponse.getCourses()) {
-                                        if (course.isVisibility()) {
+                                        if (course.isVisibility() && course.isStatus()) {
                                             filteredCourses.add(course);
                                         }
                                     }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
+import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartResponse;
@@ -40,9 +41,7 @@ public class CheckoutActivity extends AppCompatActivity {
         mActivityCheckoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
         setContentView(mActivityCheckoutBinding.getRoot());
 
-        String token = "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
-
+        String token = DataLocalManager.getToken();
         // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
         // Xử lý sự kiện khi người dùng click vào nút thanh toán momo, paypal
         mActivityCheckoutBinding.rb1.setOnClickListener(v -> {

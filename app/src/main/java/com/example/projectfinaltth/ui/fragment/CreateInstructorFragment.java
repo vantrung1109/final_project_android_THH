@@ -129,7 +129,6 @@ public class CreateInstructorFragment extends Fragment {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseItem -> {
                             Toast.makeText(getContext(), "Create course successfully", Toast.LENGTH_SHORT).show();
-                            getActivity().onBackPressed();
                         }, throwable -> {
                             Log.e("CreateCourse", "Error creating course: " + throwable.getMessage());
                             Toast.makeText(getContext(), "Error creating course: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
