@@ -60,7 +60,7 @@ public class AccountFragment extends Fragment {
     FragmentAccountBinding mFragmentAccountBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    private RelativeLayout layoutLogout, layoutChangePassword, layoutChangeName;
+
 
 
     public AccountFragment() {
@@ -89,11 +89,8 @@ public class AccountFragment extends Fragment {
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
         imgProfile = view.findViewById(R.id.img_profile);
-        layoutLogout = view.findViewById(R.id.layout_log_out);
-        layoutChangePassword = view.findViewById(R.id.layout_change_password);
-        layoutChangeName = view.findViewById(R.id.layout_change_name); // Add this line
-
-        layoutLogout.setOnClickListener(v -> {
+        
+        mFragmentAccountBinding.layoutLogOut.setOnClickListener(v -> {
             logout();
         });
 
@@ -101,9 +98,6 @@ public class AccountFragment extends Fragment {
         mFragmentAccountBinding.buttonChangeAvatar.setOnClickListener(v -> {
             ImagePicker.Companion.with(AccountFragment.this).crop().compress(512).maxResultSize(200, 200).start();
         });
-
-
-
 
 
         mFragmentAccountBinding.layoutChangePassword.setOnClickListener(v -> {
@@ -166,10 +160,6 @@ public class AccountFragment extends Fragment {
 
                         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
-                        Log.e("AccountFragment", "Real path: " + realPath);
-                        Log.e("AccountFragment", "File name: " + file.getName());
-                        Log.e("AccountFragment", "Request body: " + requestFile);
-                        Log.e("AccountFragment", "Image part: " + imagePart);
 
                         String token = DataLocalManager.getToken(); // Replace with actual token
                         compositeDisposable.add(
