@@ -18,6 +18,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.ui.courseDetail.CourseDetailActivity;
+import com.example.projectfinaltth.ui.review.ReviewActivity;
 
 import java.util.List;
 
@@ -66,6 +67,12 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
                         // Xử lý lỗi nếu cần
                     });
         });
+
+        holder.btnReview.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ReviewActivity.class);
+            intent.putExtra("course_id", course.get_id());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -78,12 +85,15 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
         TextView titleTxt, authorTxt;
         Button viewDetailBtn;
 
+        Button btnReview;
+
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             pic = itemView.findViewById(R.id.pic);
             titleTxt = itemView.findViewById(R.id.titleTxt);
             authorTxt = itemView.findViewById(R.id.authorTxt);
             viewDetailBtn = itemView.findViewById(R.id.viewDetailBtn);
+            btnReview  = itemView.findViewById(R.id.btn_review);
         }
     }
 }

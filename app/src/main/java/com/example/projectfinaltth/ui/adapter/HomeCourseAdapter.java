@@ -71,6 +71,8 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
         ImageButton addToCartButton;
         Button viewIntroButton;
 
+
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTxt = itemView.findViewById(R.id.titleTxt);
