@@ -18,6 +18,7 @@ import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
+import com.example.projectfinaltth.ui.changepassword.ChangePasswordActivity;
 import com.example.projectfinaltth.ui.sign_in.SignInActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -27,7 +28,7 @@ public class AccountFragment extends Fragment {
 
     private TextView tvName, tvEmail;
     private ImageView imgProfile;
-    private RelativeLayout layoutLogout;
+    private RelativeLayout layoutLogout, layoutChangePassword;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -52,11 +53,17 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
-        imgProfile = view.findViewById(R.id.img_profile); // Add this line to initialize imgProfile
+        imgProfile = view.findViewById(R.id.img_profile);
         layoutLogout = view.findViewById(R.id.layout_log_out);
+        layoutChangePassword = view.findViewById(R.id.layout_change_password); // Add this line
 
         layoutLogout.setOnClickListener(v -> {
             logout();
+        });
+
+        layoutChangePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            startActivity(intent);
         });
 
         return view;
@@ -75,7 +82,6 @@ public class AccountFragment extends Fragment {
                             // Load profile image using Glide
                             Glide.with(this)
                                     .load(userResponse.getUser().getPicture())
-//                                    .placeholder(R.drawable.placeholder) // Add a placeholder image
                                     .into(imgProfile);
                         },
                         throwable -> {
