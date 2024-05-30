@@ -104,19 +104,19 @@ public class AccountFragment extends Fragment {
 
 
 
-        return mFragmentAccountBinding.getRoot();
 
-        layoutChangePassword.setOnClickListener(v -> {
+
+        mFragmentAccountBinding.layoutChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
             startActivity(intent);
         });
 
-        layoutChangeName.setOnClickListener(v -> {
+        mFragmentAccountBinding.layoutChangeName.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
         });
 
-        return view;
+        return mFragmentAccountBinding.getRoot();
 
     }
 
