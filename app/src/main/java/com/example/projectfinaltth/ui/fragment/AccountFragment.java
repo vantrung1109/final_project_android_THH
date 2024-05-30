@@ -19,6 +19,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.ui.changepassword.ChangePasswordActivity;
+import com.example.projectfinaltth.ui.profile.EditProfileActivity;
 import com.example.projectfinaltth.ui.sign_in.SignInActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -28,7 +29,7 @@ public class AccountFragment extends Fragment {
 
     private TextView tvName, tvEmail;
     private ImageView imgProfile;
-    private RelativeLayout layoutLogout, layoutChangePassword;
+    private RelativeLayout layoutLogout, layoutChangePassword, layoutChangeName;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -55,7 +56,8 @@ public class AccountFragment extends Fragment {
         tvEmail = view.findViewById(R.id.tv_email);
         imgProfile = view.findViewById(R.id.img_profile);
         layoutLogout = view.findViewById(R.id.layout_log_out);
-        layoutChangePassword = view.findViewById(R.id.layout_change_password); // Add this line
+        layoutChangePassword = view.findViewById(R.id.layout_change_password);
+        layoutChangeName = view.findViewById(R.id.layout_change_name); // Add this line
 
         layoutLogout.setOnClickListener(v -> {
             logout();
@@ -63,6 +65,11 @@ public class AccountFragment extends Fragment {
 
         layoutChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            startActivity(intent);
+        });
+
+        layoutChangeName.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
         });
 
@@ -76,16 +83,13 @@ public class AccountFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         userResponse -> {
-                            // Update UI with user data
                             tvName.setText(userResponse.getUser().getName());
                             tvEmail.setText(userResponse.getUser().getEmail());
-                            // Load profile image using Glide
                             Glide.with(this)
                                     .load(userResponse.getUser().getPicture())
                                     .into(imgProfile);
                         },
                         throwable -> {
-                            // Handle error
                             Log.e("AccountFragment", "Error fetching user data", throwable);
                         }
                 );

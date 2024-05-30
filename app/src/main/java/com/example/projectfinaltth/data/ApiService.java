@@ -9,6 +9,8 @@ import com.example.projectfinaltth.data.model.request.course_detail.CourseDetail
 import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.request.password.ChangePasswordRequest;
+import com.example.projectfinaltth.data.model.request.profile.ChangeNameRequest;
+import com.example.projectfinaltth.data.model.request.profile.ChangePictureRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.request.signup.OtpRequest;
 import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
@@ -164,6 +166,10 @@ public interface ApiService {
     @PUT("/api/users/change-password-app-user")
     Completable changePassword(@Header("Authorization") String token, @Body ChangePasswordRequest request);
 
+    @PUT("/api/users/update-profile")
+    Completable changeName(@Header("Authorization") String token, @Body ChangeNameRequest request);
+    @PUT("/api/users/update-profile-picture")
+    Completable changePicture(@Header("Authorization") String token, @Body ChangePictureRequest request);
     @Multipart
     @POST("api/courses/create-course")
     Single<CourseItem> createCourse(
