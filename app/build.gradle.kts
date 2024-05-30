@@ -45,9 +45,6 @@ dependencies {
     implementation("com.github.ddB0515.FlexibleAdapter:flexible-adapter-livedata:5.1.1")
     implementation ("com.github.davideas:FlipView:1.2.0")
 
-    //Image Picker
-    implementation("com.github.dhaval2404:imagepicker:2.1")
-
     //lombok
     compileOnly ("org.projectlombok:lombok:1.18.32")
     annotationProcessor ("org.projectlombok:lombok:1.18.32")
@@ -83,6 +80,4 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
-
-
 }
