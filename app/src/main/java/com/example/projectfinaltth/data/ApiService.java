@@ -31,6 +31,7 @@ import com.example.projectfinaltth.data.model.response.courseIntro.CourseRespons
 import com.example.projectfinaltth.data.model.response.courseIntro.CoursehomeResponse;
 import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonListResponse;
+import com.example.projectfinaltth.data.model.response.profile.UserPictureResponse;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
 import com.example.projectfinaltth.data.model.response.signup.OtpResponse;
@@ -86,6 +87,10 @@ public interface ApiService {
     @POST("api/users/otp-authentication")
     Observable<OtpResponse> verifyOtp(@Body OtpRequest request);
 
+    @Multipart
+    @PUT("api/users/update-profile-picture")
+    Observable<UserPictureResponse> updateProfilePicture(@Header("Authorization") String token,
+                                                         @Part MultipartBody.Part picture);
 
     @GET("api/carts/getCart")
     Observable<CartResponse> getCart(@Header("Authorization") String token);

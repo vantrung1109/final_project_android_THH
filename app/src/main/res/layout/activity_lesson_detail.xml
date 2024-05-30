@@ -41,7 +41,24 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_38sdp"
+        android:background="@drawable/background_custom_border_blue"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:text="Leave comment"
+        android:gravity="center"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="#FFFFFF"
+        android:clickable="true"
+        android:id="@+id/btn_leave_comment"
+        android:fontFamily="@font/roboto_bold"
+        android:textStyle="bold"
+        android:layout_below="@id/rcv_documents"
+        android:layout_marginBottom="@dimen/_20sdp"
+        />
 
 
     <TextView
@@ -49,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Top Comments"
-        android:layout_below="@+id/rcv_documents"
+        android:layout_below="@+id/btn_leave_comment"
         android:layout_marginTop="@dimen/_15sdp"
         android:textSize="@dimen/_20sdp"
         android:textStyle="bold"

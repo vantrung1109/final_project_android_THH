@@ -7,7 +7,7 @@
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp">
         <TextView
@@ -22,28 +22,54 @@
             />
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        app:cardCornerRadius="@dimen/_100sdp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_img_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/layout_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_30sdp">
-        <ImageView
-            android:id="@+id/img_profile"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:scaleType="fitXY"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            app:cardCornerRadius="@dimen/_100sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_30sdp">
+            <ImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:scaleType="fitXY"
+                />
+
+        </androidx.cardview.widget.CardView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_change_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:tint="@color/white"
+            app:backgroundTint="#BCB7B7"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="@+id/card_view"
+            app:layout_constraintEnd_toEndOf="@+id/card_view"
+            app:srcCompat="@drawable/baseline_photo_camera_24"
+            android:contentDescription="TODO"
+            android:focusable="true"
             />
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My Name"
-        android:layout_below="@+id/card_view"
+        android:layout_below="@+id/layout_img_name"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/_20sdp"
@@ -117,7 +143,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit/Update"
+            android:text="Edit Name"
             android:textSize="@dimen/_15sdp"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/black"
