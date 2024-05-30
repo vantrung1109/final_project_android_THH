@@ -69,10 +69,10 @@ dependencies {
     implementation ("androidx.media3:media3-ui:1.3.1")
     // Optional dependency for HLS streaming
     implementation ("androidx.media3:media3-exoplayer-hls:1.3.1")
-
+    implementation ("com.google.android.material:material:1.7.0")
     implementation ("io.reactivex.rxjava3:rxjava:3.1.8")
     implementation(libs.appcompat)
-    implementation(libs.material)
+//    implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
