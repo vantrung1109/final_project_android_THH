@@ -30,8 +30,9 @@
         <activity
             android:name=".ui.lesson_detail.LessonDetailActivity"
             android:exported="true"/>
-        <activity
-            android:name=".ui.lesson_detail.VideoTestActivity"
+        <activity android:name=".ui.sign_up.SignUpActivity"
+            android:exported="true"/>
+        <activity android:name=".ui.sign_up.OtpActivity"
             android:exported="true"/>
         <activity
             android:name=".ui.checkout.CheckoutActivity"
@@ -53,6 +54,9 @@
             android:exported="true"/>
         <activity
             android:name=".ui.instructor.InstructorDocumentActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.fragment.CreateInstructorFragment"
             android:exported="true"/>
         <activity
             android:name=".ui.instructor.CreateDocumentActivity"

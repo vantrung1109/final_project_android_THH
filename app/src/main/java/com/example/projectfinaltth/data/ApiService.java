@@ -10,11 +10,14 @@ import com.example.projectfinaltth.data.model.request.document.CreateDocumentReq
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
 import com.example.projectfinaltth.data.model.request.password.ChangePasswordRequest;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
+import com.example.projectfinaltth.data.model.request.signup.OtpRequest;
+import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.data.model.response.changepassword.ChangePasswordResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
+import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.data.model.response.document.Document;
 import com.example.projectfinaltth.data.model.response.document.DocumentResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonByCourseResponse;
@@ -32,6 +35,8 @@ import com.example.projectfinaltth.data.model.response.courseIntro.MyCoursesResp
 import com.example.projectfinaltth.data.model.response.lesson.LessonListResponse;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.data.model.response.review.ReviewResponse;
+import com.example.projectfinaltth.data.model.response.signup.OtpResponse;
+import com.example.projectfinaltth.data.model.response.signup.SignUpResponse;
 
 import java.util.concurrent.TimeUnit;
 
@@ -78,6 +83,10 @@ public interface ApiService {
 
     @POST("api/users/login")
     Observable<SignInResponse> signIn(@Body SignInRequest request);
+    @POST("api/users/register")
+    Observable<SignUpResponse> signUp(@Body SignUpRequest request);
+    @POST("api/users/otp-authentication")
+    Observable<OtpResponse> verifyOtp(@Body OtpRequest request);
 
 
     @GET("api/carts/getCart")
@@ -151,8 +160,22 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
     );
+
     @PUT("/api/users/change-password-app-user")
     Completable changePassword(@Header("Authorization") String token, @Body ChangePasswordRequest request);
+
+    @Multipart
+    @POST("api/courses/create-course")
+    Single<CourseItem> createCourse(
+            @Header("Authorization") String token,
+            @Part("title") RequestBody title,
+            @Part("price") RequestBody price,
+            @Part("topic") RequestBody topic,
+            @Part("description") RequestBody description,
+            @Part("userId") RequestBody userId,
+            @Part MultipartBody.Part picture
+    );
+
 }
 
 
