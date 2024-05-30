@@ -48,7 +48,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eTextName"
+            android:id="@+id/edit_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text|textPersonName"
@@ -77,7 +77,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eTextEmail"
+            android:id="@+id/edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
@@ -107,7 +107,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eTextPhoneNumber"
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/border"
@@ -137,7 +137,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eTextAddress"
+            android:id="@+id/edit_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/border"
@@ -145,6 +145,7 @@
             android:textColorLink="#616161" />
     </com.google.android.material.textfield.TextInputLayout>
     <Button
+        android:id="@+id/btn_signup"
         android:layout_marginTop="150dp"
         android:layout_width="340dp"
         android:layout_height="55dp"
