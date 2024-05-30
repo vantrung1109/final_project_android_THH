@@ -20,6 +20,7 @@ import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
+import com.example.projectfinaltth.data.model.response.courseIntro.CourseSearchResponse;
 import com.example.projectfinaltth.data.model.response.document.Document;
 import com.example.projectfinaltth.data.model.response.document.DocumentResponse;
 import com.example.projectfinaltth.data.model.response.lesson.LessonByCourseResponse;
@@ -179,6 +180,8 @@ public interface ApiService {
             @Header("Authorization") String token,
             @Part MultipartBody.Part picture
     );
+    @GET("api/courses/find_course/{str}")
+    Observable<CourseSearchResponse> findCourse(@Path("str") String query);
     @Multipart
     @POST("api/courses/create-course")
     Single<CourseItem> createCourse(
