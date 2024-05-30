@@ -1,8 +1,7 @@
+package com.example.projectfinaltth.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
-
-package com.example.projectfinaltth.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-t
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;

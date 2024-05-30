@@ -7,8 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.projectfinaltth.ui.fragment.AccountInstructorFragment;
 
+import com.example.projectfinaltth.ui.fragment.CreateInstructorFragment;
 import com.example.projectfinaltth.ui.fragment.HomeInstructorFragment;
-import com.example.projectfinaltth.ui.instructor.CreateInstructorFragment;
 
 public class ViewPagerInstructorAdapter extends FragmentStateAdapter {
 
