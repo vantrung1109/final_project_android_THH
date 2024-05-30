@@ -96,6 +96,7 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        // Hiển thị danh sách các khóa học trong giỏ hàng
         flexibleAdapterCourses = new FlexibleAdapter(new ArrayList<>());
         mActivityCheckoutBinding.rcvListOrder.setAdapter(flexibleAdapterCourses);
         mActivityCheckoutBinding.rcvListOrder.setLayoutManager(new LinearLayoutManager(this));
@@ -116,11 +117,13 @@ public class CheckoutActivity extends AppCompatActivity {
         CheckoutRequest checkoutRequest = new CheckoutRequest(paymentMethod);
         mActivityCheckoutBinding.btnCheckout.setOnClickListener(v -> {
             compositeDisposable.add(
+                    // Thực hiện gọi API checkout
                     ApiService.apiService.checkout(token,checkoutRequest)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(response -> {
                                 Toast.makeText(this, "Checkout success", Toast.LENGTH_SHORT).show();
+                                // Chuyển sang màn hình main sau khi checkout thành công
                                 Intent intent = new Intent(this, MainActivity.class);
                                 startActivity(intent);
                             }, throwable -> {
