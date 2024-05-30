@@ -8,6 +8,165 @@
     tools:context=".ui.main.MainActivity"
     android:orientation="vertical"
     >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_180sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_below="@+id/layout_title"
+        android:layout_marginTop="@dimen/_15sdp"
+        >
+        <ImageView
+            android:id="@+id/img_course_intro"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:scaleType="fitXY"
+            android:padding="@dimen/_1sdp"
+
+
+            >
+        </ImageView>
+    </androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:id="@+id/layout_course_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_view"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        >
+    <TextView
+        android:id="@+id/tv_course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+
+        android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/tv_title_course_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Price: "
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@id/tv_course_name"
+        />
+
+    <TextView
+        android:id="@+id/tv_course_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="153"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/tv_title_course_price"
+        android:layout_below="@id/tv_course_name"
+        />
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text=" $"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="#4CAF50"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/tv_course_price"
+        android:layout_below="@id/tv_course_name"
+
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/layout_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_course_price"
+        android:layout_marginTop="@dimen/_10sdp"
+
+        >
+        <ImageView
+            android:id="@+id/tv_instructor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Author "
+            android:textSize="@dimen/_18sdp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:src="@drawable/graduate_hat_icon"
+            android:layout_marginEnd="@dimen/_15sdp"
+            />
+        <TextView
+            android:id="@+id/tv_course_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VanTrungIT"
+            android:textSize="@dimen/_15sdp"
+            android:background="@drawable/background_custom_border"
+            android:textColor="@color/white"
+            android:padding="@dimen/_5sdp"
+            android:layout_toEndOf="@id/tv_instructor"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/layout_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_author"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
+
+            <TextView
+                android:id="@+id/tv_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18sdp"
+
+                android:textStyle="bold" />
+            <kr.co.prnd.readmore.ReadMoreTextView
+                android:id="@+id/tv_description_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_description_title"
+                android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/roboto_medium"
+                app:readMoreColor="#4CAF50"
+                app:readMoreMaxLine="4"
+                app:readMoreText="…đọc thêm"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/show_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_course_price"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/baseline_remove_red_eye_24"
+            >
+
+        </RelativeLayout>
+    </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
