@@ -1,9 +1,13 @@
+
+
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginStart="@dimen/_15sdp"
+    android:layout_marginEnd="@dimen/_15sdp"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,28 +70,30 @@
                 app:layout_constraintStart_toStartOf="@+id/imageView8"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name_instructor" />
 
+
             <Button
-                android:id="@+id/btn_edit_course"
+                android:id="@+id/btn_view_intro"
                 android:layout_width="120dp"
                 android:layout_height="@dimen/_35sdp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/button_border"
                 android:backgroundTint="#3F51B5"
-                android:text="Edit"
+                android:text="View Intro"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@id/btn_change_visibility"
-                tools:layout_editor_absoluteY="12dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_change_visibility" />
 
             <ImageButton
                 android:id="@+id/btn_change_visibility"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/eye"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="8dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -18,6 +18,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.data.model.response.profile.User;
+import com.example.projectfinaltth.databinding.FragmentInstructorCourseBinding;
 import com.example.projectfinaltth.ui.adapter.InstructorCourseAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -35,6 +36,7 @@ public class HomeInstructorFragment extends Fragment {
     private List<CourseItem> courseItemList;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MutableLiveData<User> userCurrent = new MutableLiveData<>();
+    private FragmentInstructorCourseBinding mFragmentInstructorCourseBinding;
 
     public HomeInstructorFragment() {
         // Required empty public constructor
@@ -56,24 +58,20 @@ public class HomeInstructorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_instructor_course, container, false);
+        mFragmentInstructorCourseBinding = FragmentInstructorCourseBinding.inflate(inflater, container, false);
 
-        instructorCoursesRecyclerView = view.findViewById(R.id.recyclerView);
-        instructorCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
+
+//        instructorCourseAdapter = new InstructorCourseAdapter(getContext(), courseItemList, new InstructorCourseAdapter.OnItemInteractionListener() {
+//            @Override
+//            public void onDeleteCourse(int position, CourseItem courseItem) {
+//                deleteCourseItem(position, courseItem);
+//            }
+//
+//        });
         courseItemList = new ArrayList<>();
-        instructorCourseAdapter = new InstructorCourseAdapter(getContext(), courseItemList, new InstructorCourseAdapter.OnItemInteractionListener() {
-            @Override
-            public void onDeleteCourse(int position, CourseItem courseItem) {
-                deleteCourseItem(position, courseItem);
-            }
 
-        });
-
-        instructorCoursesRecyclerView.setAdapter(instructorCourseAdapter);
-
-        // Nhận instructorId từ Intent hoặc bất kỳ nguồn nào khác
-        String instructorId = "1";
 
         compositeDisposable.add(
                 ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
@@ -86,15 +84,39 @@ public class HomeInstructorFragment extends Fragment {
                         })
         );
 
-        if (instructorId != null && !instructorId.isEmpty()) {
+
             userCurrent.observe(getViewLifecycleOwner(), user -> {
                 loadInstructorCourses(userCurrent.getValue().getId());
-            });
-        } else {
-            Log.e("MyInstructorCourse", "Instructor ID is null or empty");
-        }
+                Log.e("HomeInstructorFragment", "Instructor ID: " + userCurrent.getValue().getName());
+                instructorCourseAdapter = new InstructorCourseAdapter(getContext(), courseItemList,userCurrent.getValue().getName(), new InstructorCourseAdapter.OnItemInteractionListener() {
 
-        return view;
+                    @Override
+                    public void onChangeCourseVisibility(int position, CourseItem courseItem) {
+                        // Change course visibility
+                        compositeDisposable.add(
+                                ApiService.apiService.changeCourseVisibility("Bearer " + DataLocalManager.getToken(), courseItem.getId())
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(
+                                                response -> {
+                                                    courseItem.setVisibility(!response.getVisibility());
+                                                    courseItemList.get(position).setVisibility(!response.getVisibility());
+                                                    instructorCourseAdapter.notifyItemChanged(position);
+                                                    instructorCourseAdapter.notifyDataSetChanged();
+                                                },
+                                                throwable -> {
+                                                    Log.e("MyInstructorCourse", "Error changing course visibility: " + throwable.getMessage());
+                                                }
+                                        )
+                        );
+                    }
+                });
+                mFragmentInstructorCourseBinding.rcvCourses.setAdapter(instructorCourseAdapter);
+                mFragmentInstructorCourseBinding.rcvCourses.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+            });
+
+        return mFragmentInstructorCourseBinding.getRoot();
     }
 
     private void loadInstructorCourses(String instructorId) {
@@ -110,7 +132,7 @@ public class HomeInstructorFragment extends Fragment {
                                 if (courseListResponse != null && courseListResponse.getCourses() != null) {
                                     List<CourseItem> filteredCourses = new ArrayList<>();
                                     for (CourseItem course : courseListResponse.getCourses()) {
-                                        if (course.isStatus())
+                                        if (course.getStatus())
                                             filteredCourses.add(course);
                                     }
                                     courseItemList.clear();

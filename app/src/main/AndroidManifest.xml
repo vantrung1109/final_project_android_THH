@@ -29,6 +29,12 @@
             android:name=".ui.courseDetail.CourseDetailActivity"
             android:exported="true"/>
         <activity
+            android:name=".ui.instructor.InstructorLessonActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.instructor.CourseIntroInstructorActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.lesson_detail.LessonDetailActivity"
             android:exported="true"/>
         <activity android:name=".ui.sign_up.SignUpActivity"
@@ -48,9 +54,6 @@
             android:name=".ui.profile.ProfileActivity"
             android:exported="true"/>
         <activity
-            android:name=".ui.instructor.MyInstructorCourseActivity"
-            android:exported="true"/>
-        <activity
             android:name=".ui.instructor.UpdateLessonActivity"
             android:exported="true"/>
         <activity
@@ -64,9 +67,6 @@
             android:exported="true"/>
         <activity
             android:name=".ui.instructor.UpdateCourseActivity"
-            android:exported="true"/>
-        <activity
-            android:name=".ui.instructor.InstructorLessonActivity"
             android:exported="true"/>
         <activity
             android:name=".ui.profile.EditProfileActivity"
