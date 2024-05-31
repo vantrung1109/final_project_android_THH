@@ -43,6 +43,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.projectfinaltth.R;
+import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -331,7 +332,14 @@ public class RegisterFaceAI extends AppCompatActivity {
     /** Recognize Processor */
     private void addFace() {
         start = false;
-        String name= "trung@gmail.com 333";
+
+        // Retrieve email and password from SharedPreferences
+        String email = DataLocalManager.getEmail();
+        String password = DataLocalManager.getPassword();
+
+        // Use the retrieved email and password as needed
+        String name = email + " " + password;
+
         // Assuming `embeddings` and `registered` are defined elsewhere in your class
         SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition("0", "", -1f);
         result.setExtra(embeddings);
@@ -341,6 +349,7 @@ public class RegisterFaceAI extends AppCompatActivity {
 
         start = true;
     }
+
 
     private void saveRegisteredFaces() {
         SharedPreferences sharedPreferences = getSharedPreferences("FaceRecognition", MODE_PRIVATE);
