@@ -2,9 +2,12 @@ package com.example.projectfinaltth.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
+import com.example.projectfinaltth.ui.instructor.CourseIntroInstructorActivity;
 import com.example.projectfinaltth.ui.instructor.InstructorLessonActivity;
 import com.example.projectfinaltth.ui.instructor.UpdateCourseActivity;
-import com.example.projectfinaltth.ui.instructor.UpdateLessonActivity;
 
 import java.util.List;
 
@@ -25,18 +28,20 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
 
     private Context context;
     private List<CourseItem> courseItemList;
+    private String instructorName;
     private OnItemInteractionListener onItemInteractionListener;
 
-    public InstructorCourseAdapter(Context context, List<CourseItem> courseItemList, OnItemInteractionListener onItemInteractionListener) {
+    public InstructorCourseAdapter(Context context, List<CourseItem> courseItemList,String instructorName, OnItemInteractionListener onItemInteractionListener) {
         this.context = context;
         this.courseItemList = courseItemList;
+        this.instructorName = instructorName;
         this.onItemInteractionListener = onItemInteractionListener;
     }
 
     @NonNull
     @Override
     public InstructorCourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_instructor_course, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.rcv_item_course_instructor, parent, false);
         return new InstructorCourseViewHolder(view);
     }
 
@@ -45,23 +50,18 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
         CourseItem courseItem = courseItemList.get(position);
 
         holder.titleTextView.setText(courseItem.getTitle());
-        holder.typeTextView.setText(courseItem.getTopic());
-        holder.priceTextView.setText("$" + courseItem.getPrice());
+        holder.priceTextView.setText("" + courseItem.getPrice());
+        holder.tvInstructorName.setText(instructorName);
         //holder.descriptionTextView.setText(courseItem.getDescription());
-        holder.editButton.setOnClickListener(v -> {
-            Intent intent = new Intent(context, UpdateCourseActivity.class);
+        holder.btnViewIntro.setOnClickListener(v -> {
+            Intent intent = new Intent(context, CourseIntroInstructorActivity.class);
             intent.putExtra("courseId", courseItem.getId());
-            intent.putExtra("title", courseItem.getTitle());
-            intent.putExtra("description", courseItem.getDescription());
-            intent.putExtra("price", String.valueOf(courseItem.getPrice()));
-            intent.putExtra("topic", courseItem.getTopic());
-            intent.putExtra("picture", courseItem.getPicture());
             context.startActivity(intent);
         });
         holder.itemView.setOnClickListener(v -> {
             // Gửi dữ liệu cần thiết sang activity mới
-            Intent intent = new Intent(context, InstructorLessonActivity.class);
-            intent.putExtra("courseId", courseItem.getId()); // Chuyển ID của khóa học
+            Intent intent = new Intent(context, CourseIntroInstructorActivity.class);
+            intent.putExtra("courseId", courseItem.getId());
             context.startActivity(intent);
         });
         // Load image using Glide
@@ -69,8 +69,20 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
                 .load(courseItem.getPicture())
                 .into(holder.imageView);
 
+        if (courseItem.getVisibility()) {
+            holder.itemView.setAlpha(1.0f);
+            Log.e("visibility", "true");
+        } else if (!courseItem.getVisibility()){
+            holder.itemView.setAlpha(0.3f);
+            Log.e("visibility", "false");
+        }
+
+        holder.btnChangeCourseVisibility.setOnClickListener(v -> {
+            onItemInteractionListener.onChangeCourseVisibility(holder.getAdapterPosition(), courseItem);
+        });
+
         // Set click listeners for edit and delete buttons
-        holder.deleteButton.setOnClickListener(v -> onItemInteractionListener.onDeleteCourse(holder.getAdapterPosition(), courseItem));
+       // holder.deleteButton.setOnClickListener(v -> onItemInteractionListener.onDeleteCourse(holder.getAdapterPosition(), courseItem));
 
     }
 
@@ -81,24 +93,23 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
 
     public static class InstructorCourseViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView titleTextView, typeTextView, priceTextView, descriptionTextView;
-        ImageButton editButton, deleteButton;
+        TextView titleTextView, priceTextView, tvInstructorName;
+        Button btnViewIntro;
+        ImageButton btnChangeCourseVisibility;
 
         public InstructorCourseViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            typeTextView = itemView.findViewById(R.id.typeTextView);
-            priceTextView = itemView.findViewById(R.id.priceTextView);
-            //descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            editButton = itemView.findViewById(R.id.editButton);
-            deleteButton = itemView.findViewById(R.id.deleteButton);
-
+            imageView = itemView.findViewById(R.id.img_course);
+            titleTextView = itemView.findViewById(R.id.tv_title);
+            tvInstructorName = itemView.findViewById(R.id.tv_name_instructor);
+            priceTextView = itemView.findViewById(R.id.tv_price_course);
+            btnViewIntro = itemView.findViewById(R.id.btn_view_intro);
+            btnChangeCourseVisibility = itemView.findViewById(R.id.btn_change_visibility);
         }
     }
 
     public interface OnItemInteractionListener {
-        void onDeleteCourse(int position, CourseItem courseItem);
+        void onChangeCourseVisibility(int position, CourseItem courseItem);
 
     }
 }

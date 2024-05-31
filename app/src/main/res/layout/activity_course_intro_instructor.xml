@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!-- MSSV: 21110335
+    Họ và tên: Nguyễn Trần Văn Trung
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course Intro"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                />
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back"
+                />
+        </RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            app:cardCornerRadius="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_below="@+id/layout_title"
+            android:layout_marginTop="@dimen/_15sdp"
+            >
+            <ImageView
+                android:id="@+id/img_course_intro"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:scaleType="fitXY"
+                android:padding="@dimen/_1sdp"
+
+
+                >
+            </ImageView>
+        </androidx.cardview.widget.CardView>
+
+
+
+        <RelativeLayout
+            android:id="@+id/layout_course_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_view"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            >
+            <TextView
+                android:id="@+id/tv_course_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+
+                android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
+                android:textSize="@dimen/_20sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tv_title_course_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Price: "
+                android:textSize="@dimen/_20sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_below="@id/tv_course_name"
+                />
+
+            <TextView
+                android:id="@+id/tv_course_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="153"
+                android:textSize="@dimen/_20sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/tv_title_course_price"
+                android:layout_below="@id/tv_course_name"
+                />
+            <TextView
+                android:id="@+id/tv_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text=" $"
+                android:textSize="@dimen/_20sdp"
+                android:textColor="#4CAF50"
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/tv_course_price"
+                android:layout_below="@id/tv_course_name"
+
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/layout_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_course_price"
+                android:layout_marginTop="@dimen/_10sdp"
+
+                >
+                <ImageView
+                    android:id="@+id/tv_instructor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Author "
+                    android:textSize="@dimen/_18sdp"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:src="@drawable/graduate_hat_icon"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    />
+                <TextView
+                    android:id="@+id/tv_course_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VanTrungIT"
+                    android:textSize="@dimen/_15sdp"
+                    android:background="@drawable/background_custom_border"
+                    android:textColor="@color/white"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_toEndOf="@id/tv_instructor"
+                    android:layout_centerVertical="true"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_author"
+                android:layout_marginTop="@dimen/_10sdp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_description_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+
+                    android:textStyle="bold" />
+                <kr.co.prnd.readmore.ReadMoreTextView
+                    android:id="@+id/tv_description_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_description_title"
+                    android:text="Khóa học HTML &amp; CSS cơ bản (miễn phí)"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/roboto_medium"
+                    app:readMoreColor="#4CAF50"
+                    app:readMoreMaxLine="4"
+                    app:readMoreText="…đọc thêm"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:background="@drawable/btn_add_to_cart"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:text="Edit Intro"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="#FFFFFF"
+                    android:clickable="true"
+                    android:id="@+id/btn_edit_intro"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textStyle="bold"
+                    android:layout_below="@id/tv_description_content"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:background="@drawable/btn_add_to_cart"
+                    android:text="Edit Detail"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="#FFFFFF"
+                    android:clickable="true"
+                    android:id="@+id/btn_edit_detail"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textStyle="bold"
+                    android:layout_below="@id/btn_edit_intro"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    />
+            </RelativeLayout>
+
+
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating"
+            android:layout_below="@+id/layout_course_info"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:layout_below="@+id/tv_rating"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_centerHorizontal="true"
+            android:progressTint="#FDDA23"
+            android:rating="3.5"
+            android:isIndicator="true"
+            android:stepSize="0.5"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            />
+
+        <TextView
+            android:id="@+id/tv_top_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Top Reviews"
+            android:layout_below="@+id/rating_bar"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_top_reviews"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+
+</ScrollView>

@@ -1,6 +1,11 @@
 package com.example.projectfinaltth.data.model.response.course;
 
+import android.content.Intent;
+
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseItem {
+public class CourseItem implements Serializable {
     @SerializedName("_id")
     private String id;
     private String userId;
@@ -17,10 +22,10 @@ public class CourseItem {
     private String topic;
     private String picture;
     private String description;
-    private double price;
-    private boolean visibility;
-    private boolean status;
+    private Double price;
+    private Boolean visibility;
+    private Boolean status;
     private String createdAt;
     private String updatedAt;
-    private int __v;
+    private Integer __v;
 }

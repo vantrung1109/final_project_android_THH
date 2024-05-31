@@ -17,8 +17,10 @@ import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
+import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.model.api.Course;
+import com.example.projectfinaltth.ui.main.MainInstructorActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,6 +51,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     MutableLiveData<User> user = new MutableLiveData<>();
+    CourseIntroResponse course;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,23 +66,25 @@ public class UpdateCourseActivity extends AppCompatActivity {
         chooseImageButton = findViewById(R.id.button_choose_image);
         imageView = findViewById(R.id.image_view);
 
-        String des = getIntent().getStringExtra("description");
-        String title = getIntent().getStringExtra("title");
-        String topic = getIntent().getStringExtra("topic");
-        String price = getIntent().getStringExtra("price");
-        String picture = getIntent().getStringExtra("picture");
 
-        if (picture != null && !picture.isEmpty()) {
-            Glide.with(this)
-                    .load(picture)
-                    .into(imageView);
-            initialImageSet = true;
-        }
 
-        titleEditText.setText(title);
-        descriptionEditText.setText(des);
-        topicEditText.setText(topic);
-        priceEditText.setText(price);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            course = (CourseIntroResponse) bundle.getSerializable("courseIntro");
+
+        } else
+            return;
+
+        Glide.with(this)
+                .load(course.getCourse().getPicture())
+                .into(imageView);
+        initialImageSet = true;
+
+
+        titleEditText.setText(course.getCourse().getTitle());
+        descriptionEditText.setText(course.getCourse().getDescription());
+        topicEditText.setText(course.getCourse().getTopic());
+        priceEditText.setText(String.valueOf(course.getCourse().getPrice()));
 
         chooseImageButton.setOnClickListener(v -> chooseImage());
 
@@ -100,8 +105,6 @@ public class UpdateCourseActivity extends AppCompatActivity {
         user.observe(this, user -> {
             createButton.setOnClickListener(v -> updateCourse(user.getId()));
         });
-
-
     }
 
     private void chooseImage() {
@@ -156,7 +159,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
             filePart = MultipartBody.Part.createFormData("picture", imageFile.getName(), requestBodyFile);
         }
 
-        String courseId = getIntent().getStringExtra("courseId");
+        String courseId = course.getCourse().get_id();
         RequestBody requestBodyTitle = RequestBody.create(MediaType.parse("text/plain"), title);
         RequestBody requestBodyPrice = RequestBody.create(MediaType.parse("text/plain"), price);
         RequestBody requestBodyCourseId = RequestBody.create(MediaType.parse("text/plain"), courseId);
@@ -170,7 +173,10 @@ public class UpdateCourseActivity extends AppCompatActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseItem -> {
                             Toast.makeText(this, "Update course successfully", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+
+                            Intent intent = new Intent(this, MainInstructorActivity.class);
+                            startActivity(intent);
+                            finish();
                         }, throwable -> {
                             Log.e("UpdateCourse", "Error updating course: " + throwable.getMessage());
                             Toast.makeText(this, "Error updating course: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();

@@ -15,6 +15,7 @@ import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.data.model.request.signup.OtpRequest;
 import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
+import com.example.projectfinaltth.data.model.response.change_course_visibility.ChangeCourseVisibilityResponse;
 import com.example.projectfinaltth.data.model.response.changepassword.ChangePasswordResponse;
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
@@ -90,6 +91,10 @@ public interface ApiService {
     Observable<SignUpResponse> signUp(@Body SignUpRequest request);
     @POST("api/users/otp-authentication")
     Observable<OtpResponse> verifyOtp(@Body OtpRequest request);
+
+    @PUT("api/courses/change-course-visibility/{id}")
+    Observable<ChangeCourseVisibilityResponse> changeCourseVisibility(@Header("Authorization") String token, @Path("id") String courseId);
+
 
     @Multipart
     @PUT("api/users/update-profile-picture")
