@@ -87,12 +87,23 @@ public class AccountInstructorFragment extends Fragment {
             startActivity(intent);
         });
 
-        binding.register.setOnClickListener(v -> {
+//        binding.register.setOnClickListener(v -> {
+//            Intent intent = new Intent(getActivity(), RegisterFaceAI.class);
+//            startActivity(intent);
+//        });
+        binding.layoutRegisterFaceAI.setOnClickListener(v ->
+        {
             Intent intent = new Intent(getActivity(), RegisterFaceAI.class);
+            Bundle bundle = new Bundle();
+            bundle.getString("email",binding.tvEmail.getText().toString());
+            bundle.getString("name",binding.tvName.getText().toString());
+            intent.putExtras(bundle);
             startActivity(intent);
         });
-
         return binding.getRoot();
+
+
+//        return binding.getRoot();
     }
 
     private void fetchUserData() {
