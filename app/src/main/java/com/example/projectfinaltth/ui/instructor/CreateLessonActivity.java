@@ -26,11 +26,13 @@ public class CreateLessonActivity extends AppCompatActivity {
     private EditText etTitle, etDescription;
     private Button btnCreateLesson;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
+    private String courseId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_lesson);
+
+        courseId = getIntent().getStringExtra("courseId");
 
         etTitle = findViewById(R.id.eTextTitle);
         etDescription = findViewById(R.id.eTextDescription);
@@ -68,7 +70,6 @@ public class CreateLessonActivity extends AppCompatActivity {
                                 Intent intent = new Intent(CreateLessonActivity.this, InstructorLessonActivity.class);
                                 intent.putExtra("courseId", courseId);
                                 startActivity(intent);
-                                finish();
                             }, throwable -> {
                                 Log.e("CreateLesson", "Error creating lesson: " + throwable.getMessage());
                                 Toast.makeText(CreateLessonActivity.this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();

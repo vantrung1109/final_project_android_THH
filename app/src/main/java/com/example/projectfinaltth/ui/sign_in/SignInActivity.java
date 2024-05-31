@@ -45,15 +45,14 @@ public class SignInActivity extends AppCompatActivity {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(signInResponse -> {
-                                handleSignInResponse(signInResponse);
+                                handleSignInResponse(signInResponse, signInRequest.getEmail(), signInRequest.getPassword());
                             }, throwable -> {
                                 Log.e("TAG", "Error: " + throwable.getMessage());
                                 Toast.makeText(this, "Bạn nhập sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                             }));
         });
-        mActivitySignInBinding.test.setOnClickListener(v ->{
+        mActivitySignInBinding.test.setOnClickListener(v -> {
             Intent intent = new Intent(SignInActivity.this, LoginFaceAI.class);
-
             startActivity(intent);
         });
         Intent intent = getIntent();
@@ -63,11 +62,13 @@ public class SignInActivity extends AppCompatActivity {
         mActivitySignInBinding.editPassword.setText(pass);
     }
 
-    private void handleSignInResponse(SignInResponse signInResponse) {
+    private void handleSignInResponse(SignInResponse signInResponse, String email, String password) {
         Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-        // Lưu token và cartId vào SharePreferences
+        // Lưu token, cartId, email và password vào SharePreferences
         DataLocalManager.setToken(signInResponse.getToken());
         DataLocalManager.setCartId(signInResponse.getCartId());
+        DataLocalManager.setEmail(email);
+        DataLocalManager.setPassword(password);
 
         // Kiểm tra vai trò người dùng và điều hướng
         String userRole = signInResponse.getRole();

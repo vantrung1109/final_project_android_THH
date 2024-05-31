@@ -103,9 +103,13 @@ public class AccountFragment extends Fragment {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
         });
-        mFragmentAccountBinding.register.setOnClickListener(v ->
+        mFragmentAccountBinding.layoutRegisterFaceAI.setOnClickListener(v ->
         {
             Intent intent = new Intent(getActivity(), RegisterFaceAI.class);
+            Bundle bundle = new Bundle();
+            bundle.getString("email",mFragmentAccountBinding.tvEmail.getText().toString());
+            bundle.getString("name",mFragmentAccountBinding.tvName.getText().toString());
+            intent.putExtras(bundle);
             startActivity(intent);
         });
         return mFragmentAccountBinding.getRoot();

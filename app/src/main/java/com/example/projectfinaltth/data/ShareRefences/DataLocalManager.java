@@ -5,6 +5,9 @@ import android.content.Context;
 public class DataLocalManager {
     private static final String PREF_TOKEN = "PREF_TOKEN";
     private static final String PREF_CART_ID = "PREF_CART_ID";
+    private static final String PREF_EMAIL = "PREF_EMAIL";
+    private static final String PREF_PASSWORD = "PREF_PASSWORD";
+
     private static DataLocalManager instance;
     private PreferencesService mySharedPreferences;
 
@@ -42,5 +45,21 @@ public class DataLocalManager {
 
     public static void removeCartId() {
         DataLocalManager.getInstance().mySharedPreferences.putStringValue(PREF_CART_ID, null);
+    }
+
+    public static void setEmail(String email) {
+        DataLocalManager.getInstance().mySharedPreferences.putStringValue(PREF_EMAIL, email);
+    }
+
+    public static String getEmail() {
+        return DataLocalManager.getInstance().mySharedPreferences.getStringValue(PREF_EMAIL);
+    }
+
+    public static void setPassword(String password) {
+        DataLocalManager.getInstance().mySharedPreferences.putStringValue(PREF_PASSWORD, password);
+    }
+
+    public static String getPassword() {
+        return DataLocalManager.getInstance().mySharedPreferences.getStringValue(PREF_PASSWORD);
     }
 }
