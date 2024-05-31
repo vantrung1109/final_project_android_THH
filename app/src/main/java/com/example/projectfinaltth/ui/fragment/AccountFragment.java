@@ -27,6 +27,7 @@ import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 
 import com.example.projectfinaltth.databinding.FragmentAccountBinding;
+import com.example.projectfinaltth.ui.ai.RegisterFaceAI;
 import com.example.projectfinaltth.ui.profile.ProfileActivity;
 import com.example.projectfinaltth.ui.changepassword.ChangePasswordActivity;
 import com.example.projectfinaltth.ui.profile.EditProfileActivity;
@@ -102,7 +103,11 @@ public class AccountFragment extends Fragment {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
         });
-
+        mFragmentAccountBinding.register.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(getActivity(), RegisterFaceAI.class);
+            startActivity(intent);
+        });
         return mFragmentAccountBinding.getRoot();
 
     }
