@@ -13,6 +13,7 @@ import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.response.SignInResponse;
 import com.example.projectfinaltth.databinding.ActivitySignInBinding;
+import com.example.projectfinaltth.ui.ai.LoginFaceAI;
 import com.example.projectfinaltth.ui.main.MainActivity;
 import com.example.projectfinaltth.ui.main.MainInstructorActivity;
 
@@ -50,6 +51,16 @@ public class SignInActivity extends AppCompatActivity {
                                 Toast.makeText(this, "Bạn nhập sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                             }));
         });
+        mActivitySignInBinding.test.setOnClickListener(v ->{
+            Intent intent = new Intent(SignInActivity.this, LoginFaceAI.class);
+
+            startActivity(intent);
+        });
+        Intent intent = getIntent();
+        String userName = intent.getStringExtra("USERNAME");
+        String pass = intent.getStringExtra("PASSWORD");
+        mActivitySignInBinding.editEmail.setText(userName);
+        mActivitySignInBinding.editPassword.setText(pass);
     }
 
     private void handleSignInResponse(SignInResponse signInResponse) {

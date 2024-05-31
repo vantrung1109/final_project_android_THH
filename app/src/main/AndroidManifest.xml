@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -69,6 +70,12 @@
             android:exported="true"/>
         <activity
             android:name=".ui.profile.EditProfileActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.ai.LoginFaceAI"
+            android:exported="true"/>
+        <activity
+            android:name=".ui.ai.RegisterFaceAI"
             android:exported="true"/>
         <activity
             android:name=".ui.changepassword.ChangePasswordActivity"

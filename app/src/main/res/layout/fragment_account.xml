@@ -264,6 +264,7 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/arrow_to_right"
             />
+
     </RelativeLayout>
 
     <View
@@ -273,5 +274,11 @@
         android:background="#E4E3E3"
         android:layout_below="@+id/layout_log_out"
         android:layout_marginTop="@dimen/_10sdp"
+        />
+    <Button
+        android:id="@+id/register"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="Face"
         />
 </RelativeLayout>
