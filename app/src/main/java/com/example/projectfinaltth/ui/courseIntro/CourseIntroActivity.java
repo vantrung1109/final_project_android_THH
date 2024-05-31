@@ -135,7 +135,7 @@ public class CourseIntroActivity extends AppCompatActivity {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(cartItemResponse -> {
-                            Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Add to cart", Toast.LENGTH_SHORT).show();
                         }, throwable -> {
                             String errorMessage = throwable.getMessage();
                             if (errorMessage != null && errorMessage.contains("already in your cart")) {
