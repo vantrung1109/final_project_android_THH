@@ -45,7 +45,6 @@ public class CourseDetailActivity extends AppCompatActivity {
         mActivityCourseDetailBinding.tvCoursePrice.setText(String.valueOf(courseIntroResponse.getCourse().getPrice()));
         mActivityCourseDetailBinding.ratingBar.setRating(courseIntroResponse.getAverageStars().floatValue());
         Glide.with(this).load(courseIntroResponse.getCourse().getPicture()).into(mActivityCourseDetailBinding.imgCourseIntro);
-
         mActivityCourseDetailBinding.progressBar.setVisibility(ProgressBar.VISIBLE);
         compositeDisposable.add(
                 ApiService.apiService.getLessonsByCourse(new CourseDetailRequest(courseIntroResponse.getCourse().get_id()))
@@ -65,6 +64,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         mActivityCourseDetailBinding.buttonBack.setOnClickListener(v -> {
             this.finish();
         });
+
     }
 
     @Override
