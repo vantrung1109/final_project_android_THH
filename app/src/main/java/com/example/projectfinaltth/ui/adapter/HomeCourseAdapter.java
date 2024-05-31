@@ -26,6 +26,7 @@ public class HomeCourseAdapter extends RecyclerView.Adapter<HomeCourseAdapter.Vi
     private HomeFragment homeFragment;
 
     public HomeCourseAdapter(List<Course> items, HomeFragment homeFragment) {
+
         this.items = items;
         this.homeFragment = homeFragment;
     }
