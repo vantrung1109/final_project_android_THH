@@ -5,6 +5,7 @@ import com.example.projectfinaltth.data.model.request.LessonRequest;
 import com.example.projectfinaltth.data.model.request.SignInRequest;
 import com.example.projectfinaltth.data.model.request.checkout.CheckoutRequest;
 import com.example.projectfinaltth.data.model.request.comment.CommentRequest;
+import com.example.projectfinaltth.data.model.request.comment.CreateCommentRequest;
 import com.example.projectfinaltth.data.model.request.course_detail.CourseDetailRequest;
 import com.example.projectfinaltth.data.model.request.document.CreateDocumentRequest;
 import com.example.projectfinaltth.data.model.request.document.DocumentRequest;
@@ -20,6 +21,7 @@ import com.example.projectfinaltth.data.model.response.changepassword.ChangePass
 import com.example.projectfinaltth.data.model.response.checkout.CartItemResponse;
 
 import com.example.projectfinaltth.data.model.response.comment.CommentResponse;
+import com.example.projectfinaltth.data.model.response.comment.CreateCommentResponse;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseSearchResponse;
 import com.example.projectfinaltth.data.model.response.document.Document;
@@ -151,6 +153,9 @@ public interface ApiService {
 
     @POST("api/comments/get-lesson-comments")
     Observable<CommentResponse> getLessonComments(@Body CommentRequest request);
+
+    @POST("api/comments/create-comment")
+    Observable<CreateCommentResponse> createComment(@Header("Authorization") String token, @Body CreateCommentRequest request);
 
     @POST("api/courses/search-courses")
     Observable<CourseResponse> searchCourses(@Body com.example.projectfinaltth.data.model.request.RequestBody requestBody);

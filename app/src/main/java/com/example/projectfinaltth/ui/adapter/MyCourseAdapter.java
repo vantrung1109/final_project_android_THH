@@ -18,6 +18,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.ui.courseDetail.CourseDetailActivity;
+import com.example.projectfinaltth.ui.review.ReviewActivity;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
 
         // Thêm sự kiện click cho nút "View Detail"
         holder.viewDetailBtn.setOnClickListener(v -> {
+            compositeDisposable.add(
             ApiService.apiService.getCourseIntroById(course.get_id())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +66,12 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
                         context.startActivity(intent);
                     }, throwable -> {
                         // Xử lý lỗi nếu cần
-                    });
+                    }));
+        });
+        holder.buttonReview.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ReviewActivity.class);
+            intent.putExtra("courseId", course.get_id());
+            context.startActivity(intent);
         });
     }
 
@@ -77,6 +84,7 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
         ImageView pic;
         TextView titleTxt, authorTxt;
         Button viewDetailBtn;
+        Button buttonReview;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +92,7 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.Course
             titleTxt = itemView.findViewById(R.id.titleTxt);
             authorTxt = itemView.findViewById(R.id.authorTxt);
             viewDetailBtn = itemView.findViewById(R.id.viewDetailBtn);
+            buttonReview = itemView.findViewById(R.id.btn_review);
         }
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectfinaltth.data.ApiService;
+import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.review.ReviewData;
 import com.example.projectfinaltth.data.model.request.review.ReviewRequest;
 import com.example.projectfinaltth.databinding.ActivityReviewBinding;
@@ -24,12 +25,10 @@ public class ReviewActivity extends AppCompatActivity {
         mActivityReviewBinding = ActivityReviewBinding.inflate(getLayoutInflater());
         setContentView(mActivityReviewBinding.getRoot());
 
-        String token = "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxMDBkNWFlYTg4NmIzMmVlNDNhZTEiLCJpYXQiOjE3MTY1ODYwODMsImV4cCI6MTcxNzQ1MDA4M30.qScWoSaR1ctGu9UZbnCrmHaNe82pwMUi7dPe1clMAZs";
+        String token = "Bearer " + DataLocalManager.getToken();
+        String courseId = getIntent().getStringExtra("courseId");
 
-        String courseId = "66410534aea886b32ee443ba";
-
-
+        mActivityReviewBinding.buttonBack.setOnClickListener(v -> finish());
         // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
         // Xử lý sự kiện khi người dùng click vào nút gửi đánh giá
         mActivityReviewBinding.btnSend.setOnClickListener(v -> {
@@ -44,11 +43,11 @@ public class ReviewActivity extends AppCompatActivity {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
-                        // Xử lý kết quả trả về
-
                         Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
                     }, throwable -> {
-                        // Xử lý lỗi
+                        Toast.makeText(this, "Bạn đã đánh giá khóa học này rồi", Toast.LENGTH_SHORT).show();
+                        finish();
                     }));
         });
     }

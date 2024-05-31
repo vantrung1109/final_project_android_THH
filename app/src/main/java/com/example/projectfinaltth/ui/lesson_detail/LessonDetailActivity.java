@@ -1,10 +1,13 @@
 package com.example.projectfinaltth.ui.lesson_detail;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
@@ -19,6 +22,7 @@ import com.example.projectfinaltth.data.model.response.lesson.Lesson;
 import com.example.projectfinaltth.databinding.ActivityCourseDetailBinding;
 import com.example.projectfinaltth.databinding.ActivityLessonDetailBinding;
 
+import com.example.projectfinaltth.ui.comment.CommentActivity;
 import com.example.projectfinaltth.utils.DateConvertUtils;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -32,6 +36,7 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     FlexibleAdapter mFlexibleAdapterDocuments, mFlexibleAdapterComments;
 
+    Lesson lesson = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
         setContentView(mActivityLessonDetailBinding.getRoot());
 
         Bundle bundle = getIntent().getExtras();
-        Lesson lesson = null;
+
         if (bundle != null)
             lesson = (Lesson) bundle.getSerializable("lesson");
         else
@@ -82,8 +87,36 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
             this.finish();
         });
 
+        mActivityLessonDetailBinding.btnLeaveComment.setOnClickListener(v -> {
+            // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
+            // Xử lý sự kiện khi người dùng click vào nút gửi bình luận
+            Intent intent = new Intent(this, CommentActivity.class);
+            Bundle bundle1 = new Bundle();
+            bundle1.putSerializable("lesson", lesson);
+            intent.putExtras(bundle1);
+            startActivityForResult(intent, 1);
+
+        });
+
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                compositeDisposable.add(
+                        ApiService.apiService.getLessonComments(new CommentRequest(lesson.get_id()))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(response -> {
+                                            mFlexibleAdapterComments.updateDataSet(response.getComments());
+                                        }, throwable -> {
+                                            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                                        }
+                                ));
+            }
+        }
+    }
 }

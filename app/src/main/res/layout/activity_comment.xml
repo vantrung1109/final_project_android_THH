@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/layout_title"
             android:layout_width="match_parent"
@@ -18,7 +17,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lesson Detail"
+                android:text="Comment Lesson"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_20sdp"
                 android:textStyle="bold"
@@ -33,65 +32,59 @@
                 />
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_documents"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_choose_rating"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_17sdp"
+            android:text="Bình luận của bạn"
             android:layout_below="@+id/layout_title"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            />
 
-            >
 
-        </androidx.recyclerview.widget.RecyclerView>
+        <EditText
+            android:id="@+id/edit_comment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:hint="Thêm bình luận của bạn ở đây"
+            android:layout_below="@+id/tv_choose_rating"
+            android:background="@drawable/background_brown"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:maxLines="10"
+            android:gravity="top"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_38sdp"
-            android:background="@drawable/background_custom_border_blue"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/btn_custom_enable"
             android:layout_marginTop="@dimen/_25sdp"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
-            android:text="Leave comment"
+            android:text="Gửi"
             android:gravity="center"
             android:textSize="@dimen/_15sdp"
             android:textColor="#FFFFFF"
             android:clickable="true"
-            android:id="@+id/btn_leave_comment"
+            android:id="@+id/btn_send"
             android:fontFamily="@font/roboto_bold"
             android:textStyle="bold"
-            android:layout_below="@id/rcv_documents"
+            android:layout_below="@+id/edit_comment"
             android:layout_marginBottom="@dimen/_20sdp"
             />
 
 
-        <TextView
-            android:id="@+id/tv_top_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Top Comments"
-            android:layout_below="@+id/btn_leave_comment"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_centerHorizontal="true"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_comments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_below="@+id/tv_top_reviews"
-            >
-
-        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
-
-
-
-
-
 
 
 </ScrollView>
