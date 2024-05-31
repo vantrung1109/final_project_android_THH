@@ -75,6 +75,9 @@ public class InstructorLessonActivity extends AppCompatActivity {
             intent.putExtra("courseId", courseId); // Chuyển ID của khóa học
             startActivity(intent);
         });
+        mActivityCourseDetailInstructorBinding.buttonBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     private void loadCourseLessons(String courseId) {

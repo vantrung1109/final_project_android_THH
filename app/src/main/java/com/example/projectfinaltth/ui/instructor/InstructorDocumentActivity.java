@@ -2,6 +2,8 @@ package com.example.projectfinaltth.ui.instructor;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +36,7 @@ public class InstructorDocumentActivity extends AppCompatActivity {
     private CommentDocumentAdapter commentAdapter;
     private List<Document> documentList;
     private List<Comment> commentList;
+    ImageView btnBack;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -72,6 +75,11 @@ public class InstructorDocumentActivity extends AppCompatActivity {
         } else {
             Log.e("InstructorDocument", "Lesson ID is null or empty");
         }
+        btnBack = findViewById(R.id.button_back);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
+
     }
 
     private void loadLessonDocuments(String lessonId) {
