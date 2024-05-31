@@ -350,6 +350,7 @@ public class RegisterFaceAI extends AppCompatActivity {
         start = true;
     }
 
+
     private void saveRegisteredFaces() {
         SharedPreferences sharedPreferences = getSharedPreferences("FaceRecognition", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
