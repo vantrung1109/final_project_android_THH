@@ -21,6 +21,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.request.AddToCartRequest;
 import com.example.projectfinaltth.data.model.request.RequestBody;
+import com.example.projectfinaltth.data.model.response.cart.CartItem;
 import com.example.projectfinaltth.data.model.response.courseIntro.Course;
 import com.example.projectfinaltth.ui.adapter.HomeCourseAdapter;
 
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private List<String> myCourses = new ArrayList<>(); // Danh sách các courseId trong "My Courses"
     private List<Course> allCourses = new ArrayList<>(); // Danh sách tất cả các khóa học
     private Set<String> topics = new HashSet<>(); // Tập hợp các chủ đề duy nhất
+    private List<CartItem> cartItems = new ArrayList<>(); // Danh sách các mục trong giỏ hàng
 
     private TextView textView71, textView72, textView73, textView7, textView81, textView82, textView83, textView8;
     private EditText editTextText;
@@ -87,8 +89,6 @@ public class HomeFragment extends Fragment {
         textView83.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
 
         imageView8.setOnClickListener(v -> fetchCoursesWithSearch(1, "ALL"));
-//        textView8.setOnClickListener(v -> fetchCoursesWithSearch(1, "ALL"));
-
 
         imageView61.setOnClickListener(v -> fetchCoursesWithSearch(1, textView71.getText().toString()));
         imageView62.setOnClickListener(v -> fetchCoursesWithSearch(1, textView72.getText().toString()));
@@ -98,9 +98,9 @@ public class HomeFragment extends Fragment {
         imageView72.setOnClickListener(v -> fetchCoursesWithSearch(1, textView82.getText().toString()));
         imageView73.setOnClickListener(v -> fetchCoursesWithSearch(1, textView83.getText().toString()));
 
-
         fetchCoursesWithSearch(1, "ALL"); // Bắt đầu từ trang 1 và tất cả các khóa học
         fetchMyCourses();
+        fetchCartItems(); // Fetch cart items
 
         // Thêm sự kiện cho EditText để tìm kiếm
         editTextText.setOnEditorActionListener((v, actionId, event) -> {
@@ -125,6 +125,11 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchCartItems(); // Fetch cart items when the fragment is resumed
+    }
 
     private void fetchCoursesWithSearch(int currentPage, String topic) {
         RequestBody requestBody = new RequestBody("", topic, currentPage, "newest");
@@ -166,6 +171,23 @@ public class HomeFragment extends Fragment {
                         .subscribe(myCoursesResponse -> {
                             for (Course course : myCoursesResponse.getCourses()) {
                                 myCourses.add(course.get_id());
+                            }
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                        })
+        );
+    }
+
+    private void fetchCartItems() {
+        String token = DataLocalManager.getToken();
+        compositeDisposable.add(
+                ApiService.apiService.getCartItem("Bearer " + token)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(cartItemResponse -> {
+                            if (cartItemResponse != null && cartItemResponse.getCartItems() != null) {
+                                cartItems.clear();
+                                cartItems.addAll(cartItemResponse.getCartItems());
                             }
                         }, throwable -> {
                             throwable.printStackTrace();
@@ -229,15 +251,24 @@ public class HomeFragment extends Fragment {
     }
 
     public void addToCart(String courseId) {
+        // Check if the course is already purchased
         if (myCourses.contains(courseId)) {
             Toast.makeText(getContext(), "You purchased this course", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Check if the course is already in the cart
+        for (CartItem item : cartItems) {
+            if (item.getCourseId().equals(courseId)) {
+                Toast.makeText(getContext(), "This course is already in your cart.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         String token = DataLocalManager.getToken();
         String cartId = DataLocalManager.getCartId();
 
-        // Kiểm tra nếu cartId rỗng, thông báo lỗi
+        // Check if cartId is empty
         if (cartId == null || cartId.isEmpty()) {
             Toast.makeText(getContext(), "Cart ID is missing", Toast.LENGTH_SHORT).show();
             return;
@@ -250,9 +281,10 @@ public class HomeFragment extends Fragment {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(cartItemResponse -> {
-                            Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Add to cart", Toast.LENGTH_SHORT).show();
+                            fetchCartItems(); // Refresh cart items after adding a new item
                         }, throwable -> {
-                            // Kiểm tra lỗi và hiển thị thông báo phù hợp
+                            // Check the error message and display an appropriate message
                             String errorMessage = throwable.getMessage();
                             if (errorMessage != null && errorMessage.contains("already in your cart")) {
                                 Toast.makeText(getContext(), "This course is already in your cart.", Toast.LENGTH_SHORT).show();
