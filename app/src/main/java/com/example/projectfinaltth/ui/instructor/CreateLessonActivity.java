@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -44,6 +45,9 @@ public class CreateLessonActivity extends AppCompatActivity {
                 createLesson();
             }
         });
+
+        ImageView btnBack = findViewById(R.id.button_back);
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void createLesson() {

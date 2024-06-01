@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -50,6 +51,8 @@ public class UpdateLessonActivity extends AppCompatActivity {
                 updateLesson();
             }
         });
+        ImageView btnBack = findViewById(R.id.button_back);
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void loadLessonData() {
@@ -84,10 +87,9 @@ public class UpdateLessonActivity extends AppCompatActivity {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe((lessonItem) -> {
                                 Toast.makeText(UpdateLessonActivity.this, "Lesson updated successfully", Toast.LENGTH_SHORT).show();
+                                Intent resultIntent = new Intent();
+                                setResult(RESULT_OK, resultIntent);
                                 finish();
-                                Intent intent = new Intent(UpdateLessonActivity.this, InstructorLessonActivity.class);
-                                intent.putExtra("courseId", courseId);
-                                startActivity(intent);
                             }, throwable -> {
                                 Log.e("UpdateLessonActivity", "Error updating lesson: " + throwable.getMessage());
                                 Toast.makeText(UpdateLessonActivity.this, "Error updating lesson: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();

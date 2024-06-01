@@ -57,6 +57,16 @@ public class InstructorLessonActivity extends AppCompatActivity {
             public void onDeleteLesson(int position, LessonItem lessonItem) {
                 deleteLessonItem(position,lessonItem);
             }
+
+            @Override
+            public void onEditLesson(int position, LessonItem lessonItem) {
+                Intent intent = new Intent(InstructorLessonActivity.this, UpdateLessonActivity.class);
+                intent.putExtra("lessonId", lessonItem.getId());
+                intent.putExtra("courseId", lessonItem.getCourseId());
+                intent.putExtra("lessonTitle", lessonItem.getTitle());
+                intent.putExtra("lessonDescription", lessonItem.getDescription());
+                startActivityForResult(intent, 1);
+            }
         });
 
         mActivityCourseDetailInstructorBinding.rcvLessons.setAdapter(lessonAdapter);

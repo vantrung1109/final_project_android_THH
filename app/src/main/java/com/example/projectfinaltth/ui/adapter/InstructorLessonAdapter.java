@@ -44,12 +44,13 @@ public class InstructorLessonAdapter extends RecyclerView.Adapter<InstructorLess
     public void onBindViewHolder(@NonNull InstructorLessonViewHolder holder, int position) {
         LessonItem lessonItem = lessonItemList.get(position);
         holder.editButton.setOnClickListener(v -> {
-            Intent intent = new Intent(context, UpdateLessonActivity.class);
-            intent.putExtra("lessonId", lessonItem.getId());
-            intent.putExtra("courseId", lessonItem.getCourseId());
-            intent.putExtra("lessonTitle", lessonItem.getTitle());
-            intent.putExtra("lessonDescription", lessonItem.getDescription());
-            context.startActivity(intent);
+            onItemInteractionListener.onEditLesson(holder.getAdapterPosition(), lessonItem);
+//            Intent intent = new Intent(context, UpdateLessonActivity.class);
+//            intent.putExtra("lessonId", lessonItem.getId());
+//            intent.putExtra("courseId", lessonItem.getCourseId());
+//            intent.putExtra("lessonTitle", lessonItem.getTitle());
+//            intent.putExtra("lessonDescription", lessonItem.getDescription());
+//            context.startActivity(intent);
         });
         holder.itemView.setOnClickListener(v -> {
             // Gửi dữ liệu cần thiết sang activity mới
@@ -86,5 +87,6 @@ public class InstructorLessonAdapter extends RecyclerView.Adapter<InstructorLess
 
     public interface OnItemInteractionListener {
         void onDeleteLesson(int position,LessonItem lessonItem);
+        void onEditLesson(int position,LessonItem lessonItem);
     }
 }
