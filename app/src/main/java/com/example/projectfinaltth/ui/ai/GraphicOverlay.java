@@ -23,6 +23,7 @@ public class GraphicOverlay extends View {
     private String name = null;
     private RectF rectF = null;
     private final Paint labelPaint = new Paint();
+    // 21110194 - Đặng Xuân Hùng
     // Constructor của lớp GraphicOverlay
     public GraphicOverlay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);

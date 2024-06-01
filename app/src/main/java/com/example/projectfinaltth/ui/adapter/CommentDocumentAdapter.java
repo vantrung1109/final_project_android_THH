@@ -28,6 +28,7 @@ public class CommentDocumentAdapter extends RecyclerView.Adapter<CommentDocument
         this.context = context;
         this.commentList = commentList;
     }
+    // Đặng Xuân Hùng - 21110194
 
     @NonNull
     @Override

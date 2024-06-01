@@ -27,6 +27,8 @@ public class CourseIntroInstructorActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     CourseIntroResponse courseIntent;
     FlexibleAdapter flexibleAdapterReviews;
+    // 21110194 - Đặng Xuân Hùng
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

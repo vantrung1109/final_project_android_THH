@@ -2,6 +2,8 @@ package com.example.projectfinaltth.ui.ai;
 
 
 public interface SimilarityClassifier {
+    // 21110194 - Đặng Xuân Hùng
+
     // Lớp Recognition chứa thông tin về kết quả nhận dạng
 
     class Recognition {

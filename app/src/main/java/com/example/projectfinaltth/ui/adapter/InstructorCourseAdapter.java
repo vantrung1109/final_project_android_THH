@@ -30,6 +30,8 @@ public class InstructorCourseAdapter extends RecyclerView.Adapter<InstructorCour
     private List<CourseItem> courseItemList;
     private String instructorName;
     private OnItemInteractionListener onItemInteractionListener;
+    // Đặng Xuân Hùng - 21110194
+
 
     public InstructorCourseAdapter(Context context, List<CourseItem> courseItemList,String instructorName, OnItemInteractionListener onItemInteractionListener) {
         this.context = context;

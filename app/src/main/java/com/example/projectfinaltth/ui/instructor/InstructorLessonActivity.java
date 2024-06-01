@@ -40,6 +40,8 @@ public class InstructorLessonActivity extends AppCompatActivity {
 
     ActivityCourseDetailInstructorBinding mActivityCourseDetailInstructorBinding;
     String courseId;
+    // 21110194 - Đặng Xuân Hùng
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

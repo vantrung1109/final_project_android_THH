@@ -96,6 +96,7 @@ public class RegisterFaceAI extends AppCompatActivity {
     private static final float IMAGE_STD = 128.0f;// Độ lệch chuẩn của ảnh
     private static final int INPUT_SIZE = 112;// Kích thước đầu vào của ảnh
     private static final int OUTPUT_SIZE=192;// Kích thước đầu ra của nhúng
+    // 21110194 - Đặng Xuân Hùng
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

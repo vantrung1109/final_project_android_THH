@@ -97,7 +97,8 @@ public class LoginFaceAI extends AppCompatActivity {
     private static final float IMAGE_STD = 128.0f;
     private static final int INPUT_SIZE = 112;
     private static final int OUTPUT_SIZE=192;
-
+    // 21110194 - Đặng Xuân Hùng
+    // giống với register nhưng mà không có nút add, và nó khi nhận diện sẽ chuyen qua giao diện đăng nhập với thông tin của khuôn mặt đó
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

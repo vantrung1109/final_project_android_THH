@@ -64,6 +64,8 @@ public class UpdateCourseActivity extends AppCompatActivity {
     MutableLiveData<User> user = new MutableLiveData<>();
 
     CourseIntroResponse course;
+    // 21110194 - Đặng Xuân Hùng
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
