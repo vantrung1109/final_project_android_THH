@@ -413,7 +413,7 @@ public class LoginFaceAI extends AppCompatActivity {
                         Intent intent = new Intent(LoginFaceAI.this, SignInActivity.class);
                         intent.putExtra("USERNAME", username);
                         intent.putExtra("PASSWORD", password);
-                        startActivity(intent);}
+                        startActivity(intent);} // dùng 2 dữ liệu này để tự động điền vào login
 
                     return name; // Trả về username
                 }

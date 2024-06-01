@@ -2,14 +2,16 @@ package com.example.projectfinaltth.ui.ai;
 
 
 public interface SimilarityClassifier {
+    // Lớp Recognition chứa thông tin về kết quả nhận dạng
+
     class Recognition {
 
-        private final String id;
-        private final String title;
+        private final String id; // ID của kết quả nhận dạng
+        private final String title; // Tiêu đề của kết quả nhận dạng
+        private final Float distance; // Khoảng cách giữa các nhúng khuôn mặt
+        private Object extra; // Dữ liệu bổ sung (nhúng của khuôn mặt)
 
-
-        private final Float distance;
-        private Object extra;
+        // Constructor để khởi tạo các giá trị của Recognition
 
         public Recognition(
                 final String id, final String title, final Float distance) {

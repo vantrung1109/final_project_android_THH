@@ -23,15 +23,15 @@ public class GraphicOverlay extends View {
     private String name = null;
     private RectF rectF = null;
     private final Paint labelPaint = new Paint();
-
+    // Constructor của lớp GraphicOverlay
     public GraphicOverlay(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
-
+    // Phương thức vẽ trên canvas
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        // Kiểm tra nếu có tên và vùng chữ nhật hợp lệ, không phải là "unknown"
         if(name != null && !name.trim().isEmpty() && rectF != null && !name.equals("unknown")) {
             labelPaint.setColor(Color.BLUE);
             labelPaint.setStyle(Paint.Style.FILL);
@@ -50,7 +50,7 @@ public class GraphicOverlay extends View {
         } else {
             rectPaint.setColor(Color.RED);
         }
-
+        // Vẽ vùng chữ nhật với các góc bo tròn
         if(rectF != null) {
             rectPaint.setStrokeWidth(8.0f);
             rectPaint.setStyle(Paint.Style.STROKE);
@@ -58,7 +58,7 @@ public class GraphicOverlay extends View {
             canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, rectPaint);
         }
     }
-
+    // Phương thức vẽ vùng chữ nhật và cập nhật thông tin
     public void draw(Rect rect, float scaleX, float scaleY, String name) {
         RectF adjustedRect = adjustBoundingRect(rect);
         this.rectF = adjustedRect;
@@ -69,15 +69,15 @@ public class GraphicOverlay extends View {
         requestLayout();
         logInfo(rect, scaleX, scaleY, adjustedRect);
     }
-
+    // Phương thức dịch tọa độ X theo tỉ lệ
     private float translateX(float x){
         return  x * scaleX;
     }
-
+    // Phương thức dịch tọa độ Y theo tỉ lệ
     private float translateY(float y) {
         return y * scaleY;
     }
-
+    // Phương thức điều chỉnh vùng chữ nhật với thêm padding
     private RectF adjustBoundingRect(Rect rect) {
         if(rect != null) {
             float padding = 10.0f;
@@ -90,7 +90,7 @@ public class GraphicOverlay extends View {
         }
         return null;
     }
-
+    // Phương thức ghi log thông tin về vùng chữ nhật và tỉ lệ
     private void logInfo(Rect rect, float scaleX, float scaleY, RectF rectF) {
         Log.i(TAG, "Boundingbox : " +  rect);
         Log.i(TAG, "RectF : " +  rectF);

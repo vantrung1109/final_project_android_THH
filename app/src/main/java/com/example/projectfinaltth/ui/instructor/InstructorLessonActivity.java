@@ -44,23 +44,26 @@ public class InstructorLessonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Khởi tạo binding cho Activity
         mActivityCourseDetailInstructorBinding = ActivityCourseDetailInstructorBinding.inflate(getLayoutInflater());
         setContentView(mActivityCourseDetailInstructorBinding.getRoot());
 
-
+        // Thiết lập LayoutManager cho RecyclerView
         mActivityCourseDetailInstructorBinding.rcvLessons.setLayoutManager(new LinearLayoutManager(this));
+        // Khởi tạo danh sách bài học và adapter
 
         lessonItemList = new ArrayList<>();
         lessonAdapter = new InstructorLessonAdapter(this, lessonItemList, new InstructorLessonAdapter.OnItemInteractionListener() {
             @Override
             public void onDeleteLesson(int position, LessonItem lessonItem) {
+                // Xử lý sự kiện xóa bài học
                 deleteLessonItem(position,lessonItem);
             }
 
             @Override
             public void onEditLesson(int position, LessonItem lessonItem) {
                 Intent intent = new Intent(InstructorLessonActivity.this, UpdateLessonActivity.class);
+                // Xử lý sự kiện chỉnh sửa bài học, truyền dữ liệu cho view update
                 intent.putExtra("lessonId", lessonItem.getId());
                 intent.putExtra("courseId", lessonItem.getCourseId());
                 intent.putExtra("lessonTitle", lessonItem.getTitle());
@@ -68,24 +71,25 @@ public class InstructorLessonActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-
+        // Thiết lập adapter cho RecyclerView
         mActivityCourseDetailInstructorBinding.rcvLessons.setAdapter(lessonAdapter);
 
-        // Get courseId from Intent or other sources
+        // Lấy courseId từ Intent
         courseId = getIntent().getStringExtra("courseId");
 
         if (courseId != null && !courseId.isEmpty()) {
-            loadCourseLessons(courseId);
+            loadCourseLessons(courseId);// Tải các bài học của khóa học
         } else {
             Log.e("InstructorLesson", "Course ID is null or empty");
         }
-
+        // Thiết lập sự kiện click cho nút tạo bài học mới
         mActivityCourseDetailInstructorBinding.btnCreateLesson.setOnClickListener(v -> {
             // Gửi dữ liệu cần thiết sang activity mới
             Intent intent = new Intent(this, CreateLessonActivity.class);
             intent.putExtra("courseId", courseId); // Chuyển ID của khóa học
             startActivityForResult(intent, 1);
         });
+        // Thiết lập sự kiện click cho nút quay lại
         mActivityCourseDetailInstructorBinding.buttonBack.setOnClickListener(v -> {
             finish();
         });
@@ -94,11 +98,11 @@ public class InstructorLessonActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            loadCourseLessons(courseId);
+            loadCourseLessons(courseId);// Tải lại danh sách bài học sau khi cập nhật
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
+    // Phương thức để tải các bài học của khóa học
     private void loadCourseLessons(String courseId) {
         compositeDisposable.add(
                 ApiService.apiService.getInstructorLessons(new CourseIdRequest(courseId))
@@ -119,6 +123,7 @@ public class InstructorLessonActivity extends AppCompatActivity {
         );
 
     }
+    // Phương thức để xóa một bài học
     private void deleteLessonItem(int position, LessonItem lessonItem) {
         String token = DataLocalManager.getToken(); // Lấy token từ local storage
         // Xóa mục khỏi giao diện ngay lập tức
