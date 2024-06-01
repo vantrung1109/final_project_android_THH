@@ -28,6 +28,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+// MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 public class CheckoutActivity extends AppCompatActivity {
     ActivityCheckoutBinding mActivityCheckoutBinding;
     Boolean isMomo = false, isPaypal = false;
@@ -59,8 +60,8 @@ public class CheckoutActivity extends AppCompatActivity {
             isPaypal = true;
         });
 
+        // Thực hiện gọi API lấy cart
         compositeDisposable.add(
-                // Thực hiện gọi API lấy cart
                 ApiService.apiService.getCart(token)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -75,7 +76,7 @@ public class CheckoutActivity extends AppCompatActivity {
         );
 
 
-
+        // Lấy danh sách các khóa học trong giỏ hàng sau khi lấy cart
         cart.observe(this, cartResponse -> {
             List<CourseOrder> list = new ArrayList<>();
             for (CartItemResponse cartItemResponse : cartResponse.getCartItems()) {
@@ -115,6 +116,9 @@ public class CheckoutActivity extends AppCompatActivity {
             paymentMethod = "MOMO";
         }
         CheckoutRequest checkoutRequest = new CheckoutRequest(paymentMethod);
+
+        // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
+        // Xử lý sự kiện khi người dùng click vào nút thanh toán
         mActivityCheckoutBinding.btnCheckout.setOnClickListener(v -> {
             compositeDisposable.add(
                     // Thực hiện gọi API checkout
@@ -132,6 +136,7 @@ public class CheckoutActivity extends AppCompatActivity {
                             ));
         });
 
+        // Xử lý sự kiện khi người dùng click vào nút back
         mActivityCheckoutBinding.buttonBack.setOnClickListener(v -> {
             finish();
         });

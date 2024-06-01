@@ -46,12 +46,16 @@ public class CourseDetailActivity extends AppCompatActivity {
         mActivityCourseDetailBinding.ratingBar.setRating(courseIntroResponse.getAverageStars().floatValue());
         Glide.with(this).load(courseIntroResponse.getCourse().getPicture()).into(mActivityCourseDetailBinding.imgCourseIntro);
         mActivityCourseDetailBinding.progressBar.setVisibility(ProgressBar.VISIBLE);
+
+        // Gọi API lấy danh sách bài học
         compositeDisposable.add(
                 ApiService.apiService.getLessonsByCourse(new CourseDetailRequest(courseIntroResponse.getCourse().get_id()))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(response -> {
                             mFlexibleAdapter = new FlexibleAdapter(response.getLessons());
+                            // Trong FlexibleAdapter (thư viện FlexibleAdapter dùng cho RecyclerView), mỗi item sẽ được hiển thị dưới dạng ViewHolder,
+                            // item Lesson sẽ hiển thị luôn trong nó list các video bài học và comment
                             mActivityCourseDetailBinding.rcvLessons.setAdapter(mFlexibleAdapter);
                             mActivityCourseDetailBinding.rcvLessons.setLayoutManager(new LinearLayoutManager(this));
                             mActivityCourseDetailBinding.progressBar.setVisibility(ProgressBar.GONE);
@@ -61,6 +65,7 @@ public class CourseDetailActivity extends AppCompatActivity {
                         })
         );
 
+        // Button Back
         mActivityCourseDetailBinding.buttonBack.setOnClickListener(v -> {
             this.finish();
         });

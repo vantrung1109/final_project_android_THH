@@ -118,6 +118,8 @@ public class CourseIntroActivity extends AppCompatActivity {
         mActivityCourseIntroBinding.buttonBack.setOnClickListener(v -> finish());
     }
 
+
+    // Gọi API thêm khóa học vào giỏ hàng
     private void addToCart(String courseId) {
         String token = DataLocalManager.getToken();
         String cartId = DataLocalManager.getCartId();

@@ -20,6 +20,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+// MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 public class CommentActivity extends AppCompatActivity {
     ActivityCommentBinding mActivityCommentBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
