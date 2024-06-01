@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.projectfinaltth.data.ApiService;
+import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.course.CourseItem;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.databinding.ActivityCourseIntroInstructorBinding;
+import com.example.projectfinaltth.ui.main.MainInstructorActivity;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -73,6 +75,21 @@ public class CourseIntroInstructorActivity extends AppCompatActivity {
             Intent intent = new Intent(this, InstructorLessonActivity.class);
             intent.putExtra("courseId", courseId);
             startActivity(intent);
+        });
+        mActivityCourseIntroInstructorBinding.btnDeleteCourse.setOnClickListener(v -> {
+            String token = "Bearer " + DataLocalManager.getToken();
+            compositeDisposable.add(
+                    ApiService.apiService.deleteCourse(token, courseId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(() -> {
+                                Log.e("CourseIntroInstructor", "Delete course success");
+                                Intent intent = new Intent(this, MainInstructorActivity.class);
+                                startActivity(intent);
+                            }, throwable -> {
+                                Log.e("CourseIntroInstructor", "Delete course fail", throwable);
+                            })
+            );
         });
     }
 }

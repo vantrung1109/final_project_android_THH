@@ -216,6 +216,23 @@
                     android:layout_below="@id/btn_edit_intro"
                     android:layout_marginBottom="@dimen/_20sdp"
                     />
+
+                <TextView
+                    android:id="@+id/btn_delete_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_38sdp"
+                    android:background="@drawable/btn_delete"
+                    android:text="Delete Course"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="#FFFFFF"
+                    android:clickable="true"
+
+                    android:fontFamily="@font/roboto_bold"
+                    android:textStyle="bold"
+                    android:layout_below="@id/btn_edit_detail"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    />
             </RelativeLayout>
 
 
