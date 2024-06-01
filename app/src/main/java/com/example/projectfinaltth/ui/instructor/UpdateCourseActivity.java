@@ -23,7 +23,7 @@ import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.profile.User;
-import com.example.projectfinaltth.model.api.Course;
+
 import com.example.projectfinaltth.ui.adapter.Topic.Topic;
 import com.example.projectfinaltth.ui.adapter.Topic.TopicAdapter;
 import com.example.projectfinaltth.ui.main.MainInstructorActivity;
