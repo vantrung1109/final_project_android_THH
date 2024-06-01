@@ -30,19 +30,17 @@ import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.functions.Action;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-
+//MSSV:21110826 Họ Và Tên: Từ Thanh Hoài
 public class CartFragment extends Fragment {
 
-    private RecyclerView cartRecyclerView;
-    private CartAdapter cartAdapter;
-    private List<CartItem> cartItemList;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private TextView totalTxt;
+    private RecyclerView cartRecyclerView; // RecyclerView để hiển thị danh sách giỏ hàng
+    private CartAdapter cartAdapter; // Adapter cho RecyclerView
+    private List<CartItem> cartItemList; // Danh sách các mục trong giỏ hàng
+    private CompositeDisposable compositeDisposable = new CompositeDisposable(); // Quản lý các disposable để tránh rò rỉ bộ nhớ
+    private TextView totalTxt; // TextView để hiển thị tổng giá
 
-    FragmentCartBinding mFragmentCartBinding;
+    FragmentCartBinding mFragmentCartBinding; // Binding cho fragment
 
     public CartFragment() {
         // Required empty public constructor
@@ -58,30 +56,31 @@ public class CartFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.e("course", "Reload Cart");
-        loadCart();
+        loadCart(); // Tải lại giỏ hàng khi Fragment được resume
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate layout cho Fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         mFragmentCartBinding = FragmentCartBinding.inflate(inflater, container, false);
 
+        // Liên kết RecyclerView từ layout
         cartRecyclerView = view.findViewById(R.id.cartView);
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        cartItemList = new ArrayList<>();
-        cartAdapter = new CartAdapter(getContext(), cartItemList, this::deleteCartItem);
-        cartRecyclerView.setAdapter(cartAdapter);
+        cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext())); // Đặt layout cho RecyclerView
 
-        Button btnCheckout = view.findViewById(R.id.btn_checkout);
+        cartItemList = new ArrayList<>(); // Khởi tạo danh sách mục giỏ hàng
+        cartAdapter = new CartAdapter(getContext(), cartItemList, this::deleteCartItem); // Khởi tạo adapter với danh sách và listener xóa
+        cartRecyclerView.setAdapter(cartAdapter); // Thiết lập adapter cho RecyclerView
 
+        Button btnCheckout = view.findViewById(R.id.btn_checkout); // Liên kết nút "Checkout" từ layout
         btnCheckout.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), CheckoutActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent(getContext(), CheckoutActivity.class); // Tạo intent để mở CheckoutActivity
+            startActivity(intent); // Bắt đầu activity
         });
 
-        // Khởi tạo totalTxt
+        // Liên kết TextView để hiển thị tổng giá
         totalTxt = view.findViewById(R.id.totalTxt);
 
         return view;
@@ -93,14 +92,14 @@ public class CartFragment extends Fragment {
             Log.d("CartFragment", "Token: " + token);
             compositeDisposable.add(
                     ApiService.apiService.getCartItem("Bearer " + token)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io()) // Chạy yêu cầu trên luồng I/O
+                            .observeOn(AndroidSchedulers.mainThread()) // Quan sát kết quả trên luồng chính
                             .subscribe(cartItemResponse -> {
                                 // Kiểm tra nếu phản hồi từ API không null và có dữ liệu
                                 if (cartItemResponse != null && cartItemResponse.getCartItems() != null) {
                                     cartItemList.clear();
                                     cartItemList.addAll(cartItemResponse.getCartItems());
-                                    loadCoursesForCartItems(cartItemList);
+                                    loadCoursesForCartItems(cartItemList); // Tải thông tin chi tiết các khóa học trong giỏ hàng
                                 } else {
                                     Log.e("CartFragment", "Cart response is null or has no items");
                                 }
@@ -117,12 +116,12 @@ public class CartFragment extends Fragment {
         for (CartItem cartItem : cartItems) {
             compositeDisposable.add(
                     ApiService.apiService.getCourseIntroById(cartItem.getCourseId())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io()) // Chạy yêu cầu trên luồng I/O
+                            .observeOn(AndroidSchedulers.mainThread()) // Quan sát kết quả trên luồng chính
                             .subscribe(course -> {
-                                cartItem.setCourse(course.getCourse());
-                                cartAdapter.notifyDataSetChanged();
-                                updateTotalPrice();
+                                cartItem.setCourse(course.getCourse()); // Thiết lập thông tin chi tiết cho mục giỏ hàng
+                                cartAdapter.notifyDataSetChanged(); // Cập nhật adapter
+                                updateTotalPrice(); // Cập nhật tổng giá
                             }, throwable -> {
                                 Log.e("CartFragment", "Error loading course: " + throwable.getMessage());
                             })
@@ -134,10 +133,10 @@ public class CartFragment extends Fragment {
         double total = 0.0;
         for (CartItem item : cartItemList) {
             if (item.getCourse() != null) {
-                total += item.getCourse().getPrice();
+                total += item.getCourse().getPrice(); // Tính tổng giá
             }
         }
-        totalTxt.setText("$" + total);
+        totalTxt.setText("$" + total); // Hiển thị tổng giá
     }
 
     private void deleteCartItem(int position, CartItem cartItem) {
@@ -153,28 +152,27 @@ public class CartFragment extends Fragment {
             Log.d("CartFragment", "Deleting item with cartId: " + cartItem.getCartId() + " and courseId: " + cartItem.getCourseId());
             compositeDisposable.add(
                     ApiService.apiService.removeFromCart("Bearer " + token, cartItem.getCartId(), cartItem.getCourseId())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io()) // Chạy yêu cầu trên luồng I/O
+                            .observeOn(AndroidSchedulers.mainThread()) // Quan sát kết quả trên luồng chính
                             .subscribe(
                                     () -> {
-                                        Snackbar.make(cartRecyclerView, "Delete successful", Snackbar.LENGTH_SHORT).show();
+                                        Snackbar.make(cartRecyclerView, "Delete successful", Snackbar.LENGTH_SHORT).show(); // Hiển thị thông báo thành công
                                     },
                                     throwable -> {
                                         Log.e("CartFragment", "Error removing item from cart: " + throwable.getMessage());
-                                        Snackbar.make(cartRecyclerView, "Error removing item: " + throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+                                        Snackbar.make(cartRecyclerView, "Error removing item: " + throwable.getMessage(), Snackbar.LENGTH_SHORT).show(); // Hiển thị thông báo lỗi
                                     }
                             )
             );
         } else {
             Log.e("CartFragment", "Token is null");
-            Snackbar.make(cartRecyclerView, "Token is null", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(cartRecyclerView, "Token is null", Snackbar.LENGTH_SHORT).show(); // Hiển thị thông báo lỗi
         }
     }
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        compositeDisposable.clear();
+        compositeDisposable.clear(); // Xóa tất cả các disposable khi Fragment bị hủy
     }
 }
