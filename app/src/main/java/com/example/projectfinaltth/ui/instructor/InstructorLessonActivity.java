@@ -39,6 +39,7 @@ public class InstructorLessonActivity extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     ActivityCourseDetailInstructorBinding mActivityCourseDetailInstructorBinding;
+    String courseId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class InstructorLessonActivity extends AppCompatActivity {
         mActivityCourseDetailInstructorBinding.rcvLessons.setAdapter(lessonAdapter);
 
         // Get courseId from Intent or other sources
-        String courseId = getIntent().getStringExtra("courseId");
+        courseId = getIntent().getStringExtra("courseId");
 
         if (courseId != null && !courseId.isEmpty()) {
             loadCourseLessons(courseId);
@@ -73,11 +74,19 @@ public class InstructorLessonActivity extends AppCompatActivity {
             // Gửi dữ liệu cần thiết sang activity mới
             Intent intent = new Intent(this, CreateLessonActivity.class);
             intent.putExtra("courseId", courseId); // Chuyển ID của khóa học
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         });
         mActivityCourseDetailInstructorBinding.buttonBack.setOnClickListener(v -> {
             finish();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            loadCourseLessons(courseId);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void loadCourseLessons(String courseId) {

@@ -1,9 +1,11 @@
 package com.example.projectfinaltth.ui.instructor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +41,7 @@ public class InstructorDocumentActivity extends AppCompatActivity {
     ImageView btnBack;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
+    String lessonId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class InstructorDocumentActivity extends AppCompatActivity {
         commentsRecyclerView.setAdapter(commentAdapter);
 
         // Get lessonId from Intent or other sources
-        String lessonId = getIntent().getStringExtra("lessonId");
+        lessonId = getIntent().getStringExtra("lessonId");
         Log.e("", lessonId);
         if (lessonId != null && !lessonId.isEmpty()) {
             loadLessonDocuments(lessonId);
@@ -80,7 +82,25 @@ public class InstructorDocumentActivity extends AppCompatActivity {
             finish();
         });
 
+        TextView btnAddDocument = findViewById(R.id.btn_create_document);
+
+        btnAddDocument.setOnClickListener(v -> {
+            // Gửi dữ liệu cần thiết sang activity mới
+             Intent intent = new Intent(this, CreateDocumentActivity.class);
+             intent.putExtra("lessonId", lessonId); // Chuyển ID của bài học
+             startActivityForResult(intent, 1);
+        });
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            loadLessonDocuments(lessonId);
+        }
+    }
+
 
     private void loadLessonDocuments(String lessonId) {
         compositeDisposable.add(

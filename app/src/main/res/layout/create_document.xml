@@ -2,25 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Document"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            />
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            />
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Title" />
+        android:layout_height="@dimen/_40sdp"
+        android:hint="Title"
+        android:background="@drawable/background_white"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        />
 
     <EditText
         android:id="@+id/edit_text_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description" />
+        android:layout_height="@dimen/_40sdp"
+        android:hint="Description"
+        android:background="@drawable/background_white"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        />
 
     <Button
         android:id="@+id/button_choose_video"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Video" />
+        android:text="Choose Video"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/background_custom_border_blue"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp"
+        />
 
     <!-- VideoView để hiển thị video đã chọn -->
     <VideoView
@@ -30,8 +74,15 @@
 
     <Button
         android:id="@+id/button_create"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Document" />
+        android:text="Create Document"
+
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/background_custom_border_green_bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp"
+        />
 
 </LinearLayout>

@@ -67,9 +67,9 @@ public class CreateLessonActivity extends AppCompatActivity {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(lessonItem -> {
                                 // Tạo bài học thành công, chuyển đến InstructorLessonActivity
-                                Intent intent = new Intent(CreateLessonActivity.this, InstructorLessonActivity.class);
-                                intent.putExtra("courseId", courseId);
-                                startActivity(intent);
+                                Intent resultIntent = new Intent();
+                                setResult(RESULT_OK, resultIntent);
+                                finish();
                             }, throwable -> {
                                 Log.e("CreateLesson", "Error creating lesson: " + throwable.getMessage());
                                 Toast.makeText(CreateLessonActivity.this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();

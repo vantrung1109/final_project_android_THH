@@ -30,6 +30,7 @@ import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.data.model.response.profile.UserResponse;
 import com.example.projectfinaltth.ui.adapter.Topic.Topic;
 import com.example.projectfinaltth.ui.adapter.Topic.TopicAdapter;
+import com.example.projectfinaltth.ui.main.MainInstructorActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -186,6 +187,8 @@ public class CreateInstructorFragment extends Fragment {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseItem -> {
                             Toast.makeText(getContext(), "Create course successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), MainInstructorActivity.class);
+                            startActivity(intent);
                             progressBar.setVisibility(View.GONE);
                         }, throwable -> {
                             Log.e("CreateCourse", "Error creating course: " + throwable.getMessage());

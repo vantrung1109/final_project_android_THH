@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -56,6 +57,11 @@ public class CreateDocumentActivity extends AppCompatActivity {
 
         chooseVideoButton.setOnClickListener(v -> chooseVideo());
         createButton.setOnClickListener(v -> createDocument());
+        ImageView btnBack = findViewById(R.id.button_back);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
+
     }
 
     private void chooseVideo() {
@@ -83,7 +89,9 @@ public class CreateDocumentActivity extends AppCompatActivity {
 
         String title = titleEditText.getText().toString().trim();
         String description = descriptionEditText.getText().toString().trim();
-        String lessonId = "6640fda7aea886b32ee43925";
+
+        Intent intent = getIntent();
+        String lessonId = intent.getStringExtra("lessonId");
 
         if (title.isEmpty() || description.isEmpty() || selectedVideoUri == null) {
             Toast.makeText(this, "Please fill in all fields and choose a video", Toast.LENGTH_SHORT).show();
@@ -116,6 +124,9 @@ public class CreateDocumentActivity extends AppCompatActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(CreateDocumentRequest -> {
                             Toast.makeText(this, "Document created successfully", Toast.LENGTH_SHORT).show();
+                            Intent resultIntent = new Intent();
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
                        }, throwable -> {
                             Log.e("CreateDocument", "Error creating document: " + throwable.getMessage());
                             Toast.makeText(this, "Error creating document: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();

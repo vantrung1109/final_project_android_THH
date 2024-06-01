@@ -86,6 +86,7 @@ public class CourseIntroInstructorActivity extends AppCompatActivity {
                                 Log.e("CourseIntroInstructor", "Delete course success");
                                 Intent intent = new Intent(this, MainInstructorActivity.class);
                                 startActivity(intent);
+
                             }, throwable -> {
                                 Log.e("CourseIntroInstructor", "Delete course fail", throwable);
                             })
