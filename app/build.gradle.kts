@@ -96,4 +96,9 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite:0.7.0")
     implementation("org.tensorflow:tensorflow-lite:2.8.0")
     implementation("com.google.code.gson:gson:2.8.8")
+
+    // Navigation Component
+    val nav_version = "2.7.2"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 }

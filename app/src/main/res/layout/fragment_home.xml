@@ -28,6 +28,7 @@
                     android:layout_height="45dp"
                     android:background="@drawable/edittext_background"
                     android:ems="10"
+                    android:layout_marginTop="10dp"
                     android:hint="Searching"
                     android:inputType="text"
                     android:padding="8dp"
@@ -104,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Category"
+                    android:text="Topic"
                     android:textColor="@color/black"
                     android:textSize="19sp"
                     android:textStyle="bold" />
