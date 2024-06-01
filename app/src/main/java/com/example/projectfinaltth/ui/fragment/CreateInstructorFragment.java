@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class CreateInstructorFragment extends Fragment {
     private ImageView imageView;
 
     private Uri selectedImageUri;
+    private ProgressBar progressBar;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     MutableLiveData<UserResponse> userCurrent = new MutableLiveData<>();
@@ -75,7 +77,7 @@ public class CreateInstructorFragment extends Fragment {
         createButton = view.findViewById(R.id.button_create);
         chooseImageButton = view.findViewById(R.id.button_choose_image);
         imageView = view.findViewById(R.id.image_view);
-
+        progressBar = view.findViewById(R.id.progress_bar);
         chooseImageButton.setOnClickListener(v -> chooseImage());
 
         compositeDisposable.add(
@@ -91,8 +93,6 @@ public class CreateInstructorFragment extends Fragment {
         );
 
         userCurrent.observe(getViewLifecycleOwner(), userResponse -> {
-            User user = userResponse.getUser();
-            userIdEditText.setText(user.getId());
             createButton.setOnClickListener(v -> createCourse(userCurrent.getValue().getUser().getId()));
         });
 
@@ -179,15 +179,18 @@ public class CreateInstructorFragment extends Fragment {
         RequestBody requestBodyFile = RequestBody.create(MediaType.parse("image/jpeg"), imageFile);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("picture", imageFile.getName(), requestBodyFile);
 
+        progressBar.setVisibility(View.VISIBLE);
         compositeDisposable.add(
                 ApiService.apiService.createCourse("Bearer " + token, requestBodyTitle, requestBodyPrice, requestBodyTopic, requestBodyDescription, requestBodyUserId, filePart)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(courseItem -> {
                             Toast.makeText(getContext(), "Create course successfully", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }, throwable -> {
                             Log.e("CreateCourse", "Error creating course: " + throwable.getMessage());
                             Toast.makeText(getContext(), "Error creating course: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         })
         );
     }
