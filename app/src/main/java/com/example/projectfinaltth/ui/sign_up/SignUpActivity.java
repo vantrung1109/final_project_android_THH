@@ -16,6 +16,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+// MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 public class SignUpActivity extends AppCompatActivity {
     ActivitySignUpBinding mActivitySignUpBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -25,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity {
         mActivitySignUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(mActivitySignUpBinding.getRoot());
 
+        // Xử lý sự kiện khi người dùng click vào nút Đăng ký
         mActivitySignUpBinding.btnSignUp.setOnClickListener(v -> {
             compositeDisposable.add(
                     ApiService.apiService.signUp(
@@ -38,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(response -> {
                                 if (response.getSuccess() != null){
+                                    // Hiển thị thông báo và chuyển sang màn hình nhập mã OTP
                                     Toast.makeText(this, response.getSuccess(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(SignUpActivity.this, OtpActivity.class);
                                     Bundle bundle = new Bundle();
@@ -54,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
             );
         });
 
+        // Xử lý sự kiện khi người dùng click vào nút Đăng nhập
         mActivitySignUpBinding.tvSignIn.setOnClickListener(v -> {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);

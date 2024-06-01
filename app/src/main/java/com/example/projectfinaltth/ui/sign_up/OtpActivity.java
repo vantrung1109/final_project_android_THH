@@ -15,6 +15,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+// MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 public class OtpActivity extends AppCompatActivity {
 
     ActivityOtpBinding mActivityOtpBinding;
@@ -29,7 +30,8 @@ public class OtpActivity extends AppCompatActivity {
         setContentView(mActivityOtpBinding.getRoot());
 
         Bundle bundle = getIntent().getExtras();
-        ;
+
+        // Lấy email từ intent
         if (bundle != null) {
             email = bundle.getString("email");
             mActivityOtpBinding.tvEmail.setText(email);
@@ -44,11 +46,13 @@ public class OtpActivity extends AppCompatActivity {
                 + mActivityOtpBinding.edtOtp5.getText().toString()
                 + mActivityOtpBinding.edtOtp6.getText().toString();
 
+            // Kiểm tra xem người dùng đã nhập đủ 6 số chưa
             if (otp.length() != 6) {
                 Toast.makeText(this, "Bạn phải nhập đủ 6 số", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // Gọi API verifyOtp
             compositeDisposable.add(
                     ApiService.apiService.verifyOtp(new OtpRequest(email, otp))
                             .subscribeOn(Schedulers.io())
@@ -56,6 +60,7 @@ public class OtpActivity extends AppCompatActivity {
                             .subscribe(
                                     response -> {
                                         if (response.getSuccess() != null) {
+                                            // Nếu đăng ký thành công, chuyển sang màn hình đăng nhập
                                             Toast.makeText(this, response.getSuccess(), Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(OtpActivity.this, SignInActivity.class);
                                             startActivity(intent);

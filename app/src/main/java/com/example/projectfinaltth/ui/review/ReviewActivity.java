@@ -16,6 +16,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+// MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
 public class ReviewActivity extends AppCompatActivity {
     ActivityReviewBinding mActivityReviewBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -25,7 +26,9 @@ public class ReviewActivity extends AppCompatActivity {
         mActivityReviewBinding = ActivityReviewBinding.inflate(getLayoutInflater());
         setContentView(mActivityReviewBinding.getRoot());
 
+        // Lấy token từ DataLocalManager
         String token = "Bearer " + DataLocalManager.getToken();
+        // Lấy courseId từ intent
         String courseId = getIntent().getStringExtra("courseId");
 
         mActivityReviewBinding.buttonBack.setOnClickListener(v -> finish());

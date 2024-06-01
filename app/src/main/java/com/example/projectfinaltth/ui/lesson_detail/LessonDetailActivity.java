@@ -82,7 +82,7 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
                             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                         }
         ));
-
+        // Set dữ liệu vào view
         mActivityLessonDetailBinding.buttonBack.setOnClickListener(v -> {
             this.finish();
         });
@@ -101,6 +101,8 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
 
     }
 
+    // MSSV: 21110335, Họ và tên: Nguyễn Trần Văn Trung
+    // Update lại dữ liệu sau khi người dùng thêm bình luận
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -111,6 +113,7 @@ public class LessonDetailActivity extends AppCompatActivity  implements Player.L
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(response -> {
+                                    // Set dữ liệu lại lên view
                                             mFlexibleAdapterComments.updateDataSet(response.getComments());
                                         }, throwable -> {
                                             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
