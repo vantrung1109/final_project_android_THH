@@ -45,7 +45,7 @@ import okhttp3.RequestBody;
 
 public class UpdateCourseActivity extends AppCompatActivity {
 
-    private static final int REQUEST_IMAGE_PICKER = 1;
+    private static final int REQUEST_IMAGE_PICKER = 1; // Hằng số xác định yêu cầu chọn ảnh
 
     private EditText titleEditText;
     private EditText priceEditText;
@@ -57,7 +57,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
     private ImageView imageView;
 
     private Uri selectedImageUri;
-    private boolean initialImageSet = false;
+    private boolean initialImageSet = false;// Cờ để kiểm tra xem ảnh ban đầu đã được thiết lập hay chưa
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -70,6 +70,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_course);
 
+        // Khởi tạo các thành phần giao diện
         titleEditText = findViewById(R.id.edit_text_title);
         priceEditText = findViewById(R.id.edit_text_price);
         topicSpinner = findViewById(R.id.spinner_topic);
@@ -80,7 +81,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_view);
 
 
-
+        // Nhận dữ liệu từ Intent
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             course = (CourseIntroResponse) bundle.getSerializable("courseIntro");
@@ -89,15 +90,15 @@ public class UpdateCourseActivity extends AppCompatActivity {
                     .into(imageView);
             initialImageSet = true;
 
-
+            // Đặt dữ liệu lên view
             titleEditText.setText(course.getCourse().getTitle());
             descriptionEditText.setText(course.getCourse().getDescription());
             //topicEditText(course.getCourse().getTopic());
             priceEditText.setText(String.valueOf(course.getCourse().getPrice()));
         }
-
+        // Thiết lập sự kiện click cho nút chọn ảnh
         chooseImageButton.setOnClickListener(v -> chooseImage());
-
+        // Thiết lập adapter cho Spinner
         topicAdapter = new TopicAdapter(this, R.layout.item_topic_selected, getTopics());
         topicSpinner.setAdapter(topicAdapter);
         topicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,6 +114,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
         });
         Log.e("UpdateCourse", "Topic: " + course.getCourse().getTopic());
         setSpinnerSelection(topicSpinner, course.getCourse().getTopic());
+        // Gọi API để lấy thông tin người dùng hiện tại
         compositeDisposable.add(
                 ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
                         .subscribeOn(Schedulers.io())
@@ -126,17 +128,17 @@ public class UpdateCourseActivity extends AppCompatActivity {
                         }
                         )
         );
-
+        // Thiết lập sự kiện click cho nút cập nhật khóa học
         user.observe(this, user -> {
             createButton.setOnClickListener(v -> updateCourse(user.getId()));
         });
-
+        // Thiết lập sự kiện click cho nút quay lại
         ImageView back = findViewById(R.id.button_back);
         back.setOnClickListener(v -> {
             finish();
         });
     }
-
+    // Phương thức để thiết lập lựa chọn cho Spinner
     private void setSpinnerSelection(Spinner spinner, String topicName) {
         ArrayAdapter<Topic> adapter = (ArrayAdapter<Topic>) spinner.getAdapter();
         Log.e("UpdateCourse", "Adapter count: " + adapter.getCount());
@@ -147,7 +149,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
             }
         }
     }
-
+    // Phương thức để lấy danh sách các chủ đề
     public List<Topic> getTopics() {
         List topics = new ArrayList<>();
         topics.add( new Topic("WEB"));
@@ -158,14 +160,13 @@ public class UpdateCourseActivity extends AppCompatActivity {
         topics.add( new Topic("SOFTWARE"));
         return topics;
     }
-
+    // Phương thức để chọn ảnh từ thiết bị
     private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Image"), REQUEST_IMAGE_PICKER);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,21 +177,22 @@ public class UpdateCourseActivity extends AppCompatActivity {
             }
         }
     }
+    // Phương thức để cập nhật khóa học
 
     private void updateCourse(String userId) {
-        String token = DataLocalManager.getToken(); // Get token from local storage
+        String token = DataLocalManager.getToken(); // Lấy token từ lưu trữ cục bộ
 
         String title = titleEditText.getText().toString().trim();
         String price = priceEditText.getText().toString().trim();
         String topic = ((Topic) topicSpinner.getSelectedItem()).getName().toString();
         String description = descriptionEditText.getText().toString().trim();
-
+        // Kiểm tra các trường thông tin bắt buộc
         if (title.isEmpty() || price.isEmpty()  || description.isEmpty() || userId.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Prepare image part only if a new image is selected or if no initial image was set
+        // Chuẩn bị phần hình ảnh chỉ khi ảnh mới được chọn hoặc ảnh ban đầu chưa được thiết lập
         MultipartBody.Part filePart = null;
         if (selectedImageUri != null || !initialImageSet) {
             File imageFile = new File(getCacheDir(), "image.jpg");
@@ -218,6 +220,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
         RequestBody requestBodyTopic = RequestBody.create(MediaType.parse("text/plain"), topic);
         RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("text/plain"), description);
         RequestBody requestBodyUserId = RequestBody.create(MediaType.parse("text/plain"), userId);
+        // Gọi API để cập nhật khóa học
 
         compositeDisposable.add(
                 ApiService.apiService.updateCourse("Bearer " + token, courseId, requestBodyTitle, requestBodyPrice, requestBodyTopic, requestBodyDescription, requestBodyUserId, filePart)

@@ -46,42 +46,45 @@ public class InstructorDocumentActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_document);
-
+        // Khởi tạo RecyclerView và LayoutManager
         documentsRecyclerView = findViewById(R.id.rcv_documents);
         commentsRecyclerView = findViewById(R.id.rcv_comments);
 
         documentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        // Khởi tạo danh sách và adapter cho tài liệu và bình luận
         documentList = new ArrayList<>();
         commentList = new ArrayList<>();
 
         documentAdapter = new InstructorDocumentAdapter(this, documentList, new InstructorDocumentAdapter.OnItemInteractionListener() {
             @Override
             public void onDeleteLesson(int position, Document document) {
+                // Xử lý sự kiện xóa tài liệu
                 deleteDocumentItem(position, document);
             }
         });
-
+        // Thiết lập adapter cho RecyclerView
         commentAdapter = new CommentDocumentAdapter(this, commentList);
 
         documentsRecyclerView.setAdapter(documentAdapter);
         commentsRecyclerView.setAdapter(commentAdapter);
 
-        // Get lessonId from Intent or other sources
+        // Lấy lessonId từ Intent hoặc các nguồn khác
         lessonId = getIntent().getStringExtra("lessonId");
         Log.e("", lessonId);
         if (lessonId != null && !lessonId.isEmpty()) {
+            // Tải tài liệu và bình luận của bài học
             loadLessonDocuments(lessonId);
             loadLessonComments(lessonId);
         } else {
             Log.e("InstructorDocument", "Lesson ID is null or empty");
         }
+        // Thiết lập sự kiện click cho nút quay lại
         btnBack = findViewById(R.id.button_back);
         btnBack.setOnClickListener(v -> {
             finish();
         });
-
+        // Thiết lập sự kiện click cho nút thêm tài liệu mới
         TextView btnAddDocument = findViewById(R.id.btn_create_document);
 
         btnAddDocument.setOnClickListener(v -> {
@@ -97,11 +100,13 @@ public class InstructorDocumentActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Tải lại danh sách tài liệu sau khi thêm mới
             loadLessonDocuments(lessonId);
         }
     }
 
 
+    // Phương thức để tải các tài liệu của bài học
     private void loadLessonDocuments(String lessonId) {
         compositeDisposable.add(
                 ApiService.apiService.getDocumentByLesson(new DocumentRequest(lessonId))
@@ -122,7 +127,7 @@ public class InstructorDocumentActivity extends AppCompatActivity {
                         })
         );
     }
-
+    // Phương thức để tải các bình luận của bài học
     private void loadLessonComments(String lessonId) {
         compositeDisposable.add(
                 ApiService.apiService.getLessonComments(new CommentRequest(lessonId))
@@ -143,11 +148,11 @@ public class InstructorDocumentActivity extends AppCompatActivity {
                         })
         );
     }
-
+    // Phương thức để xóa một tài liệu
     private void deleteDocumentItem(int position, Document document) {
-        String token = DataLocalManager.getToken(); // Get token from local storage
+        String token = DataLocalManager.getToken(); // Lấy token từ local storage
 
-        // Remove item from UI immediately
+        // Xóa mục khỏi giao diện ngay lập tức
         documentList.remove(position);
         documentAdapter.notifyItemRemoved(position);
         documentAdapter.notifyItemRangeChanged(position, documentList.size());

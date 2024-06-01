@@ -48,7 +48,7 @@ import okhttp3.RequestBody;
 
 public class CreateInstructorFragment extends Fragment {
 
-    private static final int REQUEST_IMAGE_PICKER = 1;
+    private static final int REQUEST_IMAGE_PICKER = 1;// Hằng số xác định yêu cầu chọn ảnh
 
     private EditText titleEditText;
     private EditText priceEditText;
@@ -60,7 +60,7 @@ public class CreateInstructorFragment extends Fragment {
     private Button chooseImageButton;
     private ImageView imageView;
 
-    private Uri selectedImageUri;
+    private Uri selectedImageUri;// URI của ảnh đã chọn
     private ProgressBar progressBar;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -70,7 +70,7 @@ public class CreateInstructorFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.create_course, container, false);
-
+        // Khởi tạo các thành phần giao diện
         titleEditText = view.findViewById(R.id.edit_text_title);
         priceEditText = view.findViewById(R.id.edit_text_price);
         topicSpinner =  view.findViewById(R.id.spinner_topic);
@@ -79,8 +79,9 @@ public class CreateInstructorFragment extends Fragment {
         chooseImageButton = view.findViewById(R.id.button_choose_image);
         imageView = view.findViewById(R.id.image_view);
         progressBar = view.findViewById(R.id.progress_bar);
+        // Thiết lập sự kiện click cho nút chọn ảnh
         chooseImageButton.setOnClickListener(v -> chooseImage());
-
+        // Gọi API để lấy thông tin người dùng
         compositeDisposable.add(
                 ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
                         .subscribeOn(Schedulers.io())
@@ -92,11 +93,11 @@ public class CreateInstructorFragment extends Fragment {
                             Toast.makeText(getContext(), "Error getting user: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                         })
         );
-
+        // Thiết lập sự kiện khi nhận được thông tin người dùng
         userCurrent.observe(getViewLifecycleOwner(), userResponse -> {
             createButton.setOnClickListener(v -> createCourse(userCurrent.getValue().getUser().getId()));
         });
-
+        // Thiết lập adapter cho Spinner
         topicAdapter = new TopicAdapter(getContext(), R.layout.item_topic, getTopics());
         topicSpinner.setAdapter(topicAdapter);
         topicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -115,7 +116,7 @@ public class CreateInstructorFragment extends Fragment {
 
         return view;
     }
-
+    // Phương thức để lấy danh sách các chủ đề
     public List<Topic> getTopics() {
         List topics = new ArrayList<>();
         topics.add( new Topic("WEB"));
@@ -126,7 +127,7 @@ public class CreateInstructorFragment extends Fragment {
         topics.add( new Topic("SOFTWARE"));
         return topics;
     }
-
+    // Phương thức để chọn ảnh từ thiết bị
     private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -144,7 +145,7 @@ public class CreateInstructorFragment extends Fragment {
             }
         }
     }
-
+    // Phương thức để tạo khóa học mới
     private void createCourse(String userId) {
         String token = DataLocalManager.getToken(); // Get token from local storage
 
@@ -152,12 +153,12 @@ public class CreateInstructorFragment extends Fragment {
         String price = priceEditText.getText().toString().trim();
         String topic = ((Topic) topicSpinner.getSelectedItem()).getName();
         String description = descriptionEditText.getText().toString().trim();
-
+        // Kiểm tra các trường thông tin bắt buộc
         if (title.isEmpty() || price.isEmpty() || topic.isEmpty() || description.isEmpty() || userId.isEmpty() || selectedImageUri == null) {
             Toast.makeText(getContext(), "Please fill in all fields and choose an image", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Tạo tệp ảnh từ URI đã chọn
         File imageFile = new File(getContext().getCacheDir(), "image.jpg");
         try (InputStream inputStream = getContext().getContentResolver().openInputStream(selectedImageUri);
              OutputStream outputStream = new FileOutputStream(imageFile)) {
@@ -171,7 +172,7 @@ public class CreateInstructorFragment extends Fragment {
             Toast.makeText(getContext(), "Error creating image file", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Tạo các phần của request body
         RequestBody requestBodyTitle = RequestBody.create(MediaType.parse("text/plain"), title);
         RequestBody requestBodyPrice = RequestBody.create(MediaType.parse("text/plain"), price);
         RequestBody requestBodyTopic = RequestBody.create(MediaType.parse("text/plain"), topic);
@@ -181,6 +182,7 @@ public class CreateInstructorFragment extends Fragment {
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("picture", imageFile.getName(), requestBodyFile);
 
         progressBar.setVisibility(View.VISIBLE);
+        // Gọi API để tạo khóa học mới
         compositeDisposable.add(
                 ApiService.apiService.createCourse("Bearer " + token, requestBodyTitle, requestBodyPrice, requestBodyTopic, requestBodyDescription, requestBodyUserId, filePart)
                         .subscribeOn(Schedulers.io())
@@ -201,7 +203,7 @@ public class CreateInstructorFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        compositeDisposable.clear();
+        compositeDisposable.clear();// Xóa tất cả các subscription khi fragment bị hủy
     }
 
 }

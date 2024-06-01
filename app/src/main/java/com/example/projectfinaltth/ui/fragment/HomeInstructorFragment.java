@@ -47,13 +47,13 @@ public class HomeInstructorFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.e("course", "Account");
+        Log.e("course", "Account"); // Log thông báo khi fragment được gắn vào context
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("course", "Reload Account");
+        Log.e("course", "Reload Account");// Log thông báo khi fragment được hiển thị lại
     }
 
     @Override
@@ -63,18 +63,10 @@ public class HomeInstructorFragment extends Fragment {
         mFragmentInstructorCourseBinding = FragmentInstructorCourseBinding.inflate(inflater, container, false);
 
 
-
-
-//        instructorCourseAdapter = new InstructorCourseAdapter(getContext(), courseItemList, new InstructorCourseAdapter.OnItemInteractionListener() {
-//            @Override
-//            public void onDeleteCourse(int position, CourseItem courseItem) {
-//                deleteCourseItem(position, courseItem);
-//            }
-//
-//        });
+        // Khởi tạo danh sách khóa học
         courseItemList = new ArrayList<>();
 
-
+    // Gọi API để lấy thông tin người dùng hiện tại
         compositeDisposable.add(
                 ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
                         .subscribeOn(Schedulers.io())
@@ -86,15 +78,16 @@ public class HomeInstructorFragment extends Fragment {
                         })
         );
 
-
+            // Quan sát thay đổi của người dùng hiện tại và tải khóa học của giảng viên
             userCurrent.observe(getViewLifecycleOwner(), user -> {
                 loadInstructorCourses(userCurrent.getValue().getId());
                 Log.e("HomeInstructorFragment", "Instructor ID: " + userCurrent.getValue().getName());
+                // Thiết lập adapter cho RecyclerView
                 instructorCourseAdapter = new InstructorCourseAdapter(getContext(), courseItemList,userCurrent.getValue().getName(), new InstructorCourseAdapter.OnItemInteractionListener() {
 
                     @Override
                     public void onChangeCourseVisibility(int position, CourseItem courseItem) {
-                        // Change course visibility
+                        // Thay đổi trạng thái hiển thị của khóa học
                         compositeDisposable.add(
                                 ApiService.apiService.changeCourseVisibility("Bearer " + DataLocalManager.getToken(), courseItem.getId())
                                         .subscribeOn(Schedulers.io())
@@ -120,7 +113,7 @@ public class HomeInstructorFragment extends Fragment {
 
         return mFragmentInstructorCourseBinding.getRoot();
     }
-
+    // Phương thức để tải danh sách khóa học của giảng viên
     private void loadInstructorCourses(String instructorId) {
         String token = DataLocalManager.getToken(); // Lấy token từ local storage
         Log.e("MyInstructorCourse", "Token: " + token);
@@ -152,6 +145,7 @@ public class HomeInstructorFragment extends Fragment {
         }
     }
 
+    // Phương thức để xóa một mục khóa học
     private void deleteCourseItem(int position, CourseItem courseItem) {
         String token = DataLocalManager.getToken(); // Lấy token từ local storage
         // Xóa mục khỏi giao diện ngay lập tức
@@ -185,6 +179,6 @@ public class HomeInstructorFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        compositeDisposable.clear();
+        compositeDisposable.clear();// Xóa tất cả các subscription khi fragment bị hủy
     }
 }

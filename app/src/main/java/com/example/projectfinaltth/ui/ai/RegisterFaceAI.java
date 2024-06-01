@@ -74,28 +74,28 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 public class RegisterFaceAI extends AppCompatActivity {
     private static final String TAG = "RegisterFaceAI";
-    private static final int PERMISSION_CODE = 1001;
-    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;
-    private PreviewView previewView;
-    private CameraSelector cameraSelector;
-    private ProcessCameraProvider cameraProvider;
-    private int lensFacing = CameraSelector.LENS_FACING_BACK;
-    private Preview previewUseCase;
-    private ImageAnalysis analysisUseCase;
-    private GraphicOverlay graphicOverlay;
-    private ImageView previewImg;
-    private TextView detectionTextView;
+    private static final int PERMISSION_CODE = 1001;// Mã yêu cầu quyền truy cập camera
+    private static final String CAMERA_PERMISSION = Manifest.permission.CAMERA;// Quyền truy cập camera
+    private PreviewView previewView;// Xem trước camera
+    private CameraSelector cameraSelector;// Lựa chọn camera (trước/sau)
+    private ProcessCameraProvider cameraProvider;// Nhà cung cấp camera
+    private int lensFacing = CameraSelector.LENS_FACING_BACK;// Mặt camera đang được sử dụng (mặt sau)
+    private Preview previewUseCase;// Trường hợp sử dụng xem trước
+    private ImageAnalysis analysisUseCase;// Trường hợp sử dụng phân tích hình ảnh
+    private GraphicOverlay graphicOverlay;// Lớp phủ đồ họa để vẽ các hình ảnh
+    private ImageView previewImg;// Hình ảnh xem trước
+    private TextView detectionTextView;// TextView để hiển thị kết quả phát hiện khuôn mặt
 
-    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
-    private Interpreter tfLite;
-    private boolean flipX = false;
-    private boolean start = true;
-    private float[][] embeddings;
+    private final HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); // Lưu các khuôn mặt đã đăng ky
+    private Interpreter tfLite;// Trình thông dịch TensorFlow Lite
+    private boolean flipX = false;// Lật ảnh theo trục X
+    private boolean start = true;// Cờ để bắt đầu nhận diện
+    private float[][] embeddings;// Ma trận nhúng của khuôn mặt
 
-    private static final float IMAGE_MEAN = 128.0f;
-    private static final float IMAGE_STD = 128.0f;
-    private static final int INPUT_SIZE = 112;
-    private static final int OUTPUT_SIZE=192;
+    private static final float IMAGE_MEAN = 128.0f;// Giá trị trung bình của ảnh
+    private static final float IMAGE_STD = 128.0f;// Độ lệch chuẩn của ảnh
+    private static final int INPUT_SIZE = 112;// Kích thước đầu vào của ảnh
+    private static final int OUTPUT_SIZE=192;// Kích thước đầu ra của nhúng
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +114,10 @@ public class RegisterFaceAI extends AppCompatActivity {
         ImageButton switchCamBtn = findViewById(R.id.switch_camera);
         switchCamBtn.setOnClickListener((view -> switchCamera()));
 
-        loadModel();
-        loadRegisteredFaces();
+        loadModel(); // Tải mô hình TensorFlow Lite
+        loadRegisteredFaces(); // Tải các khuôn mặt đã đăng ký từ SharedPreferences
     }
+    // Phương thức tải các khuôn mặt đã đăng ký từ SharedPreferences
     private void loadRegisteredFaces() {
         SharedPreferences sharedPreferences = getSharedPreferences("FaceRecognition", MODE_PRIVATE);
         String json = sharedPreferences.getString("registered_faces", null);
@@ -157,10 +158,10 @@ public class RegisterFaceAI extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startCamera();
+        startCamera();// Bắt đầu camera khi resume
     }
 
-    /** Permissions Handler */
+    /** Phương thức xử lý quyền truy cập */
     private void getPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{CAMERA_PERMISSION}, PERMISSION_CODE);
     }
@@ -175,21 +176,21 @@ public class RegisterFaceAI extends AppCompatActivity {
         }
 
         if (requestCode == PERMISSION_CODE) {
-            setupCamera();
+            setupCamera(); // Cài đặt camera nếu quyền được cấp
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    /** Setup camera & use cases */
+    /** Phương thức khởi tạo và cài đặt camera */
     private void startCamera() {
         if(ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-            setupCamera();
+            setupCamera(); // Cài đặt camera nếu quyền đã được cấp
         } else {
-            getPermissions();
+            getPermissions(); // Yêu cầu quyền nếu chưa có
         }
     }
-
+    // Cài đặt camera
     private void setupCamera() {
         final ListenableFuture<ProcessCameraProvider> cameraProviderFuture =
                 ProcessCameraProvider.getInstance(this);
@@ -199,21 +200,21 @@ public class RegisterFaceAI extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 cameraProvider = cameraProviderFuture.get();
-                bindAllCameraUseCases();
+                bindAllCameraUseCases();// Gắn các trường hợp sử dụng của camera
             } catch (ExecutionException | InterruptedException e) {
                 Log.e(TAG, "cameraProviderFuture.addListener Error", e);
             }
         }, ContextCompat.getMainExecutor(this));
     }
-
+    // Gắn tất cả các trường hợp sử dụng của camera
     private void bindAllCameraUseCases() {
         if (cameraProvider != null) {
             cameraProvider.unbindAll();
-            bindPreviewUseCase();
-            bindAnalysisUseCase();
+            bindPreviewUseCase(); // Gắn trường hợp sử dụng xem trước
+            bindAnalysisUseCase(); // Gắn trường hợp sử dụng phân tích hình ảnh
         }
     }
-
+    // Gắn trường hợp sử dụng xem trước
     private void bindPreviewUseCase() {
         if (cameraProvider == null) {
             return;
@@ -237,7 +238,7 @@ public class RegisterFaceAI extends AppCompatActivity {
             Log.e(TAG, "Error when bind preview", e);
         }
     }
-
+    // Gắn trường hợp sử dụng phân tích hình ảnh
     private void bindAnalysisUseCase() {
         if (cameraProvider == null) {
             return;
@@ -254,7 +255,7 @@ public class RegisterFaceAI extends AppCompatActivity {
         builder.setTargetRotation(getRotation());
 
         analysisUseCase = builder.build();
-        analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);
+        analysisUseCase.setAnalyzer(cameraExecutor, this::analyze);// Gán bộ phân tích hình ảnh
 
         try {
             cameraProvider
@@ -263,11 +264,11 @@ public class RegisterFaceAI extends AppCompatActivity {
             Log.e(TAG, "Error when bind analysis", e);
         }
     }
-
+    // Lấy độ xoay của camera
     protected int getRotation() throws NullPointerException {
         return previewView.getDisplay().getRotation();
     }
-
+    // Chuyển đổi giữa camera trước và sau
     private void switchCamera() {
         if (lensFacing == CameraSelector.LENS_FACING_BACK) {
             lensFacing = CameraSelector.LENS_FACING_FRONT;
@@ -281,7 +282,7 @@ public class RegisterFaceAI extends AppCompatActivity {
         startCamera();
     }
 
-    /** Face detection processor */
+    /** Bộ xử lý phát hiện khuôn mặt */
     @SuppressLint("UnsafeOptInUsageError")
     private void analyze(@NonNull ImageProxy image) {
         if (image.getImage() == null) return;
@@ -298,7 +299,7 @@ public class RegisterFaceAI extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.e(TAG, "Barcode process failure", e))
                 .addOnCompleteListener(task -> image.close());
     }
-
+    // Xử lý kết quả phát hiện khuôn mặt
     private void onSuccessListener(List<Face> faces, InputImage inputImage) {
         Rect boundingBox = null;
         String name = null;
@@ -307,13 +308,13 @@ public class RegisterFaceAI extends AppCompatActivity {
 
         if(faces.size() > 0) {
             detectionTextView.setText(R.string.face_detected);
-            // get first face detected
+            // Lấy khuôn mặt đầu tiên được phát hiện
             Face face = faces.get(0);
 
-            // get bounding box of face;
+            // Lấy khung bao quanh khuôn mặt
             boundingBox = face.getBoundingBox();
 
-            // convert img to bitmap & crop img
+            // Chuyển đổi ảnh thành bitmap và cắt ảnh
             Bitmap bitmap = mediaImgToBmp(
                     inputImage.getMediaImage(),
                     inputImage.getRotationDegrees(),
@@ -329,15 +330,15 @@ public class RegisterFaceAI extends AppCompatActivity {
         graphicOverlay.draw(boundingBox, scaleX, scaleY, name);
     }
 
-    /** Recognize Processor */
+    /** Bộ xử lý nhận diện khuôn mặt */
     private void addFace() {
         start = false;
 
-        // Retrieve email and password from SharedPreferences
+        // Lấy email và mật khẩu từ local
         String email = DataLocalManager.getEmail();
         String password = DataLocalManager.getPassword();
 
-        // Use the retrieved email and password as needed
+        // Sử dụng email và mật khẩu lấy được
         String name = email + " " + password;
 
         // Assuming `embeddings` and `registered` are defined elsewhere in your class
@@ -345,12 +346,12 @@ public class RegisterFaceAI extends AppCompatActivity {
         result.setExtra(embeddings);
         registered.put(name, result);
 
-        saveRegisteredFaces();
+        saveRegisteredFaces(); // Lưu các khuôn mặt đã đăng ký
 
         start = true;
     }
 
-
+    // Lưu các khuôn mặt đã đăng ký vào SharedPreferences
     private void saveRegisteredFaces() {
         SharedPreferences sharedPreferences = getSharedPreferences("FaceRecognition", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -372,12 +373,12 @@ public class RegisterFaceAI extends AppCompatActivity {
         editor.putString("registered_faces", json);
         editor.apply();
     }
-
+    // Nhận diện khuôn mặt từ bitmap
     public String recognizeImage(final Bitmap bitmap) {
-        // set image to preview
+        // Đặt ảnh vào preview
         previewImg.setImageBitmap(bitmap);
 
-        //Create ByteBuffer to store normalized image
+        // Tạo ByteBuffer để lưu trữ ảnh đã chuẩn hóa
 
         ByteBuffer imgData = ByteBuffer.allocateDirect(INPUT_SIZE * INPUT_SIZE * 3 * 4);
 
@@ -385,7 +386,7 @@ public class RegisterFaceAI extends AppCompatActivity {
 
         int[] intValues = new int[INPUT_SIZE * INPUT_SIZE];
 
-        //get pixel values from Bitmap to normalize
+        // Lấy giá trị pixel từ Bitmap để chuẩn hóa
         bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
 
         imgData.rewind();
@@ -398,26 +399,27 @@ public class RegisterFaceAI extends AppCompatActivity {
                 imgData.putFloat(((pixelValue & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
             }
         }
-        //imgData is input to our model
+        // imgData là đầu vào cho mô hình
         Object[] inputArray = {imgData};
 
         Map<Integer, Object> outputMap = new HashMap<>();
 
 
-        embeddings = new float[1][OUTPUT_SIZE]; //output of model will be stored in this variable
+        embeddings = new float[1][OUTPUT_SIZE]; // Đầu ra của mô hình sẽ được lưu trữ trong biến này
 
         outputMap.put(0, embeddings);
 
-        tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
+        tfLite.runForMultipleInputsOutputs(inputArray, outputMap); // Chạy mô hình
 
 
 
         float distance;
 
-        //Compare new face with saved Faces.
+        // So sánh khuôn mặt mới với các khuôn mặt đã lưu
         if (registered.size() > 0) {
 
-            final Pair<String, Float> nearest = findNearest(embeddings[0]);//Find closest matching face
+            final Pair<String, Float> nearest = findNearest(embeddings[0]); // Tìm khuôn mặt gần nhất
+
 
             if (nearest != null) {
 
@@ -458,15 +460,15 @@ public class RegisterFaceAI extends AppCompatActivity {
 
     }
 
-    /** Bitmap Converter */
+    /** Bộ chuyển đổi Bitmap */
     private Bitmap mediaImgToBmp(Image image, int rotation, Rect boundingBox) {
-        //Convert media image to Bitmap
+        // Chuyển đổi hình ảnh thành Bitmap
         Bitmap frame_bmp = toBitmap(image);
 
-        //Adjust orientation of Face
+        // Điều chỉnh hướng của khuôn mặt
         Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rotation, flipX);
 
-        //Crop out bounding box from whole Bitmap(image)
+        // Cắt vùng bao quanh từ toàn bộ Bitmap (ảnh)
         float padding = 0.0f;
         RectF adjustedBoundingBox = new RectF(
                 boundingBox.left - padding,
@@ -475,27 +477,27 @@ public class RegisterFaceAI extends AppCompatActivity {
                 boundingBox.bottom + padding);
         Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, adjustedBoundingBox);
 
-        //Resize bitmap to 112,112
+        // Thay đổi kích thước bitmap thành 112x112
         return getResizedBitmap(cropped_face);
     }
-
+    // Thay đổi kích thước bitmap
     private Bitmap getResizedBitmap(Bitmap bm) {
         int width = bm.getWidth();
         int height = bm.getHeight();
         float scaleWidth = ((float) 112) / width;
         float scaleHeight = ((float) 112) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
+        // TẠO MỘT MA TRẬN ĐỂ MANIPULATE
         Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
+        // THAY ĐỔI KÍCH THƯỚC BITMAP
         matrix.postScale(scaleWidth, scaleHeight);
 
-        // "RECREATE" THE NEW BITMAP
+        // "TẠO LẠI" BITMAP MỚI
         Bitmap resizedBitmap = Bitmap.createBitmap(
                 bm, 0, 0, width, height, matrix, false);
         bm.recycle();
         return resizedBitmap;
     }
-
+    // Cắt bitmap theo CPU
     private static Bitmap getCropBitmapByCPU(Bitmap source, RectF cropRectF) {
         Bitmap resultBitmap = Bitmap.createBitmap((int) cropRectF.width(),
                 (int) cropRectF.height(), Bitmap.Config.ARGB_8888);
@@ -519,7 +521,7 @@ public class RegisterFaceAI extends AppCompatActivity {
 
         return resultBitmap;
     }
-
+    // Xoay bitmap theo góc xoay
     private static Bitmap rotateBitmap(
             Bitmap bitmap, int rotationDegrees, boolean flipX) {
         Matrix matrix = new Matrix();
@@ -538,7 +540,7 @@ public class RegisterFaceAI extends AppCompatActivity {
         }
         return rotatedBitmap;
     }
-
+    // Chuyển đổi YUV_420_888 thành NV21
     private static byte[] YUV_420_888toNV21(Image image) {
 
         int width = image.getWidth();
@@ -577,7 +579,7 @@ public class RegisterFaceAI extends AppCompatActivity {
         assert(pixelStride == image.getPlanes()[1].getPixelStride());
 
         if (pixelStride == 2 && rowStride == width && uBuffer.get(0) == vBuffer.get(1)) {
-            // maybe V an U planes overlap as per NV21, which means vBuffer[1] is alias of uBuffer[0]
+            // có thể mặt phẳng V và U trùng nhau như NV21, nghĩa là vBuffer[1] là alias của uBuffer[0]
             byte savePixel = vBuffer.get(1);
             try {
                 vBuffer.put(1, (byte)~savePixel);
@@ -592,15 +594,15 @@ public class RegisterFaceAI extends AppCompatActivity {
                 }
             }
             catch (ReadOnlyBufferException ex) {
-                // unfortunately, we cannot check if vBuffer and uBuffer overlap
+                // không may, chúng tôi không thể kiểm tra nếu vBuffer và uBuffer trùng nhau
             }
 
-            // unfortunately, the check failed. We must save U and V pixel by pixel
+            // không may, kiểm tra thất bại. Chúng ta phải lưu U và V pixel theo pixel
             vBuffer.put(1, savePixel);
         }
 
-        // other optimizations could check if (pixelStride == 1) or (pixelStride == 2),
-        // but performance gain would be less significant
+        // các tối ưu khác có thể kiểm tra nếu (pixelStride == 1) hoặc (pixelStride == 2),
+        // nhưng hiệu suất tăng sẽ ít đáng kể hơn
 
         for (int row=0; row<height/2; row++) {
             for (int col=0; col<width/2; col++) {
@@ -612,6 +614,7 @@ public class RegisterFaceAI extends AppCompatActivity {
 
         return nv21;
     }
+    // Chuyển đổi hình ảnh thành Bitmap
 
     private Bitmap toBitmap(Image image) {
 
@@ -628,7 +631,7 @@ public class RegisterFaceAI extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
-    /** Model loader */
+    /** Tải mô hình TensorFlow Lite */
     @SuppressWarnings("deprecation")
     private void loadModel() {
         try {
@@ -639,7 +642,7 @@ public class RegisterFaceAI extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    // Tải tệp mô hình từ tài nguyên
     private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws IOException {
         AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_FILE);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());

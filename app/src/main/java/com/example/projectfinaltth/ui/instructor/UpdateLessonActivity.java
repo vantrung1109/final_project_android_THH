@@ -34,27 +34,28 @@ public class UpdateLessonActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_lesson);
-
+        // Khởi tạo các thành phần giao diện
         eTextTitle = findViewById(R.id.eTextTitle);
         eTextDescription = findViewById(R.id.eTextDescription);
         btnUpdateLesson = findViewById(R.id.btn_updateLesson);
-
+        // Lấy lessonId và courseId từ Intent
         lessonId = getIntent().getStringExtra("lessonId");
         courseId = getIntent().getStringExtra("courseId");
 
-        // Load existing lesson data if available
+        // Tải dữ liệu bài học hiện tại nếu có
         loadLessonData();
-
+        // Thiết lập sự kiện click cho nút cập nhật bài học
         btnUpdateLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateLesson();
             }
         });
+        // Thiết lập sự kiện click cho nút quay lại
         ImageView btnBack = findViewById(R.id.button_back);
         btnBack.setOnClickListener(v -> finish());
     }
-
+    // Phương thức để tải dữ liệu bài học hiện tại từ Intent
     private void loadLessonData() {
 
         String lessonTitle = getIntent().getStringExtra("lessonTitle");
@@ -67,20 +68,21 @@ public class UpdateLessonActivity extends AppCompatActivity {
             eTextDescription.setText(lessonDescription);
         }
     }
-
+    // Phương thức để cập nhật bài học
     private void updateLesson() {
         String title = eTextTitle.getText().toString();
         String description = eTextDescription.getText().toString();
-
+        // Kiểm tra các trường thông tin bắt buộc
         if (title.isEmpty() || description.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Tạo đối tượng LessonRequest để gửi dữ liệu cập nhật
         LessonRequest lessonRequest = new LessonRequest(courseId, title, description);
 
         String token = DataLocalManager.getToken(); // Lấy token từ local storage
         if (token != null) {
+            // Gọi API để cập nhật bài học
             compositeDisposable.add(
                     ApiService.apiService.updateLesson("Bearer " + token,lessonId, lessonRequest)
                             .subscribeOn(Schedulers.io())
