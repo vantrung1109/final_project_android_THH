@@ -39,8 +39,8 @@ import okhttp3.RequestBody;
 
 public class AccountInstructorFragment extends Fragment {
 
-    private FragmentAccountInstructorBinding binding;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private FragmentAccountInstructorBinding binding; // Binding cho fragment
+    private CompositeDisposable compositeDisposable = new CompositeDisposable(); // Quản lý các disposable để tránh rò rỉ bộ nhớ
 
     public AccountInstructorFragment() {
         // Required empty public constructor
@@ -56,19 +56,21 @@ public class AccountInstructorFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.e("course", "Reload AccountInstructor");
-        fetchUserData();
+        fetchUserData(); // Tải lại dữ liệu người dùng khi Fragment được resume
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment using View Binding
+        // Inflate layout cho Fragment sử dụng View Binding
         binding = FragmentAccountInstructorBinding.inflate(inflater, container, false);
 
+        // Thiết lập sự kiện click cho layoutLogOut để thực hiện logout
         binding.layoutLogOut.setOnClickListener(v -> {
             logout();
         });
 
+        // Thiết lập sự kiện click cho buttonChangeAvatar để chọn và cập nhật ảnh đại diện
         binding.buttonChangeAvatar.setOnClickListener(v -> {
             ImagePicker.Companion.with(AccountInstructorFragment.this)
                     .crop()
@@ -77,58 +79,59 @@ public class AccountInstructorFragment extends Fragment {
                     .start();
         });
 
+        // Thiết lập sự kiện click cho layoutChangePassword để mở ChangePasswordActivity
         binding.layoutChangePassword.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
             startActivity(intent);
         });
 
+        // Thiết lập sự kiện click cho layoutChangeName để mở EditProfileActivity
         binding.layoutChangeName.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), EditProfileActivity.class);
             startActivity(intent);
         });
 
-//        binding.register.setOnClickListener(v -> {
-//            Intent intent = new Intent(getActivity(), RegisterFaceAI.class);
-//            startActivity(intent);
-//        });
-        binding.layoutRegisterFaceAI.setOnClickListener(v ->
-        {
+        // Thiết lập sự kiện click cho layoutRegisterFaceAI để mở RegisterFaceAI activity
+        binding.layoutRegisterFaceAI.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), RegisterFaceAI.class);
             Bundle bundle = new Bundle();
-            bundle.getString("email",binding.tvEmail.getText().toString());
-            bundle.getString("name",binding.tvName.getText().toString());
+            bundle.putString("email", binding.tvEmail.getText().toString());
+            bundle.putString("name", binding.tvName.getText().toString());
             intent.putExtras(bundle);
             startActivity(intent);
         });
-        return binding.getRoot();
 
-
-//        return binding.getRoot();
+        return binding.getRoot(); // Trả về view của Fragment
     }
-
+    //MSSV:21110826 Họ Và Tên: Từ Thanh Hoài
     private void fetchUserData() {
-        String token = DataLocalManager.getToken(); // Replace with actual token
+        String token = DataLocalManager.getToken(); // Lấy token từ local storage
         compositeDisposable.add(
                 ApiService.apiService.getUserDetails("Bearer " + token)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io()) // Chạy yêu cầu trên luồng I/O
+                        .observeOn(AndroidSchedulers.mainThread()) // Quan sát kết quả trên luồng chính
                         .subscribe(
                                 userResponse -> {
+                                    // Thiết lập dữ liệu người dùng vào các view
                                     binding.tvName.setText(userResponse.getUser().getName());
                                     binding.tvEmail.setText(userResponse.getUser().getEmail());
 
-                                    // Load profile image using Glide
+                                    // Load ảnh đại diện sử dụng Glide
                                     Glide.with(this.getActivity())
                                             .load(userResponse.getUser().getPicture())
                                             .into(binding.imgProfile);
                                 },
                                 throwable -> {
+                                    // Xử lý lỗi khi tải dữ liệu người dùng
                                     Log.e("AccountInstructorFragment", "Error fetching user data", throwable);
                                 }
                         ));
     }
 
+
+    //MSSV:21110826 Họ Và Tên: Từ Thanh Hoài
     private void logout() {
+        // Thực hiện logout và mở SignInActivity
         Intent intent = new Intent(getActivity(), SignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -138,8 +141,9 @@ public class AccountInstructorFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
-            Uri uri = data.getData();
+            Uri uri = data.getData(); // Lấy URI của ảnh đã chọn
             if (uri != null) {
+                // Hiển thị hộp thoại xác nhận cập nhật ảnh đại diện
                 AlertDialog.Builder builder = new AlertDialog.Builder(AccountInstructorFragment.this.getActivity());
                 builder.setTitle("Update Profile Picture");
                 builder.setMessage("Confirm update?");
@@ -151,14 +155,14 @@ public class AccountInstructorFragment extends Fragment {
                     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     MultipartBody.Part imagePart = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
 
-                    String token = DataLocalManager.getToken(); // Replace with actual token
+                    String token = DataLocalManager.getToken(); // Lấy token từ local storage
                     compositeDisposable.add(
                             ApiService.apiService.updateProfilePicture("Bearer " + token, imagePart)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io()) // Chạy yêu cầu trên luồng I/O
+                                    .observeOn(AndroidSchedulers.mainThread()) // Quan sát kết quả trên luồng chính
                                     .subscribe(
                                             response -> {
-                                                // Handle success
+                                                // Cập nhật thành công, hiển thị ảnh đại diện mới
                                                 Glide.with(AccountInstructorFragment.this)
                                                         .load(uri)
                                                         .into(binding.imgProfile);
@@ -166,7 +170,7 @@ public class AccountInstructorFragment extends Fragment {
                                                 Toast.makeText(AccountInstructorFragment.this.getContext(), "Update profile picture success", Toast.LENGTH_SHORT).show();
                                             },
                                             throwable -> {
-                                                // Handle error
+                                                // Xử lý lỗi khi cập nhật ảnh đại diện
                                                 Log.e("AccountInstructorFragment", "Error updating profile picture", throwable);
                                                 Toast.makeText(AccountInstructorFragment.this.getContext(), "Error updating profile picture", Toast.LENGTH_SHORT).show();
                                             }
@@ -176,7 +180,7 @@ public class AccountInstructorFragment extends Fragment {
                 builder.setNegativeButton("NO", (dialog, which) -> dialog.dismiss());
 
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show(); // Hiển thị hộp thoại
             }
         }
     }

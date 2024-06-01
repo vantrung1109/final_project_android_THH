@@ -32,67 +32,77 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.HttpException;
-
+//MSSV:21110826 Họ Và Tên: Từ Thanh Hoài
 public class EditProfileForInstructor extends AppCompatActivity {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PICK_IMAGE_REQUEST = 1; // Mã yêu cầu để chọn ảnh
 
-    private TextInputEditText eTextName;
-    private ImageView imageView;
-    private FloatingActionButton floatingActionButton;
-    private Uri selectedImageUri; // Add this line to store the selected image URI
+    private TextInputEditText eTextName; // TextInputEditText để nhập tên người dùng
+    private ImageView imageView; // ImageView để hiển thị ảnh đại diện
+    private FloatingActionButton floatingActionButton; // FloatingActionButton để chọn ảnh đại diện mới
+    private Uri selectedImageUri; // Lưu trữ URI của ảnh đã chọn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_profile);
+        setContentView(R.layout.edit_profile); // Thiết lập layout cho Activity
 
+        // Liên kết các view từ layout
         eTextName = findViewById(R.id.eTextName);
         imageView = findViewById(R.id.imageView);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         Button btnUpdate = findViewById(R.id.btnUpdate);
         Button btnBack = findViewById(R.id.btnBack);
 
+        // Thiết lập sự kiện click cho các nút
         btnUpdate.setOnClickListener(v -> updateProfile());
         btnBack.setOnClickListener(v -> finish());
         floatingActionButton.setOnClickListener(v -> openImagePicker());
 
+        // Tải dữ liệu người dùng từ server
         loadUserData();
     }
 
+    // Mở bộ chọn ảnh để người dùng chọn ảnh đại diện mới
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    // Xử lý kết quả trả về từ bộ chọn ảnh
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
-                selectedImageUri = data.getData(); // Store the selected image URI
-                Glide.with(this).load(selectedImageUri).into(imageView); // Show the selected image in the ImageView
+                selectedImageUri = data.getData(); // Lưu URI của ảnh đã chọn
+                Glide.with(this).load(selectedImageUri).into(imageView); // Hiển thị ảnh đã chọn trong ImageView
             }
         }
     }
 
+    // Cập nhật thông tin người dùng
     private void updateProfile() {
-        updateName(); // Update the name first
+        updateName(); // Cập nhật tên người dùng trước
         if (selectedImageUri != null) {
-            updateProfilePicture(selectedImageUri); // Update the profile picture if a new one was selected
+            updateProfilePicture(selectedImageUri); // Cập nhật ảnh đại diện nếu người dùng đã chọn ảnh mới
         }
     }
 
+    // Cập nhật ảnh đại diện người dùng
     private void updateProfilePicture(Uri selectedImageUri) {
         try {
+            // Chuyển URI thành Bitmap
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-            File file = createFileFromBitmap(bitmap);
+            File file = createFileFromBitmap(bitmap); // Tạo file từ Bitmap
 
+            // Tạo RequestBody từ file
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
 
-            String token = DataLocalManager.getToken();
+            String token = DataLocalManager.getToken(); // Lấy token từ local storage
 
+            // Gửi yêu cầu cập nhật ảnh đại diện đến server
             ApiService.apiService.changePicture("Bearer " + token, body)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -117,6 +127,7 @@ public class EditProfileForInstructor extends AppCompatActivity {
         }
     }
 
+    // Tạo file từ Bitmap
     private File createFileFromBitmap(Bitmap bitmap) throws IOException {
         File file = new File(getCacheDir(), "profile_picture.jpg");
         try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -125,8 +136,9 @@ public class EditProfileForInstructor extends AppCompatActivity {
         return file;
     }
 
+    // Tải dữ liệu người dùng từ server và hiển thị lên giao diện
     private void loadUserData() {
-        String token = DataLocalManager.getToken();
+        String token = DataLocalManager.getToken(); // Lấy token từ local storage
         ApiService.apiService.getUserDetails("Bearer " + token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -143,17 +155,19 @@ public class EditProfileForInstructor extends AppCompatActivity {
                 );
     }
 
+    // Cập nhật tên người dùng
     private void updateName() {
-        String token = DataLocalManager.getToken();
-        String newName = eTextName.getText().toString();
-        ChangeNameRequest request = new ChangeNameRequest(newName);
+        String token = DataLocalManager.getToken(); // Lấy token từ local storage
+        String newName = eTextName.getText().toString(); // Lấy tên mới từ TextInputEditText
+        ChangeNameRequest request = new ChangeNameRequest(newName); // Tạo yêu cầu thay đổi tên
 
+        // Gửi yêu cầu thay đổi tên đến server
         ApiService.apiService.changeName("Bearer " + token, request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> {
-                            finish();
+                            finish(); // Đóng Activity khi cập nhật thành công
                         },
                         throwable -> {
                             Log.e("EditProfileActivity", "Error updating name", throwable);
