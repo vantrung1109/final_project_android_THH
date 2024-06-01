@@ -43,6 +43,7 @@ public class CreateDocumentActivity extends AppCompatActivity {
     private Uri selectedVideoUri;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    // 21110194 - Đặng Xuân Hùng
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,14 +64,14 @@ public class CreateDocumentActivity extends AppCompatActivity {
         });
 
     }
-
+    // Chọn video từ bộ nhớ
     private void chooseVideo() {
         Intent intent = new Intent();
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_VIDEO_PICKER);
     }
-
+    // Xử lý kết quả trả về từ việc chọn video
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -83,7 +84,7 @@ public class CreateDocumentActivity extends AppCompatActivity {
             }
         }
     }
-
+    // Tạo tài liệu mới
     private void createDocument() {
         String token = DataLocalManager.getToken(); // Get token from local storage
 
@@ -92,7 +93,7 @@ public class CreateDocumentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String lessonId = intent.getStringExtra("lessonId");
-
+        // phải nhâp đủ thông tin
         if (title.isEmpty() || description.isEmpty() || selectedVideoUri == null) {
             Toast.makeText(this, "Please fill in all fields and choose a video", Toast.LENGTH_SHORT).show();
             return;
@@ -111,13 +112,13 @@ public class CreateDocumentActivity extends AppCompatActivity {
             Toast.makeText(this, "Error creating video file", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // tạo các giá trị để câ để tạo document
         RequestBody requestBodyLessonId = RequestBody.create(MediaType.parse("text/plain"), lessonId);
         RequestBody requestBodyTitle = RequestBody.create(MediaType.parse("text/plain"), title);
         RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("text/plain"), description);
         RequestBody requestBodyFile = RequestBody.create(MediaType.parse("video/mp4"), videoFile);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("content", videoFile.getName(), requestBodyFile);
-
+        // tạo document
         compositeDisposable.add(
                 ApiService.apiService.createDocument("Bearer " + token, requestBodyLessonId, requestBodyTitle, requestBodyDescription, filePart)
                         .subscribeOn(Schedulers.io())
