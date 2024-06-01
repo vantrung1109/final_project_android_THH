@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,6 +24,8 @@ import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
 import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroResponse;
 import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.model.api.Course;
+import com.example.projectfinaltth.ui.adapter.Topic.Topic;
+import com.example.projectfinaltth.ui.adapter.Topic.TopicAdapter;
 import com.example.projectfinaltth.ui.main.MainInstructorActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -27,6 +33,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -41,7 +49,8 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
     private EditText titleEditText;
     private EditText priceEditText;
-    private TextInputLayout topicEditText;
+    private Spinner topicSpinner;
+    private TopicAdapter topicAdapter;
     private EditText descriptionEditText;
     private Button createButton;
     private Button chooseImageButton;
@@ -51,7 +60,9 @@ public class UpdateCourseActivity extends AppCompatActivity {
     private boolean initialImageSet = false;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     MutableLiveData<User> user = new MutableLiveData<>();
+
     CourseIntroResponse course;
 
     @Override
@@ -61,7 +72,8 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
         titleEditText = findViewById(R.id.edit_text_title);
         priceEditText = findViewById(R.id.edit_text_price);
-        topicEditText = findViewById(R.id.edit_text_topic);
+        topicSpinner = findViewById(R.id.spinner_topic);
+
         descriptionEditText = findViewById(R.id.edit_text_description);
         createButton = findViewById(R.id.button_update);
         chooseImageButton = findViewById(R.id.button_choose_image);
@@ -86,23 +98,65 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
         chooseImageButton.setOnClickListener(v -> chooseImage());
 
-//        compositeDisposable.add(
-//                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(userResponse -> {
-//                                    user.setValue(userResponse.getUser());
-//
-//                        }, throwable -> {
-//                            Log.e("UpdateCourse", "Error loading user details: " + throwable.getMessage());
-//                            Toast.makeText(this, "Failed to load user details", Toast.LENGTH_SHORT).show();
-//                        }
-//                        )
-//        );
+        topicAdapter = new TopicAdapter(this, R.layout.item_topic_selected, getTopics());
+        topicSpinner.setAdapter(topicAdapter);
+        topicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(UpdateCourseActivity.this, "Selected topic: " + topicAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        Log.e("UpdateCourse", "Topic: " + course.getCourse().getTopic());
+        setSpinnerSelection(topicSpinner, course.getCourse().getTopic());
+        compositeDisposable.add(
+                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(userResponse -> {
+                                    user.setValue(userResponse.getUser());
+
+                        }, throwable -> {
+                            Log.e("UpdateCourse", "Error loading user details: " + throwable.getMessage());
+                            Toast.makeText(this, "Failed to load user details", Toast.LENGTH_SHORT).show();
+                        }
+                        )
+        );
 
         user.observe(this, user -> {
             createButton.setOnClickListener(v -> updateCourse(user.getId()));
         });
+
+        ImageView back = findViewById(R.id.button_back);
+        back.setOnClickListener(v -> {
+            finish();
+        });
+    }
+
+    private void setSpinnerSelection(Spinner spinner, String topicName) {
+        ArrayAdapter<Topic> adapter = (ArrayAdapter<Topic>) spinner.getAdapter();
+        Log.e("UpdateCourse", "Adapter count: " + adapter.getCount());
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (adapter.getItem(i).getName().equals(topicName)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
+    }
+
+    public List<Topic> getTopics() {
+        List topics = new ArrayList<>();
+        topics.add( new Topic("WEB"));
+        topics.add( new Topic("AI"));
+        topics.add( new Topic("DATA"));
+        topics.add( new Topic("MOBILE"));
+        topics.add( new Topic("GAME"));
+        topics.add( new Topic("SOFTWARE"));
+        return topics;
     }
 
     private void chooseImage() {
@@ -128,7 +182,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
         String title = titleEditText.getText().toString().trim();
         String price = priceEditText.getText().toString().trim();
-        //String topic = topicEditText.getText().toString().trim();
+        String topic = ((Topic) topicSpinner.getSelectedItem()).getName().toString();
         String description = descriptionEditText.getText().toString().trim();
 
         if (title.isEmpty() || price.isEmpty()  || description.isEmpty() || userId.isEmpty()) {
@@ -161,7 +215,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
         RequestBody requestBodyTitle = RequestBody.create(MediaType.parse("text/plain"), title);
         RequestBody requestBodyPrice = RequestBody.create(MediaType.parse("text/plain"), price);
         RequestBody requestBodyCourseId = RequestBody.create(MediaType.parse("text/plain"), courseId);
-        RequestBody requestBodyTopic = RequestBody.create(MediaType.parse("text/plain"), "haha");
+        RequestBody requestBodyTopic = RequestBody.create(MediaType.parse("text/plain"), topic);
         RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("text/plain"), description);
         RequestBody requestBodyUserId = RequestBody.create(MediaType.parse("text/plain"), userId);
 

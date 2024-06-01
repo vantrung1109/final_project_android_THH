@@ -23,14 +23,14 @@ import lombok.NoArgsConstructor;
 public class TopicAdapter extends ArrayAdapter<Topic> {
 
 
-    public TopicAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<Topic> objects) {
-        super(context, resource, textViewResourceId, objects);
+    public TopicAdapter(@NonNull Context context, int resource, @NonNull List<Topic> objects) {
+        super(context, resource, objects);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_topic_selected, parent, false);
+        convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_selected, parent, false);
         TextView textView = convertView.findViewById(R.id.tv_topic_selected);
 
 
@@ -38,12 +38,12 @@ public class TopicAdapter extends ArrayAdapter<Topic> {
         if (topic != null) {
             textView.setText(topic.getName());
         }
-        return super.getView(position, convertView, parent);
+        return convertView;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_topic, parent, false);
+        convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic, parent, false);
         TextView textView = convertView.findViewById(R.id.tv_topic);
 
         Topic topic = getItem(position);
@@ -52,6 +52,6 @@ public class TopicAdapter extends ArrayAdapter<Topic> {
         }
 
 
-        return super.getDropDownView(position, convertView, parent);
+        return convertView;
     }
 }

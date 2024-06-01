@@ -13,6 +13,13 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+
+      <SelectionState runConfigName="UpdateCourseActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="SignInActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

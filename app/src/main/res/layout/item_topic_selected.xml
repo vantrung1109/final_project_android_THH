@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_40sdp"
-    android:background="@drawable/background_white_no_corner">
+    android:background="@drawable/background_white">
 
     <TextView
         android:id="@+id/tv_topic_selected"
@@ -14,11 +14,13 @@
         android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_10sdp"
         android:layout_centerVertical="true"
+        android:textColor="@color/black"
         >
 
     </TextView>
 
     <ImageView
+        android:id="@+id/ime_dropdown"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="25dp"
         android:src="@drawable/arrow_to_right"
