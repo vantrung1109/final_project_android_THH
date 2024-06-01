@@ -21,6 +21,7 @@ import com.example.projectfinaltth.data.model.response.courseIntro.CourseIntroRe
 import com.example.projectfinaltth.data.model.response.profile.User;
 import com.example.projectfinaltth.model.api.Course;
 import com.example.projectfinaltth.ui.main.MainInstructorActivity;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,7 +41,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
     private EditText titleEditText;
     private EditText priceEditText;
-    private EditText topicEditText;
+    private TextInputLayout topicEditText;
     private EditText descriptionEditText;
     private Button createButton;
     private Button chooseImageButton;
@@ -71,36 +72,33 @@ public class UpdateCourseActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             course = (CourseIntroResponse) bundle.getSerializable("courseIntro");
-
-        } else
-            return;
-
-        Glide.with(this)
-                .load(course.getCourse().getPicture())
-                .into(imageView);
-        initialImageSet = true;
+            Glide.with(this)
+                    .load(course.getCourse().getPicture())
+                    .into(imageView);
+            initialImageSet = true;
 
 
-        titleEditText.setText(course.getCourse().getTitle());
-        descriptionEditText.setText(course.getCourse().getDescription());
-        topicEditText.setText(course.getCourse().getTopic());
-        priceEditText.setText(String.valueOf(course.getCourse().getPrice()));
+            titleEditText.setText(course.getCourse().getTitle());
+            descriptionEditText.setText(course.getCourse().getDescription());
+            //topicEditText(course.getCourse().getTopic());
+            priceEditText.setText(String.valueOf(course.getCourse().getPrice()));
+        }
 
         chooseImageButton.setOnClickListener(v -> chooseImage());
 
-        compositeDisposable.add(
-                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(userResponse -> {
-                                    user.setValue(userResponse.getUser());
-
-                        }, throwable -> {
-                            Log.e("UpdateCourse", "Error loading user details: " + throwable.getMessage());
-                            Toast.makeText(this, "Failed to load user details", Toast.LENGTH_SHORT).show();
-                        }
-                        )
-        );
+//        compositeDisposable.add(
+//                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(userResponse -> {
+//                                    user.setValue(userResponse.getUser());
+//
+//                        }, throwable -> {
+//                            Log.e("UpdateCourse", "Error loading user details: " + throwable.getMessage());
+//                            Toast.makeText(this, "Failed to load user details", Toast.LENGTH_SHORT).show();
+//                        }
+//                        )
+//        );
 
         user.observe(this, user -> {
             createButton.setOnClickListener(v -> updateCourse(user.getId()));
@@ -130,10 +128,10 @@ public class UpdateCourseActivity extends AppCompatActivity {
 
         String title = titleEditText.getText().toString().trim();
         String price = priceEditText.getText().toString().trim();
-        String topic = topicEditText.getText().toString().trim();
+        //String topic = topicEditText.getText().toString().trim();
         String description = descriptionEditText.getText().toString().trim();
 
-        if (title.isEmpty() || price.isEmpty() || topic.isEmpty() || description.isEmpty() || userId.isEmpty()) {
+        if (title.isEmpty() || price.isEmpty()  || description.isEmpty() || userId.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -163,7 +161,7 @@ public class UpdateCourseActivity extends AppCompatActivity {
         RequestBody requestBodyTitle = RequestBody.create(MediaType.parse("text/plain"), title);
         RequestBody requestBodyPrice = RequestBody.create(MediaType.parse("text/plain"), price);
         RequestBody requestBodyCourseId = RequestBody.create(MediaType.parse("text/plain"), courseId);
-        RequestBody requestBodyTopic = RequestBody.create(MediaType.parse("text/plain"), topic);
+        RequestBody requestBodyTopic = RequestBody.create(MediaType.parse("text/plain"), "haha");
         RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("text/plain"), description);
         RequestBody requestBodyUserId = RequestBody.create(MediaType.parse("text/plain"), userId);
 

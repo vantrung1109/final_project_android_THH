@@ -16,6 +16,7 @@ import com.example.projectfinaltth.databinding.ActivitySignInBinding;
 import com.example.projectfinaltth.ui.ai.LoginFaceAI;
 import com.example.projectfinaltth.ui.main.MainActivity;
 import com.example.projectfinaltth.ui.main.MainInstructorActivity;
+import com.example.projectfinaltth.ui.sign_up.SignUpActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -51,7 +52,7 @@ public class SignInActivity extends AppCompatActivity {
                                 Toast.makeText(this, "Bạn nhập sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                             }));
         });
-        mActivitySignInBinding.test.setOnClickListener(v -> {
+        mActivitySignInBinding.btnFaceAi.setOnClickListener(v -> {
             Intent intent = new Intent(SignInActivity.this, LoginFaceAI.class);
             startActivity(intent);
         });
@@ -60,6 +61,11 @@ public class SignInActivity extends AppCompatActivity {
         String pass = intent.getStringExtra("PASSWORD");
         mActivitySignInBinding.editEmail.setText(userName);
         mActivitySignInBinding.editPassword.setText(pass);
+
+        mActivitySignInBinding.tvRegister.setOnClickListener(v -> {
+            Intent intent1 = new Intent(SignInActivity.this, SignUpActivity.class);
+            startActivity(intent1);
+        });
     }
 
     private void handleSignInResponse(SignInResponse signInResponse, String email, String password) {

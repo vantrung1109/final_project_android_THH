@@ -8,22 +8,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.model.request.signup.SignUpRequest;
-import com.example.projectfinaltth.databinding.SignupBinding;
+import com.example.projectfinaltth.databinding.ActivitySignUpBinding;
+
+import com.example.projectfinaltth.ui.sign_in.SignInActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SignUpActivity extends AppCompatActivity {
-    SignupBinding mActivitySignUpBinding;
+    ActivitySignUpBinding mActivitySignUpBinding;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivitySignUpBinding = SignupBinding.inflate(getLayoutInflater());
+        mActivitySignUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(mActivitySignUpBinding.getRoot());
 
-        mActivitySignUpBinding.btnSignup.setOnClickListener(v -> {
+        mActivitySignUpBinding.btnSignUp.setOnClickListener(v -> {
             compositeDisposable.add(
                     ApiService.apiService.signUp(
                                     new SignUpRequest(
@@ -52,6 +54,10 @@ public class SignUpActivity extends AppCompatActivity {
             );
         });
 
+        mActivitySignUpBinding.tvSignIn.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+            startActivity(intent);
+        });
 
 
 

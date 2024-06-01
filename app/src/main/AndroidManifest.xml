@@ -70,7 +70,9 @@
             android:exported="true"/>
         <activity
             android:name=".ui.instructor.UpdateCourseActivity"
-            android:exported="true"/>
+            android:exported="true"
+
+            />
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="true"/>

@@ -1,59 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/edit_text_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Title"
-        android:inputType="text" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Course"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                />
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back"
+                />
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edit_text_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Price"
-        android:inputType="numberDecimal" />
+        <EditText
+            android:id="@+id/edit_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:hint="Title"
+            android:inputType="text"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:background="@drawable/background_white"
+            android:layout_marginTop="@dimen/_15sdp"
+            />
 
-    <EditText
-        android:id="@+id/edit_text_topic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Topic"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/edit_text_price"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:hint="Price"
+            android:inputType="numberDecimal"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:background="@drawable/background_white"
+            android:layout_marginTop="@dimen/_20sdp"
+            />
 
-    <EditText
-        android:id="@+id/edit_text_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:minLines="3" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/background_white"
+            >
+            <TextView
+                android:id="@+id/edit_text_topic"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="Select Topic"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/_15sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                >
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="25dp"
+                android:src="@drawable/arrow_to_right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/_20sdp"
+                />
+        </RelativeLayout>
 
 
 
-    <Button
-        android:id="@+id/button_choose_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choose Image" />
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        android:background="#E0E0E0" />
 
-    <Button
-        android:id="@+id/button_update"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update Course"
-        android:layout_marginTop="16dp" />
-</LinearLayout>
+        <EditText
+            android:id="@+id/edit_text_description"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:background="@drawable/background_white"
+            android:layout_marginTop="@dimen/_20sdp"
+            />
+
+
+
+        <Button
+            android:id="@+id/button_choose_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Image"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_bold"
+            android:background="@drawable/background_custom_border_blue"
+            android:layout_marginTop="@dimen/_20sdp"
+            />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:background="#E0E0E0" />
+
+        <Button
+            android:id="@+id/button_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Course"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/white"
+            android:background="@drawable/background_custom_border_green"
+            />
+    </LinearLayout>
+
+
+</ScrollView>

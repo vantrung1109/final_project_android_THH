@@ -8,9 +8,35 @@
     tools:context=".ui.main.MainActivity"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/signup"
-    >
 
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/cookiedu_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:text="COOKI"
+            android:textSize="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-black"
+            android:text="EDU"
+            android:textColor="#FFC107"
+            android:textSize="40dp" />
+    </LinearLayout>
     <TextView
         android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
@@ -145,17 +171,45 @@
             android:textColorLink="#616161" />
     </com.google.android.material.textfield.TextInputLayout>
     <Button
-        android:id="@+id/btn_signup"
-        android:layout_marginTop="150dp"
-        android:layout_width="340dp"
-        android:layout_height="55dp"
-        android:text="Sign Up"
-        android:backgroundTint="#3D815C"
+        android:id="@+id/btn_sign_up"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp"
+        android:fontFamily="@font/roboto_medium"
+        android:textAllCaps="false"
+        android:background="@drawable/background_custom_border_green_bold"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
         />
-    <TextView
-        android:layout_marginTop="10dp"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You have an account? Login"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_20sdp"
+        >
+        <TextView
+            android:id="@+id/tv_register_title"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/_12sdp"
+
+            android:text="You have an account?"/>
+        <TextView
+            android:id="@+id/tv_sign_in"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#3D815C"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/_15sdp"
+
+            android:text=" Sign in"/>
+    </LinearLayout>
 
 </LinearLayout>
