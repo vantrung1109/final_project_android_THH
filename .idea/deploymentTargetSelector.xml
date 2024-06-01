@@ -13,6 +13,7 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+
       <SelectionState runConfigName="UpdateCourseActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
