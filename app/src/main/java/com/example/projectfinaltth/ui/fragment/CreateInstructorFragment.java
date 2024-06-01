@@ -9,23 +9,33 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.projectfinaltth.R;
 import com.example.projectfinaltth.data.ApiService;
 import com.example.projectfinaltth.data.ShareRefences.DataLocalManager;
+import com.example.projectfinaltth.data.model.response.profile.User;
+import com.example.projectfinaltth.data.model.response.profile.UserResponse;
+import com.example.projectfinaltth.ui.adapter.Topic.Topic;
+import com.example.projectfinaltth.ui.adapter.Topic.TopicAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -40,7 +50,8 @@ public class CreateInstructorFragment extends Fragment {
 
     private EditText titleEditText;
     private EditText priceEditText;
-    private EditText topicEditText;
+    private Spinner topicSpinner;
+    private TopicAdapter topicAdapter;
     private EditText descriptionEditText;
     private EditText userIdEditText;
     private Button createButton;
@@ -50,6 +61,7 @@ public class CreateInstructorFragment extends Fragment {
     private Uri selectedImageUri;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    MutableLiveData<UserResponse> userCurrent = new MutableLiveData<>();
 
     @Nullable
     @Override
@@ -58,16 +70,60 @@ public class CreateInstructorFragment extends Fragment {
 
         titleEditText = view.findViewById(R.id.edit_text_title);
         priceEditText = view.findViewById(R.id.edit_text_price);
-        topicEditText = view.findViewById(R.id.edit_text_topic);
+        topicSpinner =  view.findViewById(R.id.spinner_topic);
         descriptionEditText = view.findViewById(R.id.edit_text_description);
         createButton = view.findViewById(R.id.button_create);
         chooseImageButton = view.findViewById(R.id.button_choose_image);
         imageView = view.findViewById(R.id.image_view);
 
         chooseImageButton.setOnClickListener(v -> chooseImage());
-        createButton.setOnClickListener(v -> createCourse("6640fa54aea886b32ee43883"));
+
+        compositeDisposable.add(
+                ApiService.apiService.getUserDetails("Bearer " + DataLocalManager.getToken())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(user -> {
+                            userCurrent.setValue(user);
+                        }, throwable -> {
+                            Log.e("CreateCourse", "Error getting user: " + throwable.getMessage());
+                            Toast.makeText(getContext(), "Error getting user: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        })
+        );
+
+        userCurrent.observe(getViewLifecycleOwner(), userResponse -> {
+            User user = userResponse.getUser();
+            userIdEditText.setText(user.getId());
+            createButton.setOnClickListener(v -> createCourse(userCurrent.getValue().getUser().getId()));
+        });
+
+        topicAdapter = new TopicAdapter(getContext(), R.layout.item_topic, getTopics());
+        topicSpinner.setAdapter(topicAdapter);
+        topicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "Selected topic: " + topicAdapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
         return view;
+    }
+
+    public List<Topic> getTopics() {
+        List topics = new ArrayList<>();
+        topics.add( new Topic("WEB"));
+        topics.add( new Topic("AI"));
+        topics.add( new Topic("DATA"));
+        topics.add( new Topic("MOBILE"));
+        topics.add( new Topic("GAME"));
+        topics.add( new Topic("SOFTWARE"));
+        return topics;
     }
 
     private void chooseImage() {
@@ -93,7 +149,7 @@ public class CreateInstructorFragment extends Fragment {
 
         String title = titleEditText.getText().toString().trim();
         String price = priceEditText.getText().toString().trim();
-        String topic = topicEditText.getText().toString().trim();
+        String topic = ((Topic) topicSpinner.getSelectedItem()).getName();
         String description = descriptionEditText.getText().toString().trim();
 
         if (title.isEmpty() || price.isEmpty() || topic.isEmpty() || description.isEmpty() || userId.isEmpty() || selectedImageUri == null) {

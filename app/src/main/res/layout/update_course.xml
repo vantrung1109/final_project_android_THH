@@ -60,35 +60,21 @@
             android:layout_marginTop="@dimen/_20sdp"
             />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/background_white"
-            >
-            <TextView
-                android:id="@+id/edit_text_topic"
+
+            <Spinner
+                android:id="@+id/spinner_topic"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:hint="Select Topic"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/_15sdp"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/background_white"
                 >
+            </Spinner>
 
-            </TextView>
 
-            <ImageView
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="25dp"
-                android:src="@drawable/arrow_to_right"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/_20sdp"
-                />
-        </RelativeLayout>
 
 
 
